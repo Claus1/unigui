@@ -1,0 +1,107 @@
+import websockets
+import asyncio
+import traceback
+import jsonpickle
+import json
+from guielements import Dialog
+from utils import resource_port
+
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import threading
+import os
+import io
+import cgi
+from manager import * 
+
+json_pretty_print = False
+
+def jsonString(obj):
+    return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
+        if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
+
+class ReqHandler(SimpleHTTPRequestHandler):    
+    def log_message(self, format, *args):
+        return
+    def translate_path(self, path):
+        if path == '/':
+            path = '/index.html'
+        path = path[1:] if path.startswith('/images') else f'../build/web{path}'
+        return path.replace('%20',' ')
+
+    def end_headers (self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        SimpleHTTPRequestHandler.end_headers(self)    
+        
+    def do_POST(self):        
+        r, info = self.deal_post_data()
+        print(r, info, "by: ", self.client_address)
+        f = io.BytesIO()
+        if r:
+            f.write(b"Success\n")
+        else:
+            f.write(b"Failed\n")
+        length = f.tell()
+        f.seek(0)
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.send_header("Content-Length", str(length))        
+        self.end_headers()
+        if f:
+            self.copyfile(f, self.wfile)
+            f.close()      
+
+    def deal_post_data(self):
+        ctype, _ = cgi.parse_header(self.headers['Content-Type'])
+        if ctype == 'multipart/form-data':
+            form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'], })            
+            try:
+                fs = form.list[0]
+                fn = 'images/' + fs.filename
+                open(fn, "wb").write(fs.file.read())
+            except IOError:
+                return (False, "Can't create file to write, do you have permission to write?")
+            return (True, "Files uploaded")
+
+        return (False,'Invalide header type!')
+
+def start_server(path, port=8000):
+    '''Start a resource webserver serving path on port'''    
+    httpd = HTTPServer(('', port), ReqHandler)    
+    httpd.serve_forever()
+
+daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', resource_port))
+daemon.setDaemon(True)
+daemon.start()
+
+async def session(websocket, path):
+    address = websocket.remote_address
+    try:            
+        if address in users:
+            user = users[address]
+        else:
+            user = new_user()
+            users[address] = user
+            await websocket.send(jsonString([user.menu,user.screen])) 
+
+        async for message in websocket:                     
+            if address in users:
+                user = users[address]
+            else:
+                print('Unknown user search error!')
+                return
+            data = json.loads(message)            
+            result = user.result4message(data)
+            if result:                
+                await websocket.send(jsonString(user.prepare_result(result)))            
+    except Exception as e:
+        if getattr(e,'code',0) != 1006: #client interruption
+            print(e,traceback.format_exc())              
+    finally:        
+        if address in users:
+            del users[address]                
+
+print('Start server..')
+asyncio.get_event_loop().run_until_complete(
+    websockets.serve(session, 'localhost', 1234))
+asyncio.get_event_loop().run_forever()
+
