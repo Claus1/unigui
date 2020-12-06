@@ -4,7 +4,7 @@ import traceback
 import jsonpickle
 import json
 from guielements import Dialog
-from utils import resource_port
+import utils 
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
@@ -56,7 +56,7 @@ class ReqHandler(SimpleHTTPRequestHandler):
             form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'], })            
             try:
                 fs = form.list[0]
-                fn = 'images/' + fs.filename
+                fn = upload_dir() + fs.filename
                 open(fn, "wb").write(fs.file.read())
             except IOError:
                 return (False, "Can't create file to write, do you have permission to write?")
@@ -68,10 +68,6 @@ def start_server(path, port=8000):
     '''Start a resource webserver serving path on port'''    
     httpd = HTTPServer(('', port), ReqHandler)    
     httpd.serve_forever()
-
-daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', resource_port))
-daemon.setDaemon(True)
-daemon.start()
 
 async def session(websocket, path):
     address = websocket.remote_address
@@ -100,8 +96,17 @@ async def session(websocket, path):
         if address in users:
             del users[address]                
 
-print('Start server..')
-asyncio.get_event_loop().run_until_complete(
-    websockets.serve(session, 'localhost', 1234))
-asyncio.get_event_loop().run_forever()
+def start(appname, port = None):
+    utils.appname = appname
+    if not port:
+        port = utils.resource_port
+
+    daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', port))
+    daemon.setDaemon(True)
+    daemon.start()
+
+    print(f'Start {appname} server on {port} port..')
+    asyncio.get_event_loop().run_until_complete(
+        websockets.serve(session, '0.0.0.0', 1234))
+    asyncio.get_event_loop().run_forever()
 

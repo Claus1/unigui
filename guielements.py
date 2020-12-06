@@ -1,5 +1,3 @@
-from utils import fn2url
-
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
@@ -33,9 +31,7 @@ class Image(Gui):
         if not hasattr(self,'width'):
             self.width = 500.0
         if not hasattr(self,'height'):
-            self.height = 350.0
-        if hasattr(self,'file'):
-            self.image = fn2url(self.file)
+            self.height = 350.0        
         if not hasattr(self,'image'):
             self.image = None
 

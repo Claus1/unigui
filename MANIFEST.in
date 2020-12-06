@@ -1,0 +1,3 @@
+include web/*
+recursive-include web/assets *
+include web/icons/*

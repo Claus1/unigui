@@ -2,6 +2,7 @@ import os
 import importlib
 import pickle
 from utils import *
+import utils
 import itertools
 from datetime import datetime
 import time
@@ -49,21 +50,15 @@ class User:
         self.time_last_change = curr_time    
 
     def save_changes(self,*_):
-        if self.change_buffer == []:
-            return Info('No changing to save!')       
-        pickle.dump(self.change_buffer,open(get_next_file_name(),"wb"))
-        self.change_buffer.clear()        
-        return Info('Successfully saved.')
+        pass
 
     def undo_last_operation(self, *_):
-        if self.undo_last_changes():
-            self.calc_links()
+        if self.undo_last_changes():            
             return True  
         return Error("Nothing to undo!")
         
     def redo_last_operation(self, *_):    
-        if self.redo_last_changes():
-            self.calc_links()
+        if self.redo_last_changes():            
             return True     
         return Error("Nothing to redo!")
 
@@ -103,7 +98,7 @@ class User:
             'icon' : 'article',
             'prepare' : None,
             'blocks' : [],
-            'header' : None,
+            'header' : utils.appname,
             'dispatch': None,
             'save' : self.save_changes,
             'toolbar' : None

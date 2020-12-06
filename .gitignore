@@ -1,25 +1,20 @@
 .DS_Store
 .huskyrc.json
 out
-node_modules
 *.pyc
 *.vsix
 **/.vscode/.ropeproject/**
 **/testFiles/**/.cache/**
 *.noseids
 .nyc_output
-.vscode-test
+.vscode/
 __pycache__
-npm-debug.log
 **/.mypy_cache/**
-!yarn.lock
 coverage/
 .vscode-test/**
 .vscode test/**
 .vscode-smoke/**
 **/.venv*/
-port.txt
-precommit.hook
 pythonFiles/experimental/ptvsd/**
 pythonFiles/lib/**
 debug_coverage*/**
@@ -32,4 +27,6 @@ tmp/**
 .python-version
 .vs/
 test-results.xml
-!build/
+build/
+dist/
+unigui.egg-info/
