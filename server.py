@@ -3,15 +3,15 @@ import asyncio
 import traceback
 import jsonpickle
 import json
-from guielements import Dialog
-import utils 
+import inspect
+from . import utils
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
 import os
 import io
 import cgi
-from manager import * 
+from .manager import * 
 
 json_pretty_print = False
 
@@ -19,13 +19,15 @@ def jsonString(obj):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
         if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
 
+webpath = os.path.dirname(inspect.getfile(utils)) + '/web'
+
 class ReqHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
         return
     def translate_path(self, path):
         if path == '/':
             path = '/index.html'
-        path = path[1:] if path.startswith('/images') else f'../build/web{path}'
+        path = path[1:] if path.startswith('/images') else f'{webpath}{path}'
         return path.replace('%20',' ')
 
     def end_headers (self):

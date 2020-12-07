@@ -1,21 +1,22 @@
 import os
 import importlib
 import pickle
-from utils import *
-import utils
+from .utils import *
 import itertools
 from datetime import datetime
 import time
-from guielements import *
+from .guielements import *
 import sys
-import userset
+from . import userset
 
-screens_dir = "screens"
-user_dir = 'user'
+work_dir = os.getcwd()
+screens_dir =  work_dir + "/screens"
+user_dir = work_dir + '/user'
 
 users = {}
+modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'query','+': 'append','-':'delete', '!': 'edit_status'}    
+sing2method = {'=' : 'changed', '->': 'update','?': 'query','+': 'append','-':'delete', '!': 'edit_status'}        
 
 class User:      
     def __init__(self):   
@@ -98,16 +99,27 @@ class User:
             'icon' : 'article',
             'prepare' : None,
             'blocks' : [],
-            'header' : utils.appname,
+            'header' : get_appname(),
             'dispatch': None,
             'save' : self.save_changes,
             'toolbar' : None
         }     
-        userset.user = self
+        userset.user = self            
+
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
-                name = f'{screens_dir}.{file[0:-3]}'
-                module = importlib.import_module(name)
+                name = file[0:-3]
+
+                if name not in modules:                    
+                    path = f'{screens_dir}/{file}'                
+                    spec = importlib.util.spec_from_file_location(name,path)
+                    module = importlib.util.module_from_spec(spec)
+                    modules[name] = module
+                else:
+                    module = modules[name]
+                
+                spec.loader.exec_module(module)            
+                
                 screen = Screen(module.name)
                 module.screen = screen                
                 self.screens.append(module)
@@ -119,8 +131,8 @@ class User:
                     screen.toolbar = [*self.tool_buttons, Button('_Save model', icon='cloud_upload', 
                         tooltip = 'Save model to disk',changed = screen.save)]
                                 
-                screen.check()                                  
-                del sys.modules[name]       
+                screen.check()                         
+                #del sys.modules[name]       
         
         self.screens.sort(key=lambda s: s.order)
         self.active_screen = self.screens[0]

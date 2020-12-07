@@ -51,3 +51,6 @@ UpdateScreen = True
 
 appname = 'Unigui'
 
+def get_appname():
+    return appname
+
