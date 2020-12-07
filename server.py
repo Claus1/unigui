@@ -19,16 +19,16 @@ def jsonString(obj):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
         if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
 
-webpath = os.path.dirname(inspect.getfile(utils)) + '/web'
+workpath = os.path.dirname(inspect.getfile(utils))
+webpath = workpath + '/web'
 
 class ReqHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
         return
     def translate_path(self, path):
         if path == '/':
-            path = '/index.html'
-        path = path[1:] if path.startswith('/images') else f'{webpath}{path}'
-        return path.replace('%20',' ')
+            path = '/index.html'        
+        return f'{webpath}{path}'.replace('%20',' ')
 
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
@@ -98,10 +98,13 @@ async def session(websocket, path):
         if address in users:
             del users[address]                
 
-def start(appname, port = None):
+def start(appname, port = None, pretty_print = False):
     utils.appname = appname
     if not port:
         port = utils.resource_port
+
+    global json_pretty_print
+    json_pretty_print = pretty_print
 
     daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', port))
     daemon.setDaemon(True)
