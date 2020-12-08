@@ -11,7 +11,7 @@ from . import userset
 
 work_dir = os.getcwd()
 screens_dir =  work_dir + "/screens"
-user_dir = work_dir + '/user'
+user_dir = work_dir + '/blocks'
 
 users = {}
 modules = {}

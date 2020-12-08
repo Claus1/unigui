@@ -1,5 +1,5 @@
 from unigui import *
-from user.tblock import tblock
+from blocks.tblock import tblock
 user = get_user()
 
 name = "Main"
