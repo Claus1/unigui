@@ -12,10 +12,10 @@ class Gui:
             if not hasattr(self,name):
                 raise AttributeError(name, self)
 
-    def replace(self, obj):
+    def mutate(self, obj):
         self.__dict__ = obj.__dict__
 
-class EditField(Gui):
+class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.check('value')
@@ -37,18 +37,17 @@ class Image(Gui):
 
 class Switcher(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        #self.check('icon')
+        super().__init__(*args, **kwargs)        
 
-type_list = ['toggles','list','dropdown']
+list_types = ['toggles','list','dropdown']
 
-class SingleSelect(Gui):
+class Select(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not hasattr(self,'options'):             
             self.options = [] 
 
-class TreeSelect(SingleSelect):
+class Tree(Select):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)         
         self.type = 'list' #for GUI
@@ -91,7 +90,7 @@ class TreeSelect(SingleSelect):
             str += el[0][0]
             self.options.append([str, el[0][1]])        
 
-TableActions = {'*': 'SMswitch', '!': 'Edit', '+':'Add', '-':'Delete'}       
+actions = {'*': 'SMswitch', '!': 'Edit', '+':'Add', '-':'Delete'}       
 
 class Table(Gui):
     def __init__(self, *args, **kwargs):

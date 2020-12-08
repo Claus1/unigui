@@ -1,5 +1,6 @@
-from userset import user
-from guielements import *
+from unigui import *
+from user.tblock import tblock
+user = get_user()
 
 name = "Main"
 icon = 'blur_linear'
@@ -13,8 +14,8 @@ table = Table('Videos', actions = '+-', headers = ['Video', 'Duration', 'Owner',
 ], value = -1)
 
 
-select_concept_mode = SingleSelect('Select', value='All', options=['All','Based','Group'])
-select_concept_group = SingleSelect('Group', value='Group 1', options=['Group 1','Group 2', 'Group 3'])
+select_concept_mode = Select('Select', value='All', options=['All','Based','Group'])
+select_concept_group = Select('Group', value='Group 1', options=['Group 1','Group 2', 'Group 3'])
 
 block = Block('_Current', 
     [           
@@ -22,7 +23,4 @@ block = Block('_Current',
         select_concept_group,
     ], table)
 
-def prepare():
-    pass
-
-blocks= [block]
+blocks= [block,tblock]

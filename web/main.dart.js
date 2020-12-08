@@ -51975,7 +51975,7 @@ $.kd=t.ga_n(t)===C.r7}if($.hj==null)$.hj=!0
 if($.q3==null)$.q3=!0
 if($.iJ==null)P.d1("reconnecting")
 t=$.iJ
-if(t==null)t=$.iJ="35.226.222.82"
+if(t==null)t=$.iJ="localhost"
 if($.yN==null){t=C.e.mz(":",t)
 t=t.gl(t)
 s=$.iJ
