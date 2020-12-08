@@ -114,9 +114,9 @@ class User:
                     path = f'{screens_dir}/{file}'                
                     spec = importlib.util.spec_from_file_location(name,path)
                     module = importlib.util.module_from_spec(spec)
-                    modules[name] = module
+                    modules[name] = module, spec
                 else:
-                    module = modules[name]
+                    module, spec = modules[name]
                 
                 spec.loader.exec_module(module)            
                 
