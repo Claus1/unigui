@@ -7,4 +7,4 @@ import unigui
 dir(unigui)
 #from unigui import *
 
-unigui.start('My app')
+unigui.start('Test app')

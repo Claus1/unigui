@@ -35,7 +35,7 @@ blocks = [block]
 ### Server start ###
 ```
 import unigui
-unigui.start('My app', 8080) #app name to show in Unigui and port for initial connection
+unigui.start('Test app', 8080) #app name to show in Unigui and port for initial connection
 ```
 Unigui buidls interactive app on client side for it:
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/scrshoot1.png?raw=true)
