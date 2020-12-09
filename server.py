@@ -98,10 +98,10 @@ async def session(websocket, path):
         if address in users:
             del users[address]                
 
-def start(appname, port = None, pretty_print = False):
+def start(appname, port = 1235, screen_dir = 'screens',pretty_print = False):
     utils.appname = appname
-    if not port:
-        port = utils.resource_port
+    utils.app_screen_dir = screen_dir
+    utils.resource_port = port
 
     global json_pretty_print
     json_pretty_print = pretty_print

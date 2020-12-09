@@ -2,6 +2,8 @@ import os
 from datetime import datetime
 
 resource_port = 1235
+appname = 'Unigui'
+app_screen_dir = 'screens'
 
 def rindex(mylist, myvalue):
     if myvalue not in mylist:
@@ -48,9 +50,4 @@ def low_prob(prob):
     return prob < 0.01
 
 UpdateScreen = True
-
-appname = 'Unigui'
-
-def get_appname():
-    return appname
 

@@ -2,6 +2,7 @@ import os
 import importlib
 import pickle
 from .utils import *
+from . import utils
 import itertools
 from datetime import datetime
 import time
@@ -10,8 +11,7 @@ import sys
 from . import userset
 
 work_dir = os.getcwd()
-screens_dir =  work_dir + "/screens"
-user_dir = work_dir + '/blocks'
+blocks_dir = work_dir + '/blocks'
 
 users = {}
 modules = {}
@@ -20,13 +20,10 @@ sing2method = {'=' : 'changed', '->': 'update','?': 'query','+': 'append','-':'d
 
 class User:      
     def __init__(self):   
-        self.selected_concept = -1        
         self.change_buffer = []
         self.redo_buffer = []      
-
-        self.considered = {}
-        self.screens = []
-        self.chain = []
+       
+        self.screens = []        
         self.active_dialog = None
         self.active_screen = None
         self.history_switching = []
@@ -99,12 +96,13 @@ class User:
             'icon' : 'article',
             'prepare' : None,
             'blocks' : [],
-            'header' : get_appname(),
+            'header' : utils.appname,
             'dispatch': None,
             'save' : self.save_changes,
             'toolbar' : None
         }     
         userset.user = self            
+        screens_dir =  f'{work_dir}/{utils.app_screen_dir}'
 
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
@@ -139,9 +137,9 @@ class User:
         self.menu = [[s.name,s.icon] for s in self.screens]        
 
         #remove user modules
-        for file in os.listdir(user_dir):
+        for file in os.listdir(blocks_dir):
             if file.endswith(".py") and file != '__init__.py':
-                name = f'{user_dir}.{file[0:-3]}'
+                name = f'{blocks_dir}.{file[0:-3]}'
                 if name in sys.modules:
                     del sys.modules[name]       
                 
@@ -275,17 +273,8 @@ class User:
 
         return Error(f'{elem} does not contain method for {arr[-1]}')
 
-first_user = User()
-first_user.load()
-
-def new_user():
-    global first_user
-    if first_user:
-        ret_user = first_user
-        first_user = None
-        return ret_user
-    else:
-        user = User()
-        user.load()
-        return user
+def new_user():    
+    user = User()
+    user.load()
+    return user
 
