@@ -11,10 +11,9 @@ The server can either accept the change or roll them back by sending an info win
 
 ### Programming ###
 Unigui is language independent. This repo explains how to work with Unigui using Python.
-The program directory has to contain a folder screens. The folder contains all screens which the Unigui has to show.
-Example.
+The program directory has to contain a screens folder which contains all screens the Unigui has to show.
 
-tests/screens_hello/main.py
+Screen example tests/screens_hello/main.py
 ```
 name = "Main" #name of screen to show
 icon = 'blur_linear' #MD icon of screen to show
@@ -37,7 +36,8 @@ blocks = [block]
 tests/run_hello.py
 ```
 import unigui
-unigui.start('Test app', screen_dir = 'screens_hello') #app name to show in Unigui and port for initial connection
+#app name, port for initial connection and screen_folder are optional
+unigui.start('Test app', screen_dir = 'screens_hello') 
 ```
 Unigui builds the interactive app on client side for the code above:
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
@@ -56,18 +56,21 @@ When a user changes the value of the Gui object or presses Button, the server ca
 ```
 def clean_table(_, value):
     tables.rows = []
-    return tables'
+    return tables
 clean_button = Button('Clean table’, changed = clean_table)
 ```
 
-‘Changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically.
+‘Changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically.
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
 ```
 def changed_range(_,value):
    if value < 0.5 and value > 1.0:
-       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0! ’) //or UpdateError(.., _) if we want to return the previous value to the field
+       #or UpdateError(.., _) if we want to return the previous value to the field
+       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0! ’) 
+    #accept value othewise
+    _.value = value
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
