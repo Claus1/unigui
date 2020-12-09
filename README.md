@@ -56,9 +56,8 @@ When a user changes the value of the Gui object or presses Button, the server ca
 ```
 def clean_table(_, value):
     tables.rows = []
-    return tables
-
-clean_button = Button(‘Clean table’, changed = clean_table)
+    return tables'
+clean_button = Button('Clean table’, changed = clean_table)
 ```
 
 ‘Changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically.
@@ -69,6 +68,8 @@ If value is not acceptable instead of returning an object possible to return Err
 def changed_range(_,value):
    if value < 0.5 and value > 1.0:
        return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0! ’) //or UpdateError(.., _) if we want to return the previous value to the field
+
+edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
 
 
