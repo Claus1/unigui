@@ -2,7 +2,7 @@
 Universal App Browser Unigui
 
 ### Purpose ###
-Provide programming technology that does not require client programming, for a server written in any language, for displaying on any device, in any resolution, without any turning.
+Provide programming technology that does not require client programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning.
 
 ### How to work inside ###
 The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) that allows you to easily generate a beautiful GUI that conforms to Google’s Material Design standard.
@@ -68,7 +68,7 @@ If value is not acceptable instead of returning an object possible to return Err
 def changed_range(_,value):
    if value < 0.5 and value > 1.0:
        #or UpdateError(.., _) if we want to return the previous value to the field
-       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0! ’) 
+       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!') 
     #accept value othewise
     _.value = value
 

@@ -14,5 +14,5 @@ tblock = Block('New block',
     [           
         select_concept_mode,
         select_concept_group,
-    ], table)
+    ], table, width = 600)
 
