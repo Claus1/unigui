@@ -74,6 +74,14 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
+### Block details ###
+The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list.
+```
+block = Block(‘Pictures’,[add_button], *images, width = 500, scroll = True)
+```
+
+The second parameter of the Block constructor is an array of widgets which has to be in the header just after the name.
+
 
 
 
