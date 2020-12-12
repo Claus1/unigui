@@ -75,12 +75,42 @@ def changed_range(_,value):
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
 ### Block details ###
-The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list.
+The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
 ```
-block = Block(‘Pictures’,[add_button], *images, width = 500, scroll = True)
+block = Block(‘Pictures’,[add_button], *images, width = 500, scroll = True,icon = 'api')
 ```
-
+ 
 The second parameter of the Block constructor is an array of widgets which has to be in the header just after the name.
+Blocks can be shared between screens with its states. Such a block has to be located in the blocks folder of Unigui.
+Examples of such block tests/blocks/tblock.py:
+```
+from unigui import *
+..
+concept_block = Block('Concept block',
+   [   #some gui elements       
+       select_mode,
+       select_group,
+   ], table_concept)
+```
+ 
+Using block in some screen:
+```
+from blocks.tblock import tblock
+...
+blocks = [.., concept_block]
+```
+### Common gui elements ###
+You have to know that class names are used only for programmer convenience and do not receive Unigui.
+If the element name starts from _ , Unigui will not show it on a screen.
+if we need to paint an icon somewhere, add 'icon': 'any MD icon name'.
+
+Button('Push me') is a normal button.
+Icon button respectively will be described like Button('_Check', 'icon': 'check')
+
+
+
+
+
 
 
 

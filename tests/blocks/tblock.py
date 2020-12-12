@@ -1,7 +1,6 @@
 from unigui import *
 
 table = Table('Audios', actions = '+-', headers = ['Audio', 'Duration', 'Owner', 'Status', 'Links'],rows = [
-    ['opt_sync1_3_0.mp3', '130 seconds', 'Admin', 'Processed', 'Refererence 1'],
     ['opt_sync1_3_0.mp3', '237 seconds', 'Admin', 'Processed', 'Refererence 8'],
     ['opt_sync1_3_0.mp3', '639 seconds', 'Admin', 'Processed', 'Refererence 10']
 ], value = -1)
