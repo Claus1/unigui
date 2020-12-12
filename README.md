@@ -116,17 +116,17 @@ def get_complete_list(current_value):
 ```
 Radio button 
 ```
-Button('Radio button', value = True) #value has to be boolean
+Switcher('Radio button', value = True) #value has to be boolean
 ```
 
-Select group
+Select group. Contains option fields.
 ```
-Select('Select something', value: "choice1", "options" = ["choice1","choice2", "choice3"]) #contains options field
+Select('Select something', value = "choice1", options = ["choice1","choice2", "choice3"]) 
 ```
 
 Image. width and height are optional
 ```
-Image("name": "Image", "image": "some url", width = .., height = ..)
+Image("Image", image = "some url", width = .., height = ..)
 ```
 Table. can contains append, delete, update handlers, multimode value is True if allowed single and multi select mode.
 all of them are optional
@@ -134,11 +134,11 @@ all of them are optional
 table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
     ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
     ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
-], value = [0, 1], multimode = false, update = update)
+], value = [0], multimode = false, update = update)
 ```
-table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0, 1] means 0 and 1 rows are selected 
-so table in multiselect mode. multimode is False so icon switch to single select mode will be not drawn and switching to single select mode is 
-not possible.
+table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected 
+in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is 
+not allowed.
 
 
 
