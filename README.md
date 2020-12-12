@@ -107,6 +107,42 @@ if we need to paint an icon somewhere, add 'icon': 'any MD icon name'.
 Button('Push me') is a normal button.
 Icon button respectively will be described like Button('_Check', 'icon': 'check')
 
+Edit field. complete is optional function which accepts current value and return the list for autocompete
+```
+Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
+
+def get_complete_list(current_value):
+    return [s for s in vocab if current_value in s]
+```
+Radio button 
+```
+Button('Radio button', value = True) #value has to be boolean
+```
+
+Select group
+```
+Select('Select something', value: "choice1", "options" = ["choice1","choice2", "choice3"]) #contains options field
+```
+
+Image. width and height are optional
+```
+Image("name": "Image", "image": "some url", width = .., height = ..)
+```
+Table. can contains append, delete, update handlers, multimode value is True if allowed single and multi select mode.
+all of them are optional
+```
+table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
+    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
+    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
+], value = [0, 1], multimode = false, update = update)
+```
+table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0, 1] means 0 and 1 rows are selected 
+so table in multiselect mode. multimode is False so icon switch to single select mode will be not drawn and switching to single select mode is 
+not possible.
+
+
+
+
 
 
 
