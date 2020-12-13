@@ -96,8 +96,7 @@ class User:
             'icon' : 'article',
             'prepare' : None,
             'blocks' : [],
-            'header' : utils.appname,
-            'dispatch': None,
+            'header' : utils.appname,            
             'save' : self.save_changes,
             'toolbar' : None
         }     
@@ -116,6 +115,7 @@ class User:
                 else:
                     module, spec = modules[name]
                 
+                utils.clean_handlers()
                 spec.loader.exec_module(module)            
                 
                 screen = Screen(module.name)
@@ -124,6 +124,7 @@ class User:
                 #set system vars
                 for var in screen_vars:                                            
                     setattr(screen, var, getattr(module,var,screen_vars[var])) 
+                screen.handlers__ = utils.handlers__
                 
                 if not screen.toolbar:
                     screen.toolbar = [*self.tool_buttons, Button('_Save model', icon='cloud_upload', 
@@ -233,9 +234,15 @@ class User:
         
     def process_element(self, elem, arr):
         sign = arr[-2]
-        if sign in sing2method.keys():
-            if hasattr(elem, sing2method[sign]):
-                handler = getattr(elem, sing2method[sign])                
+        smeth = sing2method.get(sign)
+        if smeth:
+            handler = self.screen.handlers__.get((elem, smeth))
+            if handler:
+                result = handler(elem, arr[-1])                
+                return result
+            
+            if hasattr(elem, smeth):
+                handler = getattr(elem, smeth)                
                 if sign == '?': #query
                     #query params == user, query value
                     res = Answer(handler(self, arr[-1]), arr)
@@ -245,16 +252,10 @@ class User:
             else:
                 if sign == '=':
                     if hasattr(elem,'value'): #exlude Buttons and others without 'value'
-                        elem.value = arr[-1]                    
-                    if self.screen.dispatch:
-                        result = self.screen.dispatch(arr)
-                        if result is not None:
-                            return result
-                    else:
-                        print(elem, arr[-2], arr[-1])
+                        elem.value = arr[-1]                                        
                     return
                 else:
-                    return Error(f'{elem} does not contains method {sing2method[sign]}')
+                    return Error(f'{elem} does not contains method {smeth}')
         else:
             scr = self.screen
             for bl in scr.blocks:        

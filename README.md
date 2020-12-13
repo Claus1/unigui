@@ -37,7 +37,7 @@ tests/run_hello.py
 ```
 import unigui
 #app name, port for initial connection and screen_folder are optional
-unigui.start('Test app', screen_dir = 'screens_hello') 
+unigui.start('Test app', port = 8080, screen_dir = 'screens_hello') 
 ```
 Unigui builds the interactive app on client side for the code above:
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
@@ -60,7 +60,7 @@ def clean_table(_, value):
 clean_button = Button('Clean table’, changed = clean_table)
 ```
 
-‘Changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically.
+‘changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically.
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
@@ -74,6 +74,8 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
+If a handler return None (or does not return) Unigui consider it like Ok from the server logic.
+
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
 ```
@@ -95,11 +97,24 @@ concept_block = Block('Concept block',
  
 Using block in some screen:
 ```
-from blocks.tblock import tblock
+from blocks.tblock import *
 ...
 blocks = [.., concept_block]
 ```
-### Common gui elements ###
+
+### Events interception of shared blocks ###
+Interception function has to return the same values as usual handlers.
+# They are called before the inner element handler call. #
+For example above interception of select_mode changed event will be:
+```
+@handle(select_mode, 'changed')
+def do_not_select_mode_x(_, value):
+    if value == 'mode_x':
+        return Error('Do not select mode_x')
+    return _.changed(_, value) #otherwise call default handler
+```
+
+### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
 If the element name starts from _ , Unigui will not show it on a screen.
 if we need to paint an icon somewhere, add 'icon': 'any MD icon name'.
@@ -107,7 +122,7 @@ if we need to paint an icon somewhere, add 'icon': 'any MD icon name'.
 Button('Push me') is a normal button.
 Icon button respectively will be described like Button('_Check', 'icon': 'check')
 
-Edit field. complete is optional function which accepts current value and return the list for autocompete
+Edit field. complete is optional function which accepts current value and return the list for autocomplete
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
 
@@ -116,10 +131,10 @@ def get_complete_list(current_value):
 ```
 Radio button 
 ```
-Switcher('Radio button', value = True) #value has to be boolean
+Switch('Radio button', value = True) #value has to be boolean
 ```
 
-Select group. Contains option fields.
+Select group. Contains field options.
 ```
 Select('Select something', value = "choice1", options = ["choice1","choice2", "choice3"]) 
 ```
@@ -128,7 +143,12 @@ Image. width and height are optional
 ```
 Image("Image", image = "some url", width = .., height = ..)
 ```
-Table. can contains append, delete, update handlers, multimode value is True if allowed single and multi select mode.
+
+Tree. The element for tree-like data.
+Tree()
+
+### Table. ### 
+Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode.
 all of them are optional
 ```
 table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
@@ -136,9 +156,12 @@ table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Link
     ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
 ], value = [0], multimode = false, update = update)
 ```
+If headers length is equal row length Unigui counts row id as an index in rows array.
+If row length length is headers length + 1, Unigui counts row id as the last row field.
 table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected 
 in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is 
 not allowed.
+By deafault Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
 
 

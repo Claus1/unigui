@@ -19,10 +19,18 @@ def clean_table(_, value):
 
 clean_button = Button('Clean table', changed = clean_table)
 
+selector = Select('Select', value='All', options=['All','Based','Group'])
+
+@handle(selector,'changed')
+def selchanged(_, val):
+    if val == 'Based':
+        return UpdateError(_,'Select can not be Based!')
+    _.value = val    
+
 block = Block('X Block', 
     [           
         clean_button,
-        Select('Select', value='All', options=['All','Based','Group']),
+        selector,
     ], table)
 
 blocks= [block,tblock]

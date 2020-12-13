@@ -4,6 +4,17 @@ from datetime import datetime
 resource_port = 1235
 appname = 'Unigui'
 app_screen_dir = 'screens'
+#for registering screen handlers of outer blocks
+handlers__ = {}
+
+def clean_handlers():
+    global handlers__
+    handlers__ = {}
+
+def handle(elem, event):
+    def h(fn):
+        handlers__[elem, event] = fn
+    return h
 
 def rindex(mylist, myvalue):
     if myvalue not in mylist:

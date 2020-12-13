@@ -35,7 +35,7 @@ class Image(Gui):
         if not hasattr(self,'image'):
             self.image = None
 
-class Switcher(Gui):
+class Switch(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
 
@@ -90,7 +90,7 @@ class Tree(Select):
             str += el[0][0]
             self.options.append([str, el[0][1]])        
 
-actions = {'*': 'SMswitch', '!': 'Edit', '+':'Add', '-':'Delete'}       
+#actions = {'*': 'SMswitch', '!': 'Edit', '+':'Add', '-':'Delete'}       
 
 class Table(Gui):
     def __init__(self, *args, **kwargs):
