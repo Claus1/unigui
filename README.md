@@ -55,19 +55,19 @@ When a user changes the value of the Gui object or presses Button, the server ca
 
 ```
 def clean_table(_, value):
-    tables.rows = []
-    return tables
-clean_button = Button('Clean table’, changed = clean_table)
+    table.rows = []
+    return table
+clean_button = Button('Clean the table’, changed = clean_table)
 ```
 
-‘changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, because we changed them in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically.
+‘changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, if we changed their visible state in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to value class variable.
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
 ```
 def changed_range(_,value):
    if value < 0.5 and value > 1.0:
-       #or UpdateError(.., _) if we want to return the previous value to the field
+       #or UpdateError(.., _) if we want to return the previous visible value to the field
        return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!') 
     #accept value othewise
     _.value = value
@@ -83,7 +83,7 @@ block = Block(‘Pictures’,[add_button], *images, width = 500, scroll = True,i
 ```
  
 The second parameter of the Block constructor is an array of widgets which has to be in the header just after the name.
-Blocks can be shared between screens with its states. Such a block has to be located in the blocks folder of Unigui.
+Blocks can be shared between the user screens with its states. Such a block has to be located in the blocks folder of Unigui.
 Examples of such block tests/blocks/tblock.py:
 ```
 from unigui import *
@@ -103,14 +103,14 @@ blocks = [.., concept_block]
 ```
 
 ### Events interception of shared blocks ###
-Interception function has to return the same values as usual handlers.
-# They are called before the inner element handler call. #
+Interception handlers has the same in/out format as usual handlers.
+#### They are called before the inner element handler call. ####
 For example above interception of select_mode changed event will be:
 ```
 @handle(select_mode, 'changed')
 def do_not_select_mode_x(_, value):
     if value == 'mode_x':
-        return Error('Do not select mode_x')
+        return UpdateError('Do not select mode_x')
     return _.changed(_, value) #otherwise call default handler
 ```
 
@@ -123,6 +123,7 @@ Button('Push me') is a normal button.
 Icon button respectively will be described like Button('_Check', 'icon': 'check')
 
 Edit field. complete is optional function which accepts current value and return the list for autocomplete
+If set update = false it will be readonly field or text label.
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
 
@@ -149,7 +150,7 @@ Tree()
 
 ### Table. ### 
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode.
-all of them are optional
+all of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
     ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
@@ -161,7 +162,13 @@ If row length length is headers length + 1, Unigui counts row id as the last row
 table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected 
 in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is 
 not allowed.
-By deafault Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
+
+By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
+
+By default Table has paginator. It is possible to hide it if set 'paginator = false'
+
+If selected row is not on the currently visible page then setting 'select = True' causes Unigui will make visible the page with selected row. After that 
+it is automatically set to false.
 
 
 

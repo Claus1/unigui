@@ -90,13 +90,9 @@ class Tree(Select):
             str += el[0][0]
             self.options.append([str, el[0][1]])        
 
-#actions = {'*': 'SMswitch', '!': 'Edit', '+':'Add', '-':'Delete'}       
-
 class Table(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if not hasattr(self, 'actions'):
-            self.actions = '+-!*'                    
+        super().__init__(*args, **kwargs)        
         self.check('rows', 'headers','value')
 
     def selected_list(self):                            

@@ -243,11 +243,9 @@ class User:
             
             if hasattr(elem, smeth):
                 handler = getattr(elem, smeth)                
-                if sign == '?': #query
-                    #query params == user, query value
-                    res = Answer(handler(self, arr[-1]), arr)
-                else:
-                    res = handler(elem, arr[-1]) #query params == user, query value
+                res = handler(elem, arr[-1])
+                if sign == '?': #query                    
+                    res = Answer(res)                
                 return res
             else:
                 if sign == '=':
