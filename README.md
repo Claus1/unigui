@@ -10,7 +10,7 @@ From the constructed Unigui screen the server receives a JSON message flow which
 The server can either accept the change or roll them back by sending an info window about any inconsistencies. The server can open a dialog box that is described as a block or send an entirely new screen. uniGUI instantly displays current server data and their changes. 
 
 ### Programming ###
-Unigui is language independent. This repo explains how to work with Unigui using Python.
+Unigui is language independent. This repo explains how to work with Unigui using Python layer (tiny framework).
 The program directory has to contain a screens folder which contains all screens the Unigui has to show.
 
 Screen example tests/screens_hello/main.py
@@ -83,7 +83,7 @@ block = Block(‘Pictures’,[add_button], *images, width = 500, scroll = True,i
 ```
  
 The second parameter of the Block constructor is an array of widgets which has to be in the header just after the name.
-Blocks can be shared between the user screens with its states. Such a block has to be located in the blocks folder of Unigui.
+Blocks can be shared between the user screens with its states. Such a block has to be located in the blocks folder of the python layer.
 Examples of such block tests/blocks/tblock.py:
 ```
 from unigui import *
@@ -110,22 +110,31 @@ For example above interception of select_mode changed event will be:
 @handle(select_mode, 'changed')
 def do_not_select_mode_x(_, value):
     if value == 'mode_x':
-        return UpdateError('Do not select mode_x')
+        return UpdateError(_, 'Do not select mode_x')
     return _.changed(_, value) #otherwise call default handler
 ```
 
 ### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
 If the element name starts from _ , Unigui will not show it on a screen.
-if we need to paint an icon somewhere, add 'icon': 'any MD icon name'.
+if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
+Common form for element constructors:
+```
+Gui('Name', value = some_value, changed = changed_handler)
+#It is possible to use short form, that is equal:
+Gui('Name', some_value, changed_handler)
+```
 
 Button('Push me') is a normal button.
 Icon button respectively will be described like Button('_Check', 'icon': 'check')
 
-Edit field. complete is optional function which accepts current value and return the list for autocomplete
-If set update = false it will be readonly field or text label.
+Edit and Text field. complete is optional function which accepts current value and return the list for autocomplete
+If set edit = false it will be readonly field or text label.
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
+Edit('Some field', value = '', edit = false) 
+#is equal to
+Text('Some field')
 
 def get_complete_list(current_value):
     return [s for s in vocab if current_value in s]
@@ -167,8 +176,7 @@ By default Table has toolbar with search field and icon action buttons. It is po
 
 By default Table has paginator. It is possible to hide it if set 'paginator = false'
 
-If selected row is not on the currently visible page then setting 'select = True' causes Unigui will make visible the page with selected row. After that 
-it is automatically set to false.
+If selected row is not on the currently visible page then setting 'show = True' causes Unigui will make visible the page with selected row. 
 
 
 

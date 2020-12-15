@@ -1,6 +1,11 @@
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
+        la = len(args)
+        if la > 1:
+            self.value = args[1]
+        if la > 2:
+            self.changed = args[2]
         for key in kwargs.keys():            
             self.add(key, kwargs[key]) 
         
@@ -19,6 +24,12 @@ class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.check('value')
+
+class Text(Gui):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.value = ''
+        self.edit = False
 
 class Button(Gui):
     def __init__(self, *args, **kwargs):

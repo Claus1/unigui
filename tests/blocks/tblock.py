@@ -13,11 +13,15 @@ table = Table('Audios', headers = ['Audio', 'Duration', 'Owner', 'Status', 'Link
 ], value = -1, update = update, append = append)
 
 select_concept_mode = Select('Delect', value='All', options=['All','Based','Group'])
-select_concept_group = Select('Soup', value='Group 1', options=['Soup 1','Soup 2', 'Soup 3'])
+
+def changed(_, value):
+    _.value = value
+    return Info(f'Now value is {value}')
 
 tblock = Block('New block', 
-    [           
+    [                   
         select_concept_mode,
-        select_concept_group,
+        Text('Text about cats'),
+        Edit('Important', 'Enter something', changed)
     ], table)
 
