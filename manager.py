@@ -16,7 +16,7 @@ blocks_dir = work_dir + '/blocks'
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'query','+': 'append','-':'delete', '!': 'edit_status'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'edit'}        
 
 class User:      
     def __init__(self):   
@@ -244,8 +244,8 @@ class User:
             if hasattr(elem, smeth):
                 handler = getattr(elem, smeth)                
                 res = handler(elem, arr[-1])
-                if sign == '?': #query                    
-                    res = Answer(res)                
+                if sign == '?': #complete
+                    res = Answer(res, arr)                
                 return res
             else:
                 if sign == '=':

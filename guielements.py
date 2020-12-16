@@ -23,6 +23,7 @@ class Gui:
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
         self.check('value')
 
 class Text(Gui):
@@ -44,7 +45,7 @@ class Image(Gui):
         if not hasattr(self,'height'):
             self.height = 350.0        
         if not hasattr(self,'image'):
-            self.image = None
+            self.image = self.value
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
@@ -57,7 +58,7 @@ class Select(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not hasattr(self,'options'):             
-            self.options = [] 
+            self.options = []
         self.check('value')
 
 class Tree(Select):

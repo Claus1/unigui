@@ -16,12 +16,16 @@ select_concept_mode = Select('Delect', value='All', options=['All','Based','Grou
 
 def changed(_, value):
     _.value = value
-    return Info(f'Now value is {value}')
+    #return Info(f'Now value is {value}')
+    print('ch + ' + value)
+
+def com(_, value):
+    return ['aaa', 'bbbb', 'cccccc']
 
 tblock = Block('New block', 
                        
         select_concept_mode,
         Text('Text about cats'),
-        Edit('Important', 'Enter something', changed)
+        Edit('Important', 'Enter something', changed, complete = com)
     , table)
 
