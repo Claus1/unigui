@@ -19,9 +19,9 @@ def changed(_, value):
     return Info(f'Now value is {value}')
 
 tblock = Block('New block', 
-    [                   
+                       
         select_concept_mode,
         Text('Text about cats'),
         Edit('Important', 'Enter something', changed)
-    ], table)
+    , table)
 

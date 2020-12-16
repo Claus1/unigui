@@ -48,7 +48,8 @@ class Image(Gui):
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+        super().__init__(*args, **kwargs)
+        self.check('value')        
 
 list_types = ['toggles','list','dropdown']
 
@@ -57,6 +58,7 @@ class Select(Gui):
         super().__init__(*args, **kwargs)
         if not hasattr(self,'options'):             
             self.options = [] 
+        self.check('value')
 
 class Tree(Select):
     def __init__(self, *args, **kwargs):
@@ -64,6 +66,7 @@ class Tree(Select):
         self.type = 'list' #for GUI
         if hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
             self.set_elems(self.elems)
+        self.check('value')
         
     def getElem(self, elemId):                
         return next((e for e in self.elems if elemId == e[1]), None)
@@ -111,9 +114,12 @@ class Table(Gui):
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.top_childs = args[1] if len(args) > 1 else []
-        self.childs = list(args[2:])
+        self.name = args[0]        
+        for key in kwargs.keys():            
+            self.add(key, kwargs[key])
+        la = len(args) 
+        self.top_childs = (args[1] if isinstance(args[1], list) else [args[1]]) if la > 1 else []                    
+        self.childs = list(args[2:]) if la > 2 else []
         self.check()
 
     def check(self):
@@ -122,16 +128,14 @@ class Block(Gui):
             if isinstance(child, list) or isinstance(child, tuple):
                 for sub in child:                                        
                     if sub.name in ch_names:                        
-                        print(f'Error: block {self.name} contains duplicated name {sub.name}!')
-                        return
+                        raise Exception(f'Error: block {self.name} contains duplicated name {sub.name}!')                        
                     ch_names.add(sub.name)
             else:
                 if child.name in ch_names:
-                    print(f'Error: block {self.name} contains duplicated name {child.name}!')
-                    return        
+                    raise Exception(f'Error: block {self.name} contains duplicated name {child.name}!')                    
                 ch_names.add(child.name)
 
-class Dialog:    
+class Dialog:    #change the order to short gui constructor!!!
     def __init__(self, name, text, actions, callback, content = None):
         self.name = name
         self.text = text
@@ -141,7 +145,9 @@ class Dialog:
         
 class Screen(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+        self.name = args[0]        
+        for key in kwargs.keys():            
+            self.add(key, kwargs[key])   
         self.type = 'Screen'
 
     def check(self):
