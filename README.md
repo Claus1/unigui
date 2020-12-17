@@ -44,6 +44,7 @@ unigui.start('Test app', port = 8080, screen_dir = 'screens_hello')
 ```
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8080 and will see:
+
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
 
 ### Handling events ###
@@ -68,10 +69,12 @@ clean_button = Button('Clean the table’, changed = clean_table)
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
+#### If a handler returns True or UpdateScreen constant the whole screen has to be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with program data. prepare() is also automatically called when screen loaded. prepare() is optional.
+
 ```
 def changed_range(_,value):
    if value < 0.5 and value > 1.0:
-       #or UpdateError(.., _) if we want to return the previous visible value to the field
+       #or UpdateError(_, message) if we want to return the previous visible value to the field
        return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!') 
     #accept value othewise
     _.value = value
@@ -80,7 +83,7 @@ edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
 If a handler return None (or does not return) Unigui consider it like Ok from the server logic.
 
-#### Do not use lambdas for handlers, Python has a serialization bug at least for 3.6 version!!! ####
+#### Do not use lambdas for handlers, jsonpickle has a serialization issue for lambdas but ok with normal functions! ####
 
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
@@ -102,7 +105,7 @@ concept_block = Block('Concept block',
 ```
 If some elements enumerated inside an array, Unigui will display them on a line, otherwise everyone will be displayed on a new own line(s).
  
-Using block in some screen:
+Using a shared block in some screen:
 ```
 from blocks.tblock import *
 ...
@@ -111,7 +114,7 @@ blocks = [.., concept_block]
 
 #### Events interception of shared blocks ####
 Interception handlers have the same in/out format as usual handlers.
-#### They are called before the inner element handler call. They cancel the call of inner element handler but you can call it as shown below.####
+#### They are called before the inner element handler call. They cancel the call of inner element handler but you can call it as shown below.
 For example above interception of select_mode changed event will be:
 ```
 @handle(select_mode, 'changed')
@@ -123,7 +126,7 @@ def do_not_select_mode_x(_, value):
 
 ### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
-If the element name starts from _ , Unigui will not show it on a screen.
+If the element name starts from _ , Unigui will not show its name on the screen.
 if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
 Common form for element constructors:
 ```
@@ -131,6 +134,12 @@ Gui('Name', value = some_value, changed = changed_handler)
 #It is possible to use short form, that is equal:
 Gui('Name', some_value, changed_handler)
 ```
+Any gui element can mutate to any other type. It is usefull when we want to keep actual reference from the others but change it to a new required type.
+```
+selector.mutate(edit_property)
+```
+selector reference keep alive with a totally different gui element.
+
 #### Button ####
 Button('Push me') is a normal button.
 Icon button respectively will be described like Button('_Check', 'icon': 'check')
@@ -150,6 +159,7 @@ def get_complete_list(current_value):
     return [s for s in vocab if current_value in s]    
 ```
 Can contain optional 'update' handler which is called when the user press Enter in the field.
+It can return Error or None for automatically declining or accepting new value.
 
 
 #### Radio button ####
@@ -178,10 +188,10 @@ Tree()
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode.
 all of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
-table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
+table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
     ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
     ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
-], value = [0], multimode = false, update = update)
+], multimode = false, update = update)
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.
@@ -194,6 +204,21 @@ By default Table has toolbar with search field and icon action buttons. It is po
 By default Table has paginator. It is possible to hide it set 'paginator = false' table parameter.
 
 If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui will make visible the page with selected row. 
+
+### Table handlers. ###
+complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
+'update' is called when user presses the Enter, 'modify' when the cell value is changed.
+If they return Error(..) value is not accepted, othewise it will be automatically accepted after calling the handler.
+```
+def table_updated(table_ , tabval):
+    value, position = tabval
+    #check something
+    if error_found:
+        return Error('Can not accept the value!')
+```
+The 'changed' table handler accept the selected row number or id as a value.
+
+'edit' handler if defined has a signature tedit(table_, edit_mode_now) where the second parameter says the current edit table mode choosen by the user.
 
 
 

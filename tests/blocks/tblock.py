@@ -1,31 +1,28 @@
 from unigui import *
 
-def update(_,val):
-    pass
-
 def append(_,val):
     pass
 
+def updated(_, value):
+    print(f'updated {value}!')
 
-table = Table('Audios', headers = ['Audio', 'Duration', 'Owner', 'Status', 'Links'],rows = [
-    ['opt_sync1_3_0.mp3', '237 seconds', 'Admin', 'Processed', 'Refererence 8'],
-    ['opt_sync1_3_0.mp3', '639 seconds', 'Admin', 'Processed', 'Refererence 10']
-], value = -1, update = update, append = append)
-
-select_concept_mode = Select('Delect', value='All', options=['All','Based','Group'])
+def complete(_, value):
+    return ['aaa', 'bbbb', 'cccccc']
 
 def changed(_, value):
     _.value = value
-    #return Info(f'Now value is {value}')
-    print('ch + ' + value)
+    print(f'ch {value}')
 
-def com(_, value):
-    return ['aaa', 'bbbb', 'cccccc']
 
-tblock = Block('New block', 
-                       
-        select_concept_mode,
+table = Table('Audios', -1, changed, headers = ['Audio', 'Duration', 'Owner', 'Status', 'Links'],rows = [
+    ['opt_sync1_3_0.mp3', '237 seconds', 'Admin', 'Processed', 'Refererence 8'],
+    ['opt_sync1_3_0.mp3', '639 seconds', 'Admin', 'Processed', 'Refererence 10']
+], update = updated, append = append, complete = complete)
+
+
+tblock = Block('New block',                        
+        Edit('Simple update', 'cherokke', update = updated),
         Text('Text about cats'),
-        Edit('Important', 'Enter something', changed, complete = com)
+        Edit('Complete enter', 'Enter something', changed, update = updated, complete = complete)
     , table)
 

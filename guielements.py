@@ -22,8 +22,7 @@ class Gui:
 
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
+        super().__init__(*args, **kwargs)        
         self.check('value')
 
 class Text(Gui):
