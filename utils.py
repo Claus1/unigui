@@ -39,8 +39,8 @@ def get_file_names(dir, ext, reverse = False):
     times.sort(reverse = reverse)
     return [t2f[t] for t in times]
 
-def Answer(data, query):
-    return {'answer': data,'query': query}
+def Answer(data, param, id):
+    return {'answer': data,'param': param, 'id' : id}
 
 def Error(message):
     return {'error':message}
@@ -56,9 +56,6 @@ def UpdateError(data, message):
 
 def upload_dir():
     os.getcwd() + '/uploads/'
-
-def low_prob(prob):
-    return prob < 0.01
 
 UpdateScreen = True
 

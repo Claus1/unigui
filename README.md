@@ -195,9 +195,7 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.
-table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected 
-in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is 
-not allowed.
+table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
@@ -208,17 +206,17 @@ If the selected row is not on the currently visible page then setting 'show = Tr
 ### Table handlers. ###
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
 'update' is called when user presses the Enter, 'modify' when the cell value is changed.
-If they return Error(..) value is not accepted, othewise it will be automatically accepted after calling the handler.
+If they return error string, the value is not accepted, othewise it will be automatically accepted after calling the handler.
 ```
 def table_updated(table_ , tabval):
     value, position = tabval
     #check something
     if error_found:
-        return Error('Can not accept the value!')
+        return 'Can not accept the value!'
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'edit' handler if defined has a signature tedit(table_, edit_mode_now) where the second parameter says the current edit table mode choosen by the user.
+'editing' handler if defined has a signature editing(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
 
 
 

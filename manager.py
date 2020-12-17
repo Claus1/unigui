@@ -16,7 +16,7 @@ blocks_dir = work_dir + '/blocks'
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'edit', '#': 'modify'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify'}        
 
 class User:      
     def __init__(self):   
@@ -232,7 +232,8 @@ class User:
         elem = self.find_element(arr)
         return self.process_element(elem, arr)
         
-    def process_element(self, elem, arr):
+    def process_element(self, elem, arr):        
+        id = arr.pop() if len(arr) == 5 else 0
         sign = arr[-2]
         smeth = sing2method.get(sign)
         if smeth:
@@ -242,10 +243,16 @@ class User:
                 return result
             
             if hasattr(elem, smeth):
-                handler = getattr(elem, smeth)                
-                res = handler(elem, arr[-1])
-                if sign == '?': #complete
-                    res = Answer(res, arr)                
+                handler = getattr(elem, smeth)                                
+                res = handler(elem, arr[-1])  
+                if id:    
+                    param = None
+                    if smeth in ['update', 'modify']:
+                        if res:                         
+                            param = elem.getvalue(arr[-1])
+                        else: #None  if accepted        
+                            elem.setvalue(arr[-1])
+                    res = Answer(res, param, id)                
                 return res
             else:
                 if sign == '=':

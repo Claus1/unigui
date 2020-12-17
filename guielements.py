@@ -20,6 +20,13 @@ class Gui:
     def mutate(self, obj):
         self.__dict__ = obj.__dict__
 
+    def setvalue(self, value):
+        self.value = value
+
+    #value is required because of Table
+    def getvalue(self, value):
+        return self.value
+
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
@@ -29,7 +36,7 @@ class Text(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.value = ''
-        self.edit = False
+        self.editing = False
 
 class Button(Gui):
     def __init__(self, *args, **kwargs):
@@ -111,6 +118,14 @@ class Table(Gui):
 
     def selected_list(self):                            
         return [self.value] if self.value != -1 else [] if type(self.value) == int else self.value
+
+    def setvalue(self, val):
+        value, position = val
+        self.rows[position[0]][position[1]] = value
+
+    def getvalue(self, val):
+        value, position = val
+        return self.rows[position[0]][position[1]]
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):
