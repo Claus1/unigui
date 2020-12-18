@@ -8,6 +8,7 @@ out
 *.noseids
 .nyc_output
 .vscode/
+test/unigui
 __pycache__
 **/.mypy_cache/**
 coverage/
