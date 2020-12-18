@@ -13,7 +13,7 @@ from . import userset
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'edit', '#': 'modify'}        
 
 class User:      
     def __init__(self):   

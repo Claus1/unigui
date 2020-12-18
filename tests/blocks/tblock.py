@@ -15,7 +15,7 @@ def changed(_, value):
     _.value = value
     print(f'ch {value}')
 
-def tupd(_, value):
+def table_update(_, value):
     value, pos = value
     if not value.isdigit():
         return 'only int!'
@@ -29,29 +29,31 @@ def call_dialog(*_):
 table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec'],rows = [
     ['opt_sync1_3_0.mp3', '237'],
     ['opt_sync1_3_0.mp3', '639']
-],  append = append, complete = complete, update = tupd, modify = tupd)
+],  append = append, complete = complete, update = table_update, modify = table_update)
 
-ld = { 'Mammals' : None,
-    'Brushtail Possum' : 'Mammals',
-'Genet' : 'Mammals',
-'Silky Anteater' : 'Mammals',
-'Greater Glider' : 'Mammals',
-'Tarsier' : 'Mammals',
-'Kinkajou' : 'Mammals',
-'Tree Kangaroo' : 'Mammals',
-'Sunda Flying Lemur' : 'Mammals',
-'Green Tree Python' : 'Mammals',
-'Fruit Bat' : 'Mammals',
-'Tree Porcupines' : 'Mammals',
-'Small Tarsier' : 'Tarsier',
-'Very small Tarsier': 'Small Tarsier'
+ld = { 
+    'Animals' : None,
+    'Brushtail Possum' : 'Animals',
+    'Genet' : 'Animals',
+    'Silky Anteater' : 'Animals',
+    'Greater Glider' : 'Animals',
+    'Tarsier' : 'Animals',
+    'Kinkajou' : 'Animals',
+    'Tree Kangaroo' : 'Animals',
+    'Sunda Flying Lemur' : 'Animals',
+    'Green Tree Python' : 'Animals',
+    'Fruit Bat' : 'Animals',
+    'Tree Porcupines' : 'Animals',
+    'Small Tarsier' : 'Tarsier',
+    'Very small Tarsier': 'Small Tarsier'
 }
 
-tree = Tree('Inharitance','Mammals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
+tree = Tree('Inharitance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
 tblock = Block('New block',                        
         [Button('Dialog', call_dialog), Edit('Simple update', 'cherokke', update = updated)],
         Text('Text about cats'),
+        Edit('Read only', 'Try to change me!', edit = False),
         Edit('Complete enter', 'Enter something', changed, complete = complete)
     , [tree, table])
 

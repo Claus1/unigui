@@ -39,8 +39,8 @@ block = Block('X Block',
 tests/run_hello.py
 ```
 import unigui
-#app name, port for initial connection and screen_folder are optional
-unigui.start('Test app', port = 8080, screen_dir = 'screens_hello') 
+#app name, port for initial connection and user_dir folder are optional
+unigui.start('Test app', port = 8080, user_dir = '') 
 ```
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8080 and will see:
@@ -69,7 +69,7 @@ clean_button = Button('Clean the table’, changed = clean_table)
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
-#### If a handler returns True or UpdateScreen constant the whole screen has to be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with program data. prepare() is also automatically called when screen loaded. prepare() is optional.
+#### If a handler returns True or UpdateScreen constant the whole screen has to be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with program data. prepare() is also automatically called when the screen loaded. prepare() is optional.
 
 ```
 def changed_range(_,value):
@@ -179,9 +179,11 @@ Switch('Radio button', value = True) #value has to be boolean
 ```
 Select('Select something', value = "choice1", options = ["choice1","choice2", "choice3"]) 
 ```
+can be such type 'toggles','list','dropdown'. Unigui automatically choose between toogles and dropdown,
+but user can set type = 'list' then Unigui build it as vertical select list.
 
 #### Image. #### 
-width,changed and height are optional, changed is called if the user click or touch image.
+width,changed and height are optional, changed is called if the user click or touch the image.
 ```
 Image("Image", image = "some url", changed = show_image_info, width = .., height = ..)
 or short version
@@ -190,10 +192,15 @@ Image("Image", "some url", show_image_info, width = .., height = ..)
 ```
 
 #### Tree. The element for tree-like data. ####
+```
 Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
+```
 unique_elems for data without repeating names. it is dictionary {item_name:parent_name}. If it defined then 'elems' is redundant.
 elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
 parent_name and parent_key are None for root items. changed_handler gets an item key as value which is the item name for string_items. 
+
+#### Refererence ####
+
 
 
 ### Table. ###
@@ -227,7 +234,7 @@ def table_updated(table_, tabval):
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'editing' handler if defined has a signature editing(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
+'edit' handler if defined has a signature edit(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
 
 ### Dialog ###
 ```
@@ -245,7 +252,7 @@ content can be filled by any Gui element for additional dialog functionality.
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically create and serve an environment for every user.
-The management class is User which contains all required method for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual.
+The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual.
 
 
 
