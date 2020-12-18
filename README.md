@@ -245,7 +245,7 @@ content can be filled by any Gui element for additional dialog functionality.
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically create and serve an environment for every user.
-The management class is User which contains all required method for processing and handling the user activity.A programmer can redefine method in inherited class, point it as system user class and that is all. Such method are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. All modules are in there are created for every user. The code and modules outside that folders are common for all users as usual.
+The management class is User which contains all required method for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual.
 
 
 
