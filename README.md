@@ -193,12 +193,11 @@ Image("Image", "some url", show_image_info, width = .., height = ..)
 Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
 unique_elems for data without repeating names. it is dictionary {item_name:parent_name}. If it defined then 'elems' is redundant.
 elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
-parent_name and parent_key are None for root items. changed_handler got as value a item key which is the item name for string_items. 
+parent_name and parent_key are None for root items. changed_handler gets an item key as value which is the item name for string_items. 
 
 
 ### Table. ###
-Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode.
-all of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
+Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
     ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
@@ -207,7 +206,7 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.
-table does not contain append, delete so it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
+If table does not contain append, delete then it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
@@ -243,6 +242,10 @@ def dicallback(current_dialog, bname):
     elif ..
 ```
 content can be filled by any Gui element for additional dialog functionality.
+
+### Milti-user programming? You don't need it! ###
+Unigui automatically create and serve an environment for every user.
+The management class is User which contains all required method for processing and handling the user activity.A programmer can redefine method in inherited class, point it as system user class and that is all. Such method are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. All modules are in there are created for every user. The code and modules outside that folders are common for all users as usual.
 
 
 

@@ -26,9 +26,9 @@ def dialog_callback(_,button_name):
 def call_dialog(*_):
     return Dialog('Dialog', 'Answer please', dialog_callback, buttons = ['Yes','No'])
 
-table = Table('Audios', -1, changed, headers = ['Audio', 'Duration'],rows = [
-    ['opt_sync1_3_0.mp3', '237 seconds'],
-    ['opt_sync1_3_0.mp3', '639 seconds']
+table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec'],rows = [
+    ['opt_sync1_3_0.mp3', '237'],
+    ['opt_sync1_3_0.mp3', '639']
 ],  append = append, complete = complete, update = tupd, modify = tupd)
 
 ld = { 'Mammals' : None,
