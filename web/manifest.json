@@ -1,11 +1,11 @@
 {
-    "name": "flutest",
-    "short_name": "flutest",
+    "name": "unigui",
+    "short_name": "unigui",
     "start_url": ".",
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Universal app browser.",
     "orientation": "landscape-primary",
     "prefer_related_applications": false,
     "icons": [

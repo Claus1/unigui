@@ -3,7 +3,7 @@ from datetime import datetime
 
 resource_port = 1235
 appname = 'Unigui'
-app_screen_dir = 'screens'
+app_user_dir = 'screens'
 #for registering screen handlers of outer blocks
 handlers__ = {}
 

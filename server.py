@@ -20,7 +20,7 @@ def jsonString(obj):
         if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
 
 workpath = os.path.dirname(inspect.getfile(utils))
-webpath = workpath + '/web'
+webpath = workpath + '/web' #'/home/george/Projects/fgui/build/web' #
 
 class ReqHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
@@ -98,9 +98,9 @@ async def session(websocket, path):
         if address in users:
             del users[address]                
 
-def start(appname, port = 1235, screen_dir = 'screens',pretty_print = False):
+def start(appname, port = 1235, user_dir = '',pretty_print = False):
     utils.appname = appname
-    utils.app_screen_dir = screen_dir
+    utils.app_user_dir = user_dir
     utils.resource_port = port
 
     global json_pretty_print

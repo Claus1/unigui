@@ -10,9 +10,6 @@ from .guielements import *
 import sys
 from . import userset
 
-work_dir = os.getcwd()
-blocks_dir = work_dir + '/blocks'
-
 users = {}
 modules = {}
 
@@ -100,8 +97,10 @@ class User:
             'save' : self.save_changes,
             'toolbar' : None
         }     
-        userset.user = self            
-        screens_dir =  f'{work_dir}/{utils.app_screen_dir}'
+
+        userset.user = self    
+        blocks_dir = f'{utils.app_user_dir}blocks'        
+        screens_dir =  f'{utils.app_user_dir}screens'
 
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
