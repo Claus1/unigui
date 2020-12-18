@@ -75,7 +75,9 @@ class Tree(Select):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)         
         self.type = 'list' #for GUI
-        if hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
+        if hasattr(self,'unique_elems'):
+            self.set_unique_strings(self.unique_elems) #unique_elems has to be dict{item_name:parent_name}
+        elif hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
             self.set_elems(self.elems)
         self.check('value')
         
@@ -90,6 +92,10 @@ class Tree(Select):
             el = self.getElem(self.value)
             if el:
                 return el[0]
+
+    def set_unique_strings(self, sdict):
+        elems = [[e[0],e[0],e[1]] for e in sdict.items()]
+        self.set_elems(elems)
 
     def set_elems(self, elems):
         self.elems = elems

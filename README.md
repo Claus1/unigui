@@ -83,8 +83,6 @@ edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
 If a handler return None (or does not return) Unigui consider it like Ok from the server logic.
 
-#### Do not use lambdas for handlers, jsonpickle has a serialization issue for lambdas but ok with normal functions! ####
-
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
 ```
@@ -192,7 +190,11 @@ Image("Image", "some url", show_image_info, width = .., height = ..)
 ```
 
 #### Tree. The element for tree-like data. ####
-Tree()
+Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
+unique_elems for data without repeating names. it is dictionary {item_name:parent_name}. If it defined then 'elems' is redundant.
+elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
+parent_name and parent_key are None for root items. changed_handler got as value a item key which is the item name for string_items. 
+
 
 ### Table. ###
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode.
@@ -218,15 +220,30 @@ complete, modify and update have the same format as the others elements, but val
 'update' is called when user presses the Enter, 'modify' when the cell value is changed.
 If they return error string, the value is not accepted, othewise it will be automatically accepted after calling the handler.
 ```
-def table_updated(table_ , tabval):
+def table_updated(table_, tabval):
     value, position = tabval
-    #check something
+    #check or update something
     if error_found:
         return 'Can not accept the value!'
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
 'editing' handler if defined has a signature editing(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
+
+### Dialog ###
+```
+Dialog(name, text, callback, buttons, content = None)
+```
+where buttons is a list of the dialog buttons like ['Yes','No', 'Cancel'].
+Dialog callback has the signature as other with value = pushed button name
+```
+def dicallback(current_dialog, bname):
+    if bname == 'Yes':
+        do_this()
+    elif ..
+```
+content can be filled by any Gui element for additional dialog functionality.
+
 
 
 

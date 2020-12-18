@@ -26,14 +26,32 @@ def dialog_callback(_,button_name):
 def call_dialog(*_):
     return Dialog('Dialog', 'Answer please', dialog_callback, buttons = ['Yes','No'])
 
-table = Table('Audios', -1, changed, headers = ['Audio', 'Duration', 'Owner', 'Status', 'Links'],rows = [
-    ['opt_sync1_3_0.mp3', '237 seconds', 'Admin', 'Processed', 'Refererence 8'],
-    ['opt_sync1_3_0.mp3', '639 seconds', 'Admin', 'Processed', 'Refererence 10']
+table = Table('Audios', -1, changed, headers = ['Audio', 'Duration'],rows = [
+    ['opt_sync1_3_0.mp3', '237 seconds'],
+    ['opt_sync1_3_0.mp3', '639 seconds']
 ],  append = append, complete = complete, update = tupd, modify = tupd)
+
+ld = { 'Mammals' : None,
+    'Brushtail Possum' : 'Mammals',
+'Genet' : 'Mammals',
+'Silky Anteater' : 'Mammals',
+'Greater Glider' : 'Mammals',
+'Tarsier' : 'Mammals',
+'Kinkajou' : 'Mammals',
+'Tree Kangaroo' : 'Mammals',
+'Sunda Flying Lemur' : 'Mammals',
+'Green Tree Python' : 'Mammals',
+'Fruit Bat' : 'Mammals',
+'Tree Porcupines' : 'Mammals',
+'Small Tarsier' : 'Tarsier',
+'Very small Tarsier': 'Small Tarsier'
+}
+
+tree = Tree('Inharitance','Mammals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
 tblock = Block('New block',                        
         [Button('Dialog', call_dialog), Edit('Simple update', 'cherokke', update = updated)],
         Text('Text about cats'),
         Edit('Complete enter', 'Enter something', changed, complete = complete)
-    , table)
+    , [tree, table])
 
