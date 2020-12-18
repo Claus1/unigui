@@ -153,12 +153,13 @@ class User:
 
     def result4message(self, data):
         result = None
-        if self.active_dialog:
+        dialog = self.active_dialog
+        if dialog:
             if (data[0] == 'root' and data[1] is None):
                 self.active_dialog = None
                 return                    
             elif len(data) == 2: #button pressed
-                result = self.active_dialog.callback(data[1]) #data[1] == returned value
+                result = dialog.callback(dialog, data[1]) #data[1] == returned value
                 self.active_dialog = None 
                 if result is None:
                     result = self.process(data) # rise up                   

@@ -36,11 +36,15 @@ class Text(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.value = ''
-        self.editing = False
+        self.edit = False
 
 class Button(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        self.name = args[0]
+        if len(args) > 1:
+            self.changed = args[1]        
+        for key in kwargs.keys():            
+            self.add(key, kwargs[key])
         
 class Image(Gui):
     '''has to contain file,width,height parameters'''
@@ -150,12 +154,12 @@ class Block(Gui):
                     raise Exception(f'Error: block {self.name} contains duplicated name {child.name}!')                    
                 ch_names.add(child.name)
 
-class Dialog:    #change the order to short gui constructor!!!
-    def __init__(self, name, text, actions, callback, content = None):
+class Dialog:  
+    def __init__(self, name, text, callback, buttons,  content = None):
         self.name = name
         self.text = text
         self.content = Block('root',[], *content, dialog = True) if content else None
-        self.buttons = actions
+        self.buttons = buttons
         self.callback = callback        
         
 class Screen(Gui):

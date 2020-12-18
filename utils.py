@@ -48,6 +48,9 @@ def Error(message):
 def Info(message):
     return {'info':message}
 
+def Warning(message):
+    return {'warning':message}
+
 def Update(data):
     return {'data': data,'update': None}
 

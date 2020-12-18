@@ -141,8 +141,18 @@ selector.mutate(edit_property)
 selector reference keep alive with a totally different gui element.
 
 #### Button ####
-Button('Push me') is a normal button.
-Icon button respectively will be described like Button('_Check', 'icon': 'check')
+Normal button.
+```
+Button('Push me', changed = push_callback) 
+```
+Short form
+```
+Button('Push me', push_callback) 
+```
+Icon button without name 
+```
+Button('_Check', push_callback, 'icon': 'check')
+```
 
 #### Edit and Text field. ####
 If set edit = false it will be readonly field or text label.
