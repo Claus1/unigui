@@ -55,7 +55,7 @@ class Image(Gui):
         if not hasattr(self,'height'):
             self.height = 350.0        
         if not hasattr(self,'image'):
-            self.image = self.value
+            self.image = None
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
@@ -69,7 +69,8 @@ class Select(Gui):
         super().__init__(*args, **kwargs)
         if not hasattr(self,'options'):             
             self.options = []
-        self.check('value')
+        if not hasattr(self,'value'):
+            self.value = None
 
 class Tree(Select):
     def __init__(self, *args, **kwargs):
@@ -78,8 +79,7 @@ class Tree(Select):
         if hasattr(self,'unique_elems'):
             self.set_unique_strings(self.unique_elems) #unique_elems has to be dict{item_name:parent_name}
         elif hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
-            self.set_elems(self.elems)
-        self.check('value')
+            self.set_elems(self.elems)        
         
     def getElem(self, elemId):                
         return next((e for e in self.elems if elemId == e[1]), None)

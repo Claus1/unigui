@@ -19,16 +19,12 @@ def jsonString(obj):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
         if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
 
-workpath = os.path.dirname(inspect.getfile(utils))
-webpath = workpath + '/web' #'/home/george/Projects/fgui/build/web' #
-
 class ReqHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
         return
+
     def translate_path(self, path):
-        if path == '/':
-            path = '/index.html'        
-        return f'{webpath}{path}'.replace('%20',' ')
+        return utils.translate_path(path)
 
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
@@ -58,7 +54,7 @@ class ReqHandler(SimpleHTTPRequestHandler):
             form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'], })            
             try:
                 fs = form.list[0]
-                fn = upload_dir() + fs.filename
+                fn = upload_path(fs.filename) 
                 open(fn, "wb").write(fs.file.read())
             except IOError:
                 return (False, "Can't create file to write, do you have permission to write?")
@@ -69,39 +65,16 @@ class ReqHandler(SimpleHTTPRequestHandler):
 def start_server(path, port=8000):
     '''Start a resource webserver serving path on port'''    
     httpd = HTTPServer(('', port), ReqHandler)    
-    httpd.serve_forever()
+    httpd.serve_forever()                
 
-async def session(websocket, path):
-    address = websocket.remote_address
-    try:            
-        if address in users:
-            user = users[address]
-        else:
-            user = new_user()
-            users[address] = user
-            await websocket.send(jsonString([user.menu,user.screen])) 
-
-        async for message in websocket:                     
-            if address in users:
-                user = users[address]
-            else:
-                print('Unknown user search error!')
-                return
-            data = json.loads(message)            
-            result = user.result4message(data)
-            if result:                
-                await websocket.send(jsonString(user.prepare_result(result)))            
-    except Exception as e:
-        if getattr(e,'code',0) != 1006: #client interruption
-            print(e,traceback.format_exc())              
-    finally:        
-        if address in users:
-            del users[address]                
-
-def start(appname, port = 1235, user_dir = '',pretty_print = False):
+def start(appname, port = 1235, user_type = User, user_dir = '',pretty_print = False, 
+        socket_port = 1234, upload_dir = 'upload', translate_path = None):
     utils.appname = appname
     utils.app_user_dir = user_dir
     utils.resource_port = port
+    utils.upload_dir = upload_dir
+    if translate_path:
+        utils.translate_path = translate_path
 
     global json_pretty_print
     json_pretty_print = pretty_print
@@ -110,8 +83,36 @@ def start(appname, port = 1235, user_dir = '',pretty_print = False):
     daemon.setDaemon(True)
     daemon.start()
 
+    async def session(websocket, path):
+        address = websocket.remote_address
+        try:            
+            if address in users:
+                user = users[address]
+            else:
+                user = user_type()
+                user.load()
+                users[address] = user
+                await websocket.send(jsonString([user.menu,user.screen])) 
+
+            async for message in websocket:                     
+                if address in users:
+                    user = users[address]
+                else:
+                    print('Unknown user search error!')
+                    return
+                data = json.loads(message)            
+                result = user.result4message(data)
+                if result:                
+                    await websocket.send(jsonString(user.prepare_result(result)))            
+        except Exception as e:
+            if getattr(e,'code',0) != 1006: #client interruption
+                print(e,traceback.format_exc())              
+        finally:        
+            if address in users:
+                del users[address]    
+
     print(f'Start {appname} server on {port} port..')
     asyncio.get_event_loop().run_until_complete(
-        websockets.serve(session, '0.0.0.0', 1234))
+        websockets.serve(session, '0.0.0.0', socket_port))
     asyncio.get_event_loop().run_forever()
 

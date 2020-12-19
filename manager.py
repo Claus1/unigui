@@ -42,7 +42,7 @@ class User:
             self.oper_count += 1
             self.redo_buffer = [] #clean redo if new operation
         change.oper = self.oper_count
-        self.time_last_change = curr_time    
+        self.time_last_change = curr_time        
 
     def save_changes(self,*_):
         pass
@@ -279,8 +279,5 @@ class User:
 
         return Error(f'{elem} does not contain method for {arr[-1]}')
 
-def new_user():    
-    user = User()
-    user.load()
-    return user
+    
 

@@ -8,8 +8,8 @@ Provide programming technology that does not require client programming, for a s
 The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) and automatically generate a standart Google Material Design GUI for user data. No markup, drawing instructions and the other dull job is required. Just the simplest description what you want. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll them back by sending an info window about any inconsistencies. The server can open a dialog box that is described as a block or send an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unigui is language and platform independent technology. This repo explains how to work with Unigui using Python  and the tiny framework for that.
-Unigui web version is included in this library. Unigui for mobile and native platform are in another repos.
+Unigui is a language and platform independent technology. This repo explains how to work with Unigui using Python  and the tiny framework for that.
+Unigui web version is included in this library. Unigui for mobile and native platforms are in another repos.
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens the Unigui has to show.
@@ -248,11 +248,21 @@ def dicallback(current_dialog, bname):
         do_this()
     elif ..
 ```
-content can be filled by any Gui element for additional dialog functionality.
+content can be filled by any Gui elements for additional dialog functionality.
 
 ### Milti-user programming? You don't need it! ###
-Unigui automatically create and serve an environment for every user.
-The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods are connected with using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual.
+Unigui automatically creates and serves an environment for every user.
+The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual. 
+By default Unigui use the system User class and you do not need to point it. If we need special user class logic, we can define own specific User.
+```
+class Hello_user(unigui.User):
+    def __init__(self):
+        super().__init__()
+        print('New Hello user connected and created!')
+
+unigui.start('Hello app', user_type = Hello_user)
+```
+More info about about User methods you can find in manager.py in the root dir.
 
 
 
