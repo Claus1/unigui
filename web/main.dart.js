@@ -52110,9 +52110,10 @@ s=m.x
 if(s!=null)s=!s.k(0,m.gra())||m.y
 else s=!1
 if(s)t=$.eq
-else if(u.f.b(t)&&!J.e(J.q(t,"type"),"Screen")){m.lT(t)
+else if(!J.e(m.Q,a)&&u.f.b(t)&&!J.e(J.q(t,"type"),"Screen")){m.lT(t)
+m.Q=a
 return m.e}else if(J.e(m.Q,a)&&J.e(m.Q.b,k)&&!m.y&&J.e(m.x,m.gra()))return m.e
-else m.Q=a
+m.Q=a
 if(m.d){k=$.a7b()
 s=J.N(t)
 r=s.h(t,0)
@@ -52276,7 +52277,7 @@ return new B.cK(r.h(s,"name"),H.b([],u.O),q,t,null,null)}}
 A.wl.prototype={
 skZ:function(a){var t=this
 if(a!==t.Q){t.Q=a
-if(J.dk(t.a.c,"editing"))B.cQ("!",t.a.c,a,null)}},
+if(J.dk(t.a.c,"edit"))B.cQ("!",t.a.c,a,null)}},
 gru:function(){var t,s="value"
 if(!u.j.b(J.q(this.a.c,s)))t=!J.e(J.q(this.a.c,s),-1)?1:0
 else t=J.aw(J.q(this.a.c,s))
@@ -52978,8 +52979,8 @@ m.sdX(0,J.q(o.a.c,"value"))
 t=B.qa(o.a.c)
 if(o.z){P.dj("restore")
 L.nj(a).qU(o.r)
-o.z=!1}s=J.e(J.q(o.a.c,"editing"),!1)
-r=S.cS(1/0,t.a)
+o.z=!1}s=J.e(J.q(o.a.c,"edit"),!1)
+r=S.cS(t.b,t.a)
 q=s&&m.a.a===""
 p=o.a
 return M.az(n,q?T.cq(H.b([new T.be(10,n,n,n),L.b7(J.q(p.c,"name"),n,n,n,n,n,n)],u.p),C.C,C.L,C.M,n):Z.F6(!1,m,L.QO(n,n,new V.ao(8,8,8,8),n,n,n,n,!0,n,n,n,n,n,n,n,C.dM,n,n,n,!0,n,n,n,n,n,n,n,n,n,n,J.q(p.c,"name"),n,n,n,n,n,n,n,n,n,n,n),!0,!s,o.r,n),n,r,n,n,n,n,n)}}
@@ -59445,3 +59446,4 @@ function onLoad(b){for(var r=0;r<t.length;++r)t[r].removeEventListener("load",on
 a(b.target)}for(var s=0;s<t.length;++s)t[s].addEventListener("load",onLoad,false)})(function(a){v.currentScript=a
 if(typeof dartMainRunner==="function")dartMainRunner(F.L0,[])
 else F.L0([])})})()
+//# sourceMappingURL=main.dart.js.map
