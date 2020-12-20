@@ -2,13 +2,13 @@
 Universal App Browser Unigui
 
 ### Purpose ###
-Provide programming technology that does not require client programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning.
+Provide a programming technology that does not require client programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning.
 
 ### How to work inside ###
-The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) and automatically generate a standart Google Material Design GUI for user data. No markup, drawing instructions and the other dull job is required. Just the simplest description what you want. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll them back by sending an info window about any inconsistencies. The server can open a dialog box that is described as a block or send an entirely new screen. Unigui instantly and automatically displays actual server state. 
+The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for user data. No markup, drawing instructions and the other dull job are required. Just the simplest description what you want. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unigui is a language and platform independent technology. This repo explains how to work with Unigui using Python  and the tiny framework for that.
+Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python  and the tiny but optimal framework for that.
 Unigui web version is included in this library. Unigui for mobile and native platforms are in another repos.
 
 ### High level - Screen ###
@@ -69,7 +69,7 @@ clean_button = Button('Clean the table’, changed = clean_table)
 
 If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
-#### If a handler returns True or UpdateScreen constant the whole screen has to be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with program data. prepare() is also automatically called when the screen loaded. prepare() is optional.
+#### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with the program/system data. prepare() is also automatically called when the screen loaded. prepare() is optional.
 
 ```
 def changed_range(_,value):
@@ -81,7 +81,7 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
-If a handler return None (or does not return) Unigui consider it like Ok from the server logic.
+If a handler return None (or does not return) Unigui consider it as Ok.
 
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
