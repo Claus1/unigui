@@ -18,14 +18,7 @@ class Gui:
                 raise AttributeError(name, self)
 
     def mutate(self, obj):
-        self.__dict__ = obj.__dict__
-
-    def setvalue(self, value):
-        self.value = value
-
-    #value is required because of Table
-    def getvalue(self, value):
-        return self.value
+        self.__dict__ = obj.__dict__    
 
 class Edit(Gui):
     def __init__(self, *args, **kwargs):

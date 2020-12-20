@@ -167,7 +167,7 @@ def get_complete_list(current_value):
     return [s for s in vocab if current_value in s]    
 ```
 Can contain optional 'update' handler which is called when the user press Enter in the field.
-It can return Error or None for automatically declining or accepting new value.
+It can return None or objects for updating as usual handler.
 
 
 #### Radio button ####
@@ -197,7 +197,7 @@ Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
 ```
 unique_elems for data without repeating names. it is dictionary {item_name:parent_name}. If it defined then 'elems' is redundant.
 elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
-parent_name and parent_key are None for root items. changed_handler gets an item key as value which is the item name for string_items. 
+parent_name and parent_key are None for root items. changed_handler gets the tree object and item key as value which is the item name for unique items. 
 
 ### Table. ###
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
@@ -274,4 +274,4 @@ in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7k
 
 ### Important ###
 unigui front-end is written in flutter which has issues for web and native apps. Many severe issues are not fixed for years.
-In the test app you can see issues with read-only fields and text fields which look and work as regular edit fields.
+In the test app you can see issues with read-only fields and text fields which look and work as regular edit fields in the web version.
