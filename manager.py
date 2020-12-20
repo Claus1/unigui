@@ -267,7 +267,7 @@ class User:
             else:
                 scr = self.screen
                 for bl in scr.blocks:        
-                    if elem in bl.childs and hasattr(bl, 'dispatch'):
+                    if hasattr(bl, 'dispatch') and elem in flutten(bl.childs, bl.top_childs):
                         result = bl.dispatch(elem, val) 
                         break
                 else:

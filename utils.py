@@ -14,6 +14,13 @@ def translate_http_path(path):
     return f'{webpath}{path}'.replace('%20',' ') 
 
 translate_path = translate_http_path
+
+def flutten(*arr):
+    for a in arr:
+        if isinstance(a, list):
+            yield from flutten(*a)
+        else:
+            yield a
             
 #for registering screen handlers of outer blocks
 handlers__ = {}

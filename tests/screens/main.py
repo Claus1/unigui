@@ -22,7 +22,7 @@ selector = Select('Select', value='All', options=['All','Based','Group'])
 
 list_refs = Select('Detail ref list', type = 'list', options = ['Select reference'])
 
-def dispatch(_, ref):
+def dispatch1(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]
     return list_refs
 
@@ -33,10 +33,10 @@ def selchanged(_, val):
         return UpdateError(_,'Select can not be Based!')
     _.value = val    
 
-block = Block('X Block', 
+block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs])
+    ], [table, list_refs], dispatch = dispatch1)
 
 blocks= [block,tblock]
