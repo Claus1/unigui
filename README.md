@@ -40,7 +40,7 @@ tests/run_hello.py
 ```
 import unigui
 #app name, port for initial connection and user_dir folder are optional
-unigui.start('Test app', port = 8080, user_dir = '') 
+unigui.start('Test app', port = 8080) 
 ```
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8080 and will see:
@@ -147,9 +147,9 @@ Short form
 ```
 Button('Push me', push_callback) 
 ```
-Icon button without name 
+Icon button 
 ```
-Button('_Check', push_callback, 'icon': 'check')
+Button('_Check', push_callback, icon = 'check')
 ```
 
 #### Edit and Text field. ####
@@ -271,3 +271,7 @@ More info about User class methods you can find in manager.py in the root dir.
 The articles about Unigui:
 in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
 in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7kW3EUaeow7Q/edit?usp=sharing
+
+### Important ###
+unigui front-end is written in flutter which has issues for web and native apps. Many severe issues are not fixed for years.
+In the test app you can see issues with read-only fields and text fields which look and work as regular edit fields.
