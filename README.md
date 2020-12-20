@@ -199,10 +199,6 @@ unique_elems for data without repeating names. it is dictionary {item_name:paren
 elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
 parent_name and parent_key are None for root items. changed_handler gets an item key as value which is the item name for string_items. 
 
-#### Refererence ####
-
-
-
 ### Table. ###
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
@@ -236,6 +232,10 @@ The 'changed' table handler accept the selected row number or id as a value.
 
 'edit' handler if defined has a signature edit(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
 
+#### Refererences ####
+Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value) for raising reference event.
+
+
 ### Dialog ###
 ```
 Dialog(name, text, callback, buttons, content = None)
@@ -252,30 +252,22 @@ content can be filled by any Gui elements for additional dialog functionality.
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically creates and serves an environment for every user.
-The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual. 
-By default Unigui use the system User class and you do not need to point it. If we need special user class logic, we can define own specific User.
+The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui use the system User class and you do not need to point it. If we need special user class logic, we can define own inheritor User.
 ```
 class Hello_user(unigui.User):
     def __init__(self):
         super().__init__()
         print('New Hello user connected and created!')
+    def dispatch(self, elem, ref):
+        if http_link(ref[1:]):
+            open_inbrowser()
+        else:
+            return Warning(f'What to do with {ref}?') 
 
 unigui.start('Hello app', user_type = Hello_user)
 ```
-More info about about User methods you can find in manager.py in the root dir.
+More info about User class methods you can find in manager.py in the root dir.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The articles about Unigui:
+in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
+in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7kW3EUaeow7Q/edit?usp=sharing

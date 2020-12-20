@@ -22,7 +22,7 @@ class User:
        
         self.screens = []        
         self.active_dialog = None
-        self.active_screen = None
+        self.screen_module = None
         self.history_switching = []
         self.history_pointer = 0        
 
@@ -69,12 +69,8 @@ class User:
             redo_buffer_size = len(self.redo_buffer)            
             return True        
 
-    def dispatch(self, arr):        
-        value = arr[-1]
-        if arr[-2] == '@': #reference
-            name = value[1:]
-            #???
-            return UpdateScreen
+    def dispatch(self, elem, ref):        
+        return Warning(f'What to do with {ref}?')        
 
     def go_back(self, *_):        
         if self.history_pointer > 0:
@@ -92,6 +88,7 @@ class User:
         screen_vars = {
             'icon' : 'article',
             'prepare' : None,
+            'dispatch' : None,
             'blocks' : [],
             'header' : utils.appname,            
             'save' : self.save_changes,
@@ -133,7 +130,7 @@ class User:
                 #del sys.modules[name]       
         
         self.screens.sort(key=lambda s: s.order)
-        self.active_screen = self.screens[0]
+        self.screen_module = self.screens[0]
         self.menu = [[s.name,s.icon] for s in self.screens]        
 
         #remove user modules
@@ -145,7 +142,7 @@ class User:
                 
     @property
     def screen(self):        
-        return  self.active_screen.screen 
+        return  self.screen_module.screen 
 
     def set_screen(self,name):
         return self.process(['root', name])
@@ -224,7 +221,7 @@ class User:
         if arr[0] == 'root':
             for s in self.screens:
                 if s.name == arr[1]:
-                    self.active_screen = s
+                    self.screen_module = s
                     if hasattr(s.screen,'prepare'):
                         s.screen.prepare()
                     return True
@@ -236,48 +233,52 @@ class User:
         id = arr.pop() if len(arr) == 5 else 0
         sign = arr[-2]
         smeth = sing2method.get(sign)
+        val = arr[-1]
         if smeth:
             handler = self.screen.handlers__.get((elem, smeth))
             if handler:
-                result = handler(elem, arr[-1])                
+                result = handler(elem, val)                
                 return result
             
             if hasattr(elem, smeth):
                 handler = getattr(elem, smeth)                                
-                res = handler(elem, arr[-1])  
+                res = handler(elem, val)  
                 if id:    
                     param = None
                     if smeth in ['update', 'modify']:
                         if res:                         
-                            param = elem.getvalue(arr[-1])
+                            param = elem.getvalue(val)
                         else: #None  if accepted        
-                            elem.setvalue(arr[-1])
+                            elem.setvalue(val)
                     res = Answer(res, param, id)                
                 return res
             else:
                 if sign == '=':
                     if hasattr(elem,'value'): #exlude Buttons and others without 'value'
-                        elem.value = arr[-1]                                        
+                        elem.value = val                                        
                     return
                 else:
                     return Error(f'{elem} does not contains method {smeth}')
-        else:
-            scr = self.screen
-            for bl in scr.blocks:        
-                if elem in bl.childs and 'dispatch' in dir(bl):
-                    result = bl.dispatch(elem, arr[-1]) 
-                    if result is not None:
-                        return result
-            if scr.dispatch:
-                result = scr.dispatch(arr) 
-                if result is not None:
-                    return result
 
-            result = self.dispatch(arr) #toolbar.dispatch
+        elif sign == '@': #reference
+            result = False            
+            if hasattr(elem, 'dispatch'):
+                result = elem.dispatch(elem, val)
+            else:
+                scr = self.screen
+                for bl in scr.blocks:        
+                    if elem in bl.childs and hasattr(bl, 'dispatch'):
+                        result = bl.dispatch(elem, val) 
+                        break
+                else:
+                    if scr.dispatch:
+                        result = scr.dispatch(elem, val) 
+                    else:    
+                        result = self.dispatch(elem, val) 
             if result is not None:
                 return result
 
-        return Error(f'{elem} does not contain method for {arr[-1]}')
+        return Error(f'{elem} does not contain method for {sign} event type!')
 
     
 
