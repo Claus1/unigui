@@ -48,7 +48,7 @@ class Image(Gui):
         if not hasattr(self,'height'):
             self.height = 350.0        
         if not hasattr(self,'image'):
-            self.image = None
+            self.image = self.value if hasattr(self, 'value') else None
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):

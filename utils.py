@@ -8,9 +8,13 @@ upload_dir = 'upload'
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
 
+def fn2url(fn):    
+    s =  f":{resource_port}/{fn}"
+    return s.replace(' ','%20')
+
 def translate_http_path(path):
     if path == '/':
-        path = '/index.html'
+        path = '/index.html'    
     return f'{webpath}{path}'.replace('%20',' ') 
 
 translate_path = translate_http_path

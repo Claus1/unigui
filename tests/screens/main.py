@@ -37,6 +37,7 @@ block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs], dispatch = dispatch1)
+    ], [table, list_refs], Image('logo', fn2url('assets/images/unigui.png'), lambda _,v: Info(f'{v} logo selected!')
+), dispatch = dispatch1)
 
 blocks= [block,tblock]

@@ -29,7 +29,7 @@ def call_dialog(*_):
 table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec'],rows = [
     ['opt_sync1_3_0.mp3', '237'],
     ['opt_sync1_3_0.mp3', '639']
-],  append = append, complete = complete, update = table_update, modify = table_update)
+],  append = append, complete = complete, update = table_update, modify = table_update, tools = False)
 
 ld = { 
     'Animals' : None,

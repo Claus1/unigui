@@ -5,6 +5,8 @@ wd = os.getcwd()
 sys.path.insert(0,wd[:wd.find('/unigui/tests')])
 import unigui
 
+#tools = False, image click
+
 class Hello_user(unigui.User):
     def __init__(self):
         super().__init__()
