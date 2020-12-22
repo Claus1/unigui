@@ -271,7 +271,3 @@ More info about User class methods you can find in manager.py in the root dir.
 The articles about Unigui:
 in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
 in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7kW3EUaeow7Q/edit?usp=sharing
-
-### Important ###
-unigui front-end is written in flutter which has issues for web and native apps. Many severe issues are not fixed for years.
-In the test app you can see issues with read-only fields and text fields which look and work as regular edit fields in the web version.
