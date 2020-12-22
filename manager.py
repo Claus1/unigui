@@ -96,8 +96,8 @@ class User:
         }     
 
         userset.user = self    
-        blocks_dir = f'{utils.app_user_dir}blocks'        
-        screens_dir =  f'{utils.app_user_dir}screens'
+        blocks_dir = 'blocks'        
+        screens_dir =  'screens'
 
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':

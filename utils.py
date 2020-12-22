@@ -2,22 +2,30 @@ import os
 
 resource_port = 1235
 appname = 'Unigui'
-app_user_dir = ''
+app_user_dir = os.getcwd()
 upload_dir = 'upload'
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
 
-def fn2url(fn):    
+def fn2url(fn):      
     s =  f":{resource_port}/{fn}"
     return s.replace(' ','%20')
 
 def translate_http_path(path):
-    if path == '/':
-        path = '/index.html'    
+    if path.startswith(f'/{upload_dir}/'):             
+        return f'{app_user_dir}{path}'.replace('%20',' ')     
     return f'{webpath}{path}'.replace('%20',' ') 
 
 translate_path = translate_http_path
+
+def set_utils(appname_,user_dir_,port_,upload_dir_, translate_path_):
+    global appname, resource_port, upload_dir, translate_path
+    appname = appname_
+    resource_port = port_
+    upload_dir = upload_dir_
+    if translate_path_:
+        translate_path = translate_path_
 
 def flutten(*arr):
     for a in arr:

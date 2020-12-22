@@ -23,7 +23,7 @@ class ReqHandler(SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         return
 
-    def translate_path(self, path):
+    def translate_path(self, path):        
         return utils.translate_path(path)
 
     def end_headers (self):
@@ -69,12 +69,7 @@ def start_server(path, port=8000):
 
 def start(appname, port = 1235, user_type = User, user_dir = '',pretty_print = False, 
         socket_port = 1234, upload_dir = 'upload', translate_path = None):
-    utils.appname = appname
-    utils.app_user_dir = user_dir
-    utils.resource_port = port
-    utils.upload_dir = upload_dir
-    if translate_path:
-        utils.translate_path = translate_path
+    set_utils(appname,user_dir,port,upload_dir, translate_path)    
 
     global json_pretty_print
     json_pretty_print = pretty_print

@@ -12,4 +12,4 @@ class Hello_user(unigui.User):
         super().__init__()
         print('New Hello user connected and created!')
 
-unigui.start('Test app', user_type = Hello_user)
+unigui.start('Test app', user_type = Hello_user, upload_dir = 'images')

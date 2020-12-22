@@ -269,5 +269,7 @@ unigui.start('Hello app', user_type = Hello_user)
 More info about User class methods you can find in manager.py in the root dir.
 
 The articles about Unigui:
+
 in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
+
 in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7kW3EUaeow7Q/edit?usp=sharing
