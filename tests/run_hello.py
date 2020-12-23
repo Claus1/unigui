@@ -1,11 +1,9 @@
 import sys
 import os
 wd = os.getcwd()
-#add 2 path if unigui not installed
+#for testing works with local lib, not installed
 sys.path.insert(0,wd[:wd.find('/unigui/tests')])
 import unigui
-
-#tools = False, image click
 
 class Hello_user(unigui.User):
     def __init__(self):

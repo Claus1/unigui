@@ -1,3 +1,2 @@
-include web/*
-recursive-include web/assets *
-include web/icons/*
+recursive-include web/*
+include *.py
