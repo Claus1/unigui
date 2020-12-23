@@ -7,18 +7,18 @@ icon = 'blur_linear'
 order = 0
 header = 'Test app'
 
-table = Table('Videos', headers = ['Video', 'Duration',  'Links'],rows = [
+table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links'],rows = [
     ['opt_sync1_3_0.mp4', '30 seconds',  '@Refererence 1'],
     ['opt_sync1_3_0.mp4', '37 seconds',  '@Refererence 8']    
-], value = 0)
+])
 
 def clean_table(_, value):
     table.rows = []
     return table
 
-clean_button = Button('Clean table', changed = clean_table)
+clean_button = Button('Clean table', clean_table)
 
-selector = Select('Select', value='All', options=['All','Based','Group'])
+selector = Select('Select', 'All', options=['All','Based','Group'])
 
 list_refs = Select('Detail ref list', type = 'list', options = ['Select reference'])
 

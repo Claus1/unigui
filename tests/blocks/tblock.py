@@ -24,7 +24,7 @@ def dialog_callback(_,button_name):
     return Warning(f'Dialog: {button_name} pushed!')
 
 def call_dialog(*_):
-    return Dialog('Dialog', 'Answer please', dialog_callback, buttons = ['Yes','No'])
+    return Dialog('Dialog', 'Answer please..', dialog_callback, buttons = ['Yes','No'])
 
 table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec'],rows = [
     ['opt_sync1_3_0.mp3', '237'],

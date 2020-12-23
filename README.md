@@ -17,7 +17,7 @@ Unigui is the language and platform independent technology. This repo explains h
 Unigui web version is included in this library. Unigui for mobile and native platforms are in another repos.
 
 ### High level - Screen ###
-The program directory has to contain a screens folder which contains all screens the Unigui has to show.
+The program directory has to contain a screens folder which contains all screens which Unigui has to show.
 
 Screen example tests/screens_hello/main.py
 ```
@@ -44,7 +44,7 @@ block = Block('X Block',
 tests/run_hello.py
 ```
 import unigui
-#app name, port for initial connection and user_dir folder are optional
+#app name, port for initial connection and upload_dir folder are optional
 unigui.start('Test app', port = 8080) 
 ```
 Unigui builds the interactive app for the code above.
@@ -89,7 +89,7 @@ edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 If a handler return None (or does not return) Unigui consider it as Ok.
 
 ### Block details ###
-The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required.
+The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional as for others Gui elements.
 ```
 block = Block(‘Pictures’,add_button, *images, width = 500, scroll = True,icon = 'api')
 ```
@@ -131,6 +131,9 @@ def do_not_select_mode_x(_, value):
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
 If the element name starts from _ , Unigui will not show its name on the screen.
 if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
+
+#### All constructor parameters are optional for all Gui elements except the first - name. ####
+
 Common form for element constructors:
 ```
 Gui('Name', value = some_value, changed = changed_handler)
@@ -155,6 +158,17 @@ Button('Push me', push_callback)
 Icon button 
 ```
 Button('_Check', push_callback, icon = 'check')
+```
+#### Load to server Button ####
+Special button which provide loading file from user device or computer to server.
+```
+Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
+```
+
+#### Camera Button ####
+Special button which provide to make photo on mobile device. On PC does nothing.
+```
+Button('Make photo', open_file, icon='camera_alt', type = 'camera')
 ```
 
 #### Edit and Text field. ####
@@ -218,7 +232,7 @@ If table does not contain append, delete then it will be wrawn without add and r
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
-By default Table has paginator. It is possible to hide it by seting 'paginator = false' table parameter.
+By default Table has paginator if all rows can not drawn on the screen. Otherwise a table paginator is redundant.
 
 If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
@@ -263,7 +277,7 @@ Warning(warning_message)
 Error(error_message)
 UpdateError(updated_element, error_nessage)
 ```
-They are returned by handler and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
+They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
 
 
 ### Milti-user programming? You don't need it! ###
