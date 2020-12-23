@@ -166,9 +166,9 @@ Button('Load', handler_when_loading_finish, icon='photo_library', type = 'galler
 ```
 
 #### Camera Button ####
-Special button which provide to make photo on mobile device. On PC does nothing.
+Special button which provide to make photo on mobile device. On PC behaves as 'Load to server Button'.
 ```
-Button('Make photo', open_file, icon='camera_alt', type = 'camera')
+Button('Make photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
 ```
 
 #### Edit and Text field. ####
@@ -232,7 +232,7 @@ If table does not contain append, delete then it will be wrawn without add and r
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
-By default Table has paginator if all rows can not drawn on the screen. Otherwise a table paginator is redundant.
+By default Table has paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant.
 
 If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
@@ -249,7 +249,7 @@ def table_updated(table_, tabval):
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'edit' handler if defined has a signature edit(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
+'edit' handler called when the user switch edit mode. it is optional and has signature edit(table_, edit_mode_now) where the second parameter says is the table editing now or not.
 
 #### Refererences ####
 Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value).
