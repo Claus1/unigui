@@ -200,8 +200,8 @@ Image("Image", "some url", show_image_info, width = .., height = ..)
 ```
 Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
 ```
-unique_elems for data without repeating names. it is dictionary {item_name:parent_name}. If it defined then 'elems' is redundant.
-elems for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
+unique_elems for the data without repeating names, it is dictionary {item_name:parent_name}. If 'unique_elems' defined then 'elems' is redundant.
+'elems' for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
 parent_name and parent_key are None for root items. changed_handler gets the tree object and item key as value which is the item name for unique items. 
 
 ### Table. ###
@@ -218,9 +218,9 @@ If table does not contain append, delete then it will be wrawn without add and r
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
-By default Table has paginator. It is possible to hide it set 'paginator = false' table parameter.
+By default Table has paginator. It is possible to hide it by seting 'paginator = false' table parameter.
 
-If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui will make visible the page with selected row. 
+If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
 ### Table handlers. ###
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
@@ -238,7 +238,7 @@ The 'changed' table handler accept the selected row number or id as a value.
 'edit' handler if defined has a signature edit(table_, edit_mode_now) where the second parameter says is the table edited by the user or not.
 
 #### Refererences ####
-Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value) for raising reference event.
+Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value).
 
 
 ### Dialog ###
@@ -254,6 +254,17 @@ def dicallback(current_dialog, bname):
     elif ..
 ```
 content can be filled by any Gui elements for additional dialog functionality.
+
+### Popup windows ###
+They are intended for non-blocking display of error messages and informing about some events, for example, incorrect user input and the completion of a long process on the server.
+```
+Info(info_message)
+Warning(warning_message)
+Error(error_message)
+UpdateError(updated_element, error_nessage)
+```
+They are returned by handler and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
+
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically creates and serves an environment for every user.
