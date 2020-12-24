@@ -13,7 +13,7 @@ from . import userset
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'edit', '#': 'modify'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify'}        
 
 class User:      
     def __init__(self):   
@@ -170,15 +170,16 @@ class User:
             self.active_dialog = result
         return result
 
-    def find_element(self, path):
-        
-        blocks = [self.active_dialog.content] if self.active_dialog and self.active_dialog.content else self.screen.blocks
+    @property
+    def blocks(self):
+        return [self.active_dialog.content] if self.active_dialog and self.active_dialog.content else self.screen.blocks
 
+    def find_element(self, path):       
         if path[0] == 'toolbar':
             for e in self.screen.toolbar:
                 if e.name == path[1]:                
                     return e
-        for bl in blocks:
+        for bl in self.blocks:
             if bl.name == path[0]:
                 for c in itertools.chain(bl.top_childs, bl.childs):
                     if type(c) == list:
@@ -188,11 +189,8 @@ class User:
                     elif c.name == path[1]:
                         return c
 
-    def find_path(self, elem):
-        
-        blocks = [self.active_dialog.content] if self.active_dialog and self.active_dialog.content else self.screen.blocks
-
-        for bl in blocks:        
+    def find_path(self, elem):        
+        for bl in self.blocks:        
             if bl == elem:
                 return [bl.name]
             for c in itertools.chain(bl.top_childs, bl.childs):
@@ -266,7 +264,7 @@ class User:
                 result = elem.dispatch(elem, val)
             else:
                 scr = self.screen
-                for bl in scr.blocks:        
+                for bl in self.blocks:        
                     if hasattr(bl, 'dispatch') and elem in flutten(bl.childs, bl.top_childs):
                         result = bl.dispatch(elem, val) 
                         break

@@ -31,3 +31,4 @@ test-results.xml
 build/
 dist/
 unigui.egg-info/
+upload.sh

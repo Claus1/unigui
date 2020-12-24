@@ -2,7 +2,7 @@
 Universal App Browser Unigui
 
 ### Purpose ###
-Provide a programming technology that does not require client programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning.
+Provide a programming technology that does not require front-end programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning. 
 
 ### Installing ###
 ```
@@ -13,7 +13,7 @@ pip install unigui
 The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for user data. No markup, drawing instructions and the other dull job are required. Just the simplest description what you want. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python  and the tiny but optimal framework for that.
+Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that.
 Unigui web version is included in this library. Unigui for mobile and native platforms are in another repos.
 
 ### High level - Screen ###
@@ -70,9 +70,9 @@ def clean_table(_, value):
 clean_button = Button('Clean the table’, changed = clean_table)
 ```
 
-‘changed’ handlers have to return Gui object or array of Gui object which Unigui has to redraw, if we changed their visible state in code. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to value class variable.
+‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to 'value' class variable.
 
-If value is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
+If 'value' is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
 #### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with the program/system data. prepare() is also automatically called when the screen loaded. prepare() is optional.
 
@@ -86,10 +86,10 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
-If a handler return None (or does not return) Unigui consider it as Ok.
+If the handler return None (or does not return anything) Unigui consider it as Ok.
 
 ### Block details ###
-The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional as for others Gui elements.
+The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional.
 ```
 block = Block(‘Pictures’,add_button, *images, width = 500, scroll = True,icon = 'api')
 ```
@@ -140,7 +140,7 @@ Gui('Name', value = some_value, changed = changed_handler)
 #It is possible to use short form, that is equal:
 Gui('Name', some_value, changed_handler)
 ```
-Any gui element can mutate to any other type. It is usefull when we want to keep actual reference from the others but change it to a new required type.
+Any gui element can mutate to any other type. It is usefull when we want to keep actual reference from the others elements but change it to a new required type.
 ```
 selector.mutate(edit_property)
 ```
@@ -249,7 +249,7 @@ def table_updated(table_, tabval):
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'edit' handler called when the user switch edit mode. it is optional and has signature edit(table_, edit_mode_now) where the second parameter says is the table editing now or not.
+'editing' handler called when the user switch the table edit mode. it is optional and has signature ediingt(table_, edit_mode_now) where the second parameter says is the table editing now or not.
 
 #### Refererences ####
 Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value).
@@ -267,7 +267,7 @@ def dicallback(current_dialog, bname):
         do_this()
     elif ..
 ```
-content can be filled by any Gui elements for additional dialog functionality.
+content can be filled by any Gui element sequence for additional dialog functionality.
 
 ### Popup windows ###
 They are intended for non-blocking display of error messages and informing about some events, for example, incorrect user input and the completion of a long process on the server.
