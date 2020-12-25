@@ -224,10 +224,12 @@ parent_name and parent_key are None for root items. changed_handler gets the tre
 ### Table. ###
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
-table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
-    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
-    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
-], multimode = false, update = update)
+table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status'],  
+  rows = [
+    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed'],
+    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed']
+  ], 
+  multimode = false, update = update)
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.

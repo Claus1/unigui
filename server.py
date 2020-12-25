@@ -45,7 +45,8 @@ class ReqHandler(SimpleHTTPRequestHandler):
     def deal_post_data(self):
         ctype, _ = cgi.parse_header(self.headers['Content-Type'])
         if ctype == 'multipart/form-data':
-            form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ={'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'], })            
+            form = cgi.FieldStorage( fp=self.rfile, headers=self.headers, environ =
+                {'REQUEST_METHOD':'POST', 'CONTENT_TYPE':self.headers['Content-Type'],})            
             try:
                 fs = form.list[0]
                 fn = upload_path(fs.filename) 
@@ -71,9 +72,11 @@ def start(appname, port = 1235, user_type = User, user_dir = '',pretty_print = F
     daemon.setDaemon(True)
     daemon.start()
 
+    indent = 4 if pretty_print else None
+    
     def jsonString(obj):
-        return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
-            if pretty_print else jsonpickle.encode(obj, unpicklable=False)
+        return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
+            indent = indent, sort_keys = pretty_print)
 
     async def session(websocket, path):
         address = websocket.remote_address
