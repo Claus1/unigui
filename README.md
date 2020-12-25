@@ -86,7 +86,7 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', value = 0.6, changed = changed_range)
 ```
-If the handler return None (or does not return anything) Unigui consider it as Ok.
+If the handler return None (or does not return anything) Unigui considers it as Ok.
 
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional.
@@ -164,12 +164,16 @@ Special button which provide loading file from user device or computer to server
 ```
 Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
 ```
+handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name in upload server folder == 
+optional upload_dir parameter of unigui.start
 
 #### Camera Button ####
 Special button which provide to make photo on mobile device. On PC behaves as 'Load to server Button'.
 ```
 Button('Make photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
 ```
+handler_when_loading_finish(button_, handler_when_shooting_finish) where handler_when_shooting_finish is name in upload server folder == 
+optional upload_dir parameter of unigui.start
 
 #### Edit and Text field. ####
 If set edit = false it will be readonly field or text label.
