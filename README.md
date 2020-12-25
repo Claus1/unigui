@@ -70,7 +70,7 @@ def clean_table(_, value):
 clean_button = Button('Clean the table’, changed = clean_table)
 ```
 
-‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to 'value' class variable.
+‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to the 'value' variable og gui object.
 
 If 'value' is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
@@ -129,7 +129,7 @@ def do_not_select_mode_x(_, value):
 
 ### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
-If the element name starts from _ , Unigui will not show its name on the screen.
+#### If the element name starts from _ , Unigui will not show its name on the screen. ####
 if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
 
 #### All constructor parameters are optional for all Gui elements except the first - name. ####
@@ -140,12 +140,11 @@ Gui('Name', value = some_value, changed = changed_handler)
 #It is possible to use short form, that is equal:
 Gui('Name', some_value, changed_handler)
 ```
-Any gui element can mutate to any other type. It is usefull when we want to keep actual reference from the others elements but change it to a new required type.
+#### It is possible immediately to change any Gui object paramaters and even its type, i.e. a gui element can mutate to any other type. ####
+Mutation is usefull when we want to keep actual reference from the others elements but change it to a new required type.
 ```
-selector.mutate(edit_property)
+selector.mutate(edit_field) #the selector reference keeps alive with a totally different gui element.
 ```
-selector reference keep alive with a totally different gui element.
-
 #### Button ####
 Normal button.
 ```
@@ -160,7 +159,7 @@ Icon button
 Button('_Check', push_callback, icon = 'check')
 ```
 #### Load to server Button ####
-Special button which provide loading file from user device or computer to server.
+Special button which provide loading file from user device or computer to the server.
 ```
 Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
 ```
@@ -168,7 +167,7 @@ handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_f
 optional upload_dir parameter of unigui.start
 
 #### Camera Button ####
-Special button which provide to make photo on mobile device. On PC behaves as 'Load to server Button'.
+Special button which provide to make photo on the user mobile device. On PC behaves as 'Load to server Button'.
 ```
 Button('Make photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
 ```
@@ -301,6 +300,8 @@ class Hello_user(unigui.User):
 unigui.start('Hello app', user_type = Hello_user)
 ```
 More info about User class methods you can find in manager.py in the root dir.
+
+Example is in tests folder.
 
 The articles about Unigui:
 
