@@ -13,12 +13,6 @@ import io
 import cgi
 from .manager import * 
 
-json_pretty_print = False
-
-def jsonString(obj):
-    return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
-        if json_pretty_print else jsonpickle.encode(obj, unpicklable=False)
-
 class ReqHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
         return
@@ -70,13 +64,16 @@ def start_server(path, port=8000):
 def start(appname, port = 1235, user_type = User, user_dir = '',pretty_print = False, 
         socket_port = 1234, upload_dir = 'upload', translate_path = None):
     set_utils(appname,user_dir,port,upload_dir, translate_path)    
-
-    global json_pretty_print
-    json_pretty_print = pretty_print
+    
+    pretty_print = pretty_print
 
     daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', port))
     daemon.setDaemon(True)
     daemon.start()
+
+    def jsonString(obj):
+        return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), indent=4, sort_keys=True) \
+            if pretty_print else jsonpickle.encode(obj, unpicklable=False)
 
     async def session(websocket, path):
         address = websocket.remote_address
