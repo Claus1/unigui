@@ -33,11 +33,13 @@ def selchanged(_, val):
         return UpdateError(_,'Select can not be Based!')
     _.value = val    
 
+image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
+
 block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs], Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!')
-), dispatch = dispatch1)
+    ], [table, list_refs], image, 
+    dispatch = dispatch1)
 
 blocks= [block,tblock]

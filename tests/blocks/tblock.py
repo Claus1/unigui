@@ -4,9 +4,7 @@ def append(_,val):
     pass
 
 def updated(_, value):
-    print(f'updated {value}!')
-    if not value.isdigit():
-        return 'only int!'
+    return Warning(f'{_.name} is updated to {value}!')        
 
 def complete(_, value):
     return ['aaa', 'bbbb', 'cccccc']
@@ -51,9 +49,9 @@ ld = {
 tree = Tree('Inharitance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
 tblock = Block('New block',                        
-        [Button('Dialog', call_dialog), Edit('Simple update', 'cherokke', update = updated)],
+        [Button('Dialog', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
         Text('Text about cats'),
         Edit('Read only', 'Try to change me!', edit = False),
-        Edit('Complete enter', 'Enter something', changed, complete = complete)
+        Edit('Complete enter update field', 'Enter something', changed, complete = complete, update = updated)
     , [tree, table])
 
