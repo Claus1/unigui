@@ -62,7 +62,7 @@ def start_server(path, port=8000):
     httpd = HTTPServer(('', port), ReqHandler)    
     httpd.serve_forever()                
 
-def start(appname, port = 1235, user_type = User, user_dir = '',pretty_print = False, 
+def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, 
         socket_port = 1234, upload_dir = 'upload', translate_path = None):
     set_utils(appname,user_dir,port,upload_dir, translate_path)    
     

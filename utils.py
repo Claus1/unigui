@@ -1,6 +1,6 @@
 import os 
 
-resource_port = 1235
+resource_port = None
 appname = 'Unigui'
 app_user_dir = os.getcwd()
 upload_dir = 'upload'
@@ -13,6 +13,8 @@ def fn2url(fn):
     return s.replace(' ','%20')
 
 def translate_http_path(path):
+    if '?' in path:
+        path = path.split('?')[0]
     if path.startswith(f'/{upload_dir}/'):             
         return f'{app_user_dir}{path}'.replace('%20',' ')     
     return f'{webpath}{path}'.replace('%20',' ') 

@@ -8,8 +8,8 @@ order = 0
 header = 'Test app'
 
 table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links'],rows = [
-    ['opt_sync1_3_0.mp4', '30 seconds',  '@Refererence 1'],
-    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refererence 8']    
+    ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1'],
+    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8']    
 ])
 
 def clean_table(_, value):
