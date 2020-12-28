@@ -30,8 +30,8 @@ blocks = [block] #what to show on the screen
 The block example with a table and 2 selectors
 ```
 table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
-    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', 'Refererence 1'],
-    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', 'Refererence 8']
+    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', '@Signal 1'],
+    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', '@Signal 8']
 ], value = 0)
 #widgets are groped in blocks (complex widgets with logic)
 block = Block('X Block', 
@@ -256,8 +256,8 @@ The 'changed' table handler accept the selected row number or id as a value.
 
 'editing' handler called when the user switch the table edit mode. it is optional and has signature ediingt(table_, edit_mode_now) where the second parameter says is the table editing now or not.
 
-#### Refererences ####
-Unigui support a special mechanism for handling inner reference events. They are useful in table fields and shared blocks. If a string in a table field started from @ then it considered as a reference. If the user clicks such field in non-edit mode then Unigui generates reference event, which comes to dispatch function of its containters. First look at its block, if not found than in the screen, if not again User.dispatch will be called, which can be redefined for such cases. Any handler can return Reference(element_that_generated_the_event, the_event_value).
+#### Signals ####
+Unigui supports a dedicated signal event handling mechanism. They are useful in table fields and shared blocks when the containing blocks and screens must respond to their elements without program linking. If a string in a table field started from @ then it considered as a signal. If the user clicks such field in non-edit mode then Unigui generates a signal event, which comes to dispatch function of its containters. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.
 
 
 ### Dialog ###

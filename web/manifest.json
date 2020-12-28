@@ -1,12 +1,12 @@
 {
-    "name": "unigui",
-    "short_name": "unigui",
+    "name": "myapp",
+    "short_name": "myapp",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Universal app browser.",
-    "orientation": "landscape-primary",
+    "description": "A new Flutter project.",
+    "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {

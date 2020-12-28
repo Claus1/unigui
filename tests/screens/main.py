@@ -35,11 +35,16 @@ def selchanged(_, val):
 
 image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
 
+def replace_image(_, iname):
+    print(iname)
+    image.image = fn2url(f'images/{iname}')
+    return image
+
 block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs], image, 
+    ], [table, list_refs], Button('Replace the logo', replace_image, type = 'gallery'), image, 
     dispatch = dispatch1)
 
 blocks= [block,tblock]

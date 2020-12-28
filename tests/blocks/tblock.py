@@ -10,8 +10,7 @@ def complete(_, value):
     return ['aaa', 'bbbb', 'cccccc']
 
 def changed(_, value):
-    _.value = value
-    print(f'ch {value}')
+    _.value = value  
 
 def table_update(_, value):
     value, pos = value
