@@ -234,28 +234,32 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.
-If table does not contain append, delete then it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
+If table does not contain append, delete arguments, then it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
-By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False to the Table constructor.
 
-By default Table has paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant.
+By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False in the Table constructor.
+
+Table has paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant and omitted.
 
 If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
 ### Table handlers. ###
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
-'update' is called when user presses the Enter, 'modify' when the cell value is changed.
-If they return error string, the value is not accepted, othewise it will be automatically accepted after calling the handler.
+'update' is called when user presses the Enter, 'modify' when the cell value is changed. By defaul it has standart modify method which updates rows data, it can be locked by
+setting 'edit = False' in Table constructor.
+They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_value(table, value) for accepting and return None.
 ```
 def table_updated(table_, tabval):
     value, position = tabval
-    #check or update something
+    #check value
+    ...
     if error_found:
-        return 'Can not accept the value!'
+        return Error('Can not accept the value!')
+    accept_value(_, value)
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'editing' handler called when the user switch the table edit mode. it is optional and has signature ediingt(table_, edit_mode_now) where the second parameter says is the table editing now or not.
+'editing' handler called when the user switch the table edit mode. it is optional and has signature ediingt(table_, edit_mode_now) where the second parameter says the table is being edited or not.
 
 #### Signals ####
 Unigui supports a dedicated signal event handling mechanism. They are useful in table fields and shared blocks when the containing blocks and screens must respond to their elements without program linking. If a string in a table field started from @ then it considered as a signal. If the user clicks such field in non-edit mode then Unigui generates a signal event, which comes to dispatch function of its containters. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.

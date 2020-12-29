@@ -247,21 +247,15 @@ class User:
             if hasattr(elem, smeth):
                 handler = getattr(elem, smeth)                                
                 res = handler(elem, val)  
-                if id:    
-                    param = None
-                    if smeth in ['update', 'modify']:
-                        if res:                         
-                            param = elem.getvalue(val)
-                        else: #None  if accepted        
-                            elem.setvalue(val)
-                    res = Answer(res, param, id)                
+                if id:                        
+                    res = Answer(res, None, id)                
                 return res
             else:
                 if sign == '=':
                     if hasattr(elem,'value'): #exlude Buttons and others without 'value'
                         elem.value = val                                        
                     return
-                else:
+                elif sign != '!': #editing can omit
                     return Error(f'{elem} does not contains method {smeth}')
 
         elif sign == '@': #reference
@@ -280,7 +274,7 @@ class User:
                     else:    
                         result = self.dispatch(elem, val) 
             if result is not None:
-                return result
+                return result        
 
         return Error(f'{elem} does not contain method for {sign} event type!')
 
