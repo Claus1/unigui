@@ -22,7 +22,7 @@ selector = Select('Select', 'All', options=['All','Based','Group'])
 
 list_refs = Select('Detail ref list', type = 'list', options = ['Select reference'])
 
-def dispatch1(_, ref):
+def block_dispatch(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]
     return list_refs
 
@@ -44,7 +44,12 @@ block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs], Button('Replace the logo', replace_image, type = 'gallery'), image, 
-    dispatch = dispatch1)
+    ], [table, list_refs], 
+    [
+        Button('Replace the logo', replace_image, type = 'gallery'),
+        Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy'))
+    ],
+     image, 
+    dispatch = block_dispatch)
 
 blocks= [block,tblock]

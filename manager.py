@@ -225,7 +225,13 @@ class User:
                     return True
             return Error(f'Unknown menu {s.name}')
         elem = self.find_element(arr)
-        return self.process_element(elem, arr)
+        #recursive for Signals
+        while True:
+            res = self.process_element(elem, arr)
+            if not isinstance(res, Signal):
+                return res
+            elem = res.elem
+            arr = res.arr                            
         
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0

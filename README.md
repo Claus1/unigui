@@ -142,6 +142,7 @@ Gui('Name', some_value, changed_handler)
 ```
 #### It is possible immediately to change any Gui object paramaters and even its type, i.e. a gui element can mutate to any other type. ####
 Mutation is usefull when we want to keep actual reference from the others elements but change it to a new required type.
+After mutation the handler has to return containing Block or UpdateScreen for automatic recalculating the block or the screen geometry.
 ```
 selector.mutate(edit_fld) #the selector keeps alive with a totally different gui element.
 ```
