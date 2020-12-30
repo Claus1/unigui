@@ -20,7 +20,7 @@ clean_button = Button('Clean table', clean_table)
 
 selector = Select('Select', 'All', options=['All','Based','Group'])
 
-list_refs = Select('Detail ref list', type = 'list', options = ['Select reference'])
+list_refs = Select('Detail ref list signals', type = 'list', options = ['Select reference'])
 
 def block_dispatch(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]

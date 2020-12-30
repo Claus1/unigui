@@ -16,9 +16,10 @@ def table_modify(_, value):
     value, pos = value    
     return Error(f'{_.name} {pos} is not modified to value {value}!')
 
-def table_update(_, value):
-    value, pos = value    
-    return Warning(f'{_.name} {pos} is not updated to value {value}!')
+def table_update(_, value):    
+    accept_value(_, value)
+    value, pos = value        
+    return Info(f'{_.name} {pos} is updated to value {value}!')
 
 def dialog_callback(_,button_name):
     return Warning(f'Dialog: {button_name} pushed!')
@@ -26,10 +27,14 @@ def dialog_callback(_,button_name):
 def call_dialog(*_):
     return Dialog('Dialog', 'Answer please..', dialog_callback, buttons = ['Yes','No'])
 
+def delete_row(_,v):
+    del _.rows[_.value]
+    #return _
+
 table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec'],rows = [
     ['opt_sync1_3_0.mp3', '237'],
     ['opt_sync1_3_0.mp3', '639']
-],  append = append, complete = complete, update = table_update, modify = table_modify)
+],  append = append, complete = complete, update = table_update, modify = table_modify, delete = delete_row)
 
 ld = { 
     'Animals' : None,

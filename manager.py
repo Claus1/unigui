@@ -254,9 +254,7 @@ class User:
                 if sign == '=':
                     if hasattr(elem,'value'): #exlude Buttons and others without 'value'
                         elem.value = val                                        
-                    return
-                elif sign != '!': #editing can omit
-                    return Error(f'{elem} does not contains method {smeth}')
+                    return                
 
         elif sign == '@': #reference
             result = False            
@@ -276,7 +274,8 @@ class User:
             if result is not None:
                 return result        
 
-        return Error(f'{elem} does not contain method for {sign} event type!')
+        if sign != '!': #editing can omit
+            return Error(f'{elem} does not contain method for {sign} event type!')
 
     
 
