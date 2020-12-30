@@ -247,7 +247,7 @@ If the selected row is not on the currently visible page then setting 'show = Tr
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
 'update' is called when user presses the Enter, 'modify' when the cell value is changed. By default it has standart modify method which updates rows data, it can be locked by
 setting 'edit = False' in Table constructor.
-They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_value(table, value) for accepting and return None.
+They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_value(table, value) for accepting the value and return None.
 ```
 def table_updated(table_, tabval):
     value, position = tabval
