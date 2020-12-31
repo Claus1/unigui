@@ -1,5 +1,5 @@
 # unigui #
-Universal App Browser Unigui
+Universal GUI and App Browser
 
 ### Purpose ###
 Provide a programming technology that does not require front-end programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning. 
