@@ -1,3 +1,5 @@
+from . import utils
+
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
@@ -122,7 +124,7 @@ class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
         self.check('rows', 'headers','value')
-        if not hasattr(self,'edit') or self.edit:
+        if not hasattr(self,'modify') and (not hasattr(self,'edit') or self.edit):
             self.modify = accept_value
 
     def selected_list(self):                            
@@ -167,10 +169,10 @@ class Screen(Gui):
         self.type = 'Screen'
 
     def check(self):
-        bl_names = set()
-        for bl in self.blocks:                        
+        bl_names = set()        
+        for bl in utils.flatten(self.blocks):                                    
             if bl.name in bl_names:
                 print(f'Error: screen {self.name} contains duplicated name {bl.name}!')
                 return
             bl_names.add(bl.name)
-        
+            bl.check()    

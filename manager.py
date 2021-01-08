@@ -179,7 +179,7 @@ class User:
             for e in self.screen.toolbar:
                 if e.name == path[1]:                
                     return e
-        for bl in self.blocks:
+        for bl in flatten(self.blocks):
             if bl.name == path[0]:
                 for c in itertools.chain(bl.top_childs, bl.childs):
                     if type(c) == list:
@@ -263,7 +263,7 @@ class User:
             else:
                 scr = self.screen
                 for bl in self.blocks:        
-                    if hasattr(bl, 'dispatch') and elem in flutten(bl.childs, bl.top_childs):
+                    if hasattr(bl, 'dispatch') and elem in flatten(bl.childs, bl.top_childs):
                         result = bl.dispatch(elem, val) 
                         break
                 else:

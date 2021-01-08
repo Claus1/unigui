@@ -11,6 +11,7 @@ def complete(_, value):
 
 def changed(_, value):
     _.value = value  
+    return Warning(f'{_.name} changed to {value}!')
 
 def table_modify(_, value):
     value, pos = value    
@@ -55,10 +56,16 @@ ld = {
 
 tree = Tree('Inharitance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
-tblock = Block('New block',                        
+eblock = Block('New block',                        
         [Button('Dialog', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
         Text('Text about cats'),
         Edit('Read only', 'Try to change me!', edit = False),
         Edit('Complete enter update field', 'Enter something', changed, complete = complete, update = updated)
-    , [tree, table])
+)
+
+treeblock = Block('Tree block',[], tree, icon = 'account_tree')
+
+tableblock = Block('Table + 1', [], table)
+
+config_area = [eblock, [treeblock, tableblock]]
 

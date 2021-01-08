@@ -29,10 +29,10 @@ def set_utils(appname_,user_dir_,port_,upload_dir_, translate_path_):
     if translate_path_:
         translate_path = translate_path_
 
-def flutten(*arr):
+def flatten(*arr):
     for a in arr:
         if isinstance(a, list):
-            yield from flutten(*a)
+            yield from flatten(*a)
         else:
             yield a
             

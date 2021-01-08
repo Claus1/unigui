@@ -1,5 +1,5 @@
 from unigui import *
-from blocks.tblock import tblock
+from blocks.tblock import config_area
 user = get_user()
 
 name = "Main"
@@ -44,7 +44,8 @@ block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs], 
+    ], [table, list_refs])
+bottom_block = Block('Bottom block', 
     [
         Button('Replace the logo', replace_image, type = 'gallery'),
         Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy'))
@@ -52,4 +53,4 @@ block = Block('X Block',
      image, 
     dispatch = block_dispatch)
 
-blocks= [block,tblock]
+blocks= [[block,bottom_block],config_area]
