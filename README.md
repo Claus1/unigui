@@ -127,6 +127,15 @@ def do_not_select_mode_x(_, value):
     return _.changed(_, value) #otherwise call the default handler
 ```
 
+#### Layout of blocks. #### 
+If the blocks are simply listed Unigui draws them from left to right or from top to bottom depending on the orientation setting. If a different layout is needed, it can be set according to the following rule: if the vertical area must contain more than one block, then the enumeration in the array will arrange the elements vertically one after another. If such an enumeration element is an array of blocks, then they will be drawn horizontally in the corresponding area.
+
+#### Example ####
+blocks = [ [b1,b2], [b3, [b4, b5]]]
+#[b1,b2] - the first vertical area, [b3, [b4, b5]] - the second one.
+
+![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
+
 ### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
 #### If the element name starts from _ , Unigui will not show its name on the screen. ####
