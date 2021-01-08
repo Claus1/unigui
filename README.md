@@ -134,7 +134,7 @@ If the blocks are simply listed Unigui draws them from left to right or from top
 blocks = [ [b1,b2], [b3, [b4, b5]]]
 #[b1,b2] - the first vertical area, [b3, [b4, b5]] - the second one.
 
-![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
+![alt text](https://github.com/Claus1/unigui/blob/main/tests/multiscreen.png?raw=true)
 
 ### Basic gui elements ###
 You have to know that class names are used only for programmer convenience and do not receive Unigui.
