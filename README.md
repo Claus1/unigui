@@ -110,7 +110,7 @@ If some elements enumerated inside an array, Unigui will display them on a line,
  
 Using a shared block in some screen:
 ```
-from blocks.tblock import *
+from blocks.tblock import concept_block
 ...
 blocks = [.., concept_block]
 ```
