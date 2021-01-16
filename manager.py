@@ -190,7 +190,7 @@ class User:
                         return c
 
     def find_path(self, elem):        
-        for bl in self.blocks:        
+        for bl in flatten(self.blocks):        
             if bl == elem:
                 return [bl.name]
             for c in itertools.chain(bl.top_childs, bl.childs):
@@ -265,7 +265,7 @@ class User:
                 result = elem.dispatch(elem, val)
             else:
                 scr = self.screen
-                for bl in self.blocks:        
+                for bl in flatten(self.blocks):        
                     if hasattr(bl, 'dispatch') and elem in flatten(bl.childs, bl.top_childs):
                         result = bl.dispatch(elem, val) 
                         break
