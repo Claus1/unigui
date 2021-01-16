@@ -1,12 +1,12 @@
 {
-    "name": "myapp",
-    "short_name": "myapp",
+    "name": "flutest",
+    "short_name": "flutest",
     "start_url": ".",
-    "display": "standalone",
+    "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "orientation": "landscape-primary",
     "prefer_related_applications": false,
     "icons": [
         {
