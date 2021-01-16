@@ -66,7 +66,7 @@ eblock = Block('New block',
 
 treeblock = Block('Tree block',[], tree, icon = 'account_tree')
 
-tableblock = Block('Table + 1', [], table)
+tableblock = Block('Table chart', [], table, icon = 'insert_chart_outlined')
 
 config_area = [eblock, [treeblock, tableblock]]
 

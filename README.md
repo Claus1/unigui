@@ -270,6 +270,15 @@ The 'changed' table handler accept the selected row number or id as a value.
 
 'editing' handler called when the user switch the table edit mode. it is optional and has signature editing(table, edit_mode_now) where the second parameter says the table is being edited or not.
 
+### Chart ###
+Chart is a table with additional Table constructor parameter 'view' which explaines unigui how to draw a chart.
+'{x index}-{y index1},{y index2}[,..]'
+'0-1,2,3' means that x axis values will be taken from 0 column, and y values from 1,2,3 columns of row data.
+'i-3,5' means that x axis values will be equal the row index in rows, and y values from 3,5 columns of rows data.
+If a table constructor got view = '...' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode.
+If a table constructor got type = 'view' in addition to view parameter the table will be displayed as chart on start.
+In the chart mode pushing the icon button on the top right switches back to table row mode.
+
 ### Signals ###
 Unigui supports a dedicated signal event handling mechanism. They are useful in table fields and shared blocks when the containing blocks and screens must respond to their elements without program linking. If a string in a table field started from @ then it considered as a signal. If the user clicks such field in non-edit mode then Unigui generates a signal event, which comes to dispatch function of its containters. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.
 

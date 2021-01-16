@@ -13,7 +13,7 @@ from . import userset
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify','$': 'params'}        
 
 class User:      
     def __init__(self):   
@@ -250,11 +250,14 @@ class User:
                 if id:                        
                     res = Answer(res, None, id)                
                 return res
-            else:
-                if sign == '=':
-                    if hasattr(elem,'value'): #exlude Buttons and others without 'value'
-                        elem.value = val                                        
-                    return                
+            elif sign == '=':
+                if hasattr(elem,'value'): #exlude Buttons and others without 'value'
+                    elem.value = val                                        
+                return                
+            elif sign == '$': #update element params
+                for param in val:
+                    setattr(elem, param, val[param])                                        
+                return                
 
         elif sign == '@': #reference
             result = False            
