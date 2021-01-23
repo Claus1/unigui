@@ -7,7 +7,9 @@ def updated(_, value):
     return Warning(f'{_.name} is updated to {value}!')        
 
 def complete(_, value):
-    return ['aaa', 'bbbb', 'cccccc']
+    if value and isinstance(value, str) and len(value) > 2 and value[0].isalpha():
+        return ['aaa', 'bbbb', 'cccccc']
+    return []
 
 def changed(_, value):
     _.value = value  
@@ -36,7 +38,7 @@ import random
 
 table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec', 'Stars'],
 rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
-append = append, complete = complete, update = table_update, modify = table_modify, delete = delete_row, view = 'i-1,2')
+append = append, complete = complete, modify = table_update, delete = delete_row, view = 'i-1,2')
 
 ld = { 
     'Animals' : None,

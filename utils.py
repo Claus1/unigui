@@ -12,6 +12,9 @@ def fn2url(fn):
     s =  f":{resource_port}/{fn}"
     return s.replace(' ','%20')
 
+def url2fn(url):
+    return url[url.find('/') + 1:].replace('%20',' ')
+    
 def translate_http_path(path):
     if '?' in path:
         path = path.split('?')[0]
