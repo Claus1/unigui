@@ -228,7 +228,7 @@ Image("Image", "some url", show_image_info, width = .., height = ..)
 Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
 ```
 unique_elems for the data without repeating names, it is dictionary {item_name:parent_name}. If 'unique_elems' defined then 'elems' is redundant.
-'elems' for data which can contains repeating names. it is array of arrays [item_name,item_key,parent_key].
+'elems' for data which can contain repeating names. it is array of arrays [item_name,item_key,parent_key].
 parent_name and parent_key are None for root items. changed_handler gets the tree object and item key as value which is the item name for unique items. 
 
 ### Table. ###
