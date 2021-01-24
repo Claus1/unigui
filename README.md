@@ -195,7 +195,7 @@ complete handler is optional function which accepts current value and return a s
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
 
-def get_complete_list(current_value):
+def get_complete_list(gui_element, current_value):
     return [s for s in vocab if current_value in s]    
 ```
 Can contain optional 'update' handler which is called when the user press Enter in the field.
@@ -319,6 +319,12 @@ class Hello_user(unigui.User):
 
 unigui.start('Hello app', user_type = Hello_user)
 ```
+In screens and blocks sources we can access the user by call get_user()
+```
+user = get_user()
+print(isinstance(user, Hello_user))
+```
+
 More info about User class methods you can find in manager.py in the root dir.
 
 Example is in tests folder.
