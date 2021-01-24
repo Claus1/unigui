@@ -191,7 +191,7 @@ Edit('Number field', 0.9) #for numbers
 ```
 If set edit = false it will be readonly field or text label.
 ```
-Edit('Number field', '', edit = false) 
+Edit('Some field', '', edit = false) 
 #is equal to
 Text('Some field')
 ```
@@ -208,12 +208,12 @@ It can return None or objects for updating as usual handler.
 
 #### Radio button ####
 ```
-Switch('Radio button', value = True) #value has to be boolean
+Switch('Radio button', value = True[,changed = ..]) #value has to be boolean, changed - optional
 ```
 
 #### Select group. Contains options field. ####
 ```
-Select('Select something', value = "choice1", options = ["choice1","choice2", "choice3"]) 
+Select('Select something', "choice1", options = ["choice1","choice2", "choice3"],changed = ..) # changed - optional as usual
 ```
 can be such type 'toggles','list','dropdown'. Unigui automatically choose between toogles and dropdown,
 but user can set type = 'list' then Unigui build it as vertical select list.
