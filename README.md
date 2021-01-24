@@ -185,15 +185,19 @@ handler_when_loading_finish(button_, handler_when_shooting_finish) where handler
 optional upload_dir parameter of unigui.start
 
 #### Edit and Text field. ####
+```
+Edit('Some field', '') #for string value
+Edit('Number field', 0.9) #for numbers
+```
 If set edit = false it will be readonly field or text label.
 ```
-Edit('Some field', '', edit = false) 
+Edit('Number field', '', edit = false) 
 #is equal to
 Text('Some field')
 ```
 complete handler is optional function which accepts current value and return a string list for autocomplete.
 ```
-Edit('Edit me', value = '', complete = get_complete_list) #value has to be string
+Edit('Edit me', value = '', complete = get_complete_list) #value has to be string or number
 
 def get_complete_list(gui_element, current_value):
     return [s for s in vocab if current_value in s]    
