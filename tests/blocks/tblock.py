@@ -57,7 +57,7 @@ ld = {
     'Very small Tarsier': 'Small Tarsier'
 }
 
-tree = Tree('Inharitance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
+tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
 eblock = Block('New block',                        
         [Button('Dialog', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],

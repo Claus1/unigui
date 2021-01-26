@@ -29,15 +29,16 @@ blocks = [block] #what to show on the screen
 
 The block example with a table and 2 selectors
 ```
-table = Table('Videos', headers = ['Video', 'Duration', 'Owner', 'Status', 'Links'],   rows = [
-    ['opt_sync1_3_0.mp4', '30 seconds', 'Admin', 'Processed', '@Signal 1'],
-    ['opt_sync1_3_0.mp4', '37 seconds', 'Admin', 'Processed', '@Signal 8']
-], value = 0)
+table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links'],rows = [
+    ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1'],
+    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8']    
+])
 #widgets are groped in blocks (complex widgets with logic)
-block = Block('X Block', 
-    [   Select('Select', value='All', options=['All','Based','Group']),
-        Select('Group', value='Group1', options=['Group 1','Group 2', 'Group 3'])
-    ], table)
+block = Block('X Block',
+    [           
+        Button('Clean table'),
+        Select('Select', value='All', options=['All','Based','Group'])
+    ], [table, list_refs], icon = 'api')
 ```
 
 ### Server start ###
@@ -67,10 +68,10 @@ When a user changes the value of the Gui object or presses Button, the server ca
 def clean_table(_, value):
     table.rows = []
     return table
-clean_button = Button('Clean the table’, changed = clean_table)
+clean_button = Button('Clean the table’, clean_table)
 ```
 
-‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to the 'value' variable og gui object.
+‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to the 'value' variable of gui object.
 
 If 'value' is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
@@ -84,7 +85,7 @@ def changed_range(_,value):
     #accept value othewise
     _.value = value
 
-edit = Edit('Range of involving', value = 0.6, changed = changed_range)
+edit = Edit('Range of involving', 0.6, changed_range)
 ```
 If the handler return None (or does not return anything) Unigui considers it as Ok.
 

@@ -44,7 +44,7 @@ block = Block('X Block',
     [           
         clean_button,
         selector,
-    ], [table, list_refs])
+    ], [table, list_refs], icon = 'api')
 bottom_block = Block('Bottom block', 
     [
         Button('Replace the logo', replace_image, type = 'gallery'),

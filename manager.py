@@ -133,7 +133,7 @@ class User:
         self.screen_module = self.screens[0]
         self.menu = [[s.name,s.icon] for s in self.screens]        
 
-        #remove user modules
+        #remove user modules from sys for repeating loading for new users
         for file in os.listdir(blocks_dir):
             if file.endswith(".py") and file != '__init__.py':
                 name = f'{blocks_dir}.{file[0:-3]}'
