@@ -7,9 +7,9 @@ icon = 'blur_linear'
 order = 0
 header = 'Test app'
 
-table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links'],rows = [
-    ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1'],
-    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8']    
+table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'],rows = [
+    ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1', True],
+    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]    
 ])
 
 def clean_table(_, value):
