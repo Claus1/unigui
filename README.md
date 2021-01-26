@@ -174,16 +174,16 @@ Special button which provide loading file from user device or computer to the se
 ```
 Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
 ```
-handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name in upload server folder == 
-optional upload_dir parameter of unigui.start
+handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name in upload server folder, which is
+optional upload_dir parameter in unigui.start.
 
 #### Camera Button ####
 Special button which provide to make photo on the user mobile device. On PC behaves as 'Load to server Button'.
 ```
 Button('Make photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
 ```
-handler_when_loading_finish(button_, handler_when_shooting_finish) where handler_when_shooting_finish is name in upload server folder == 
-optional upload_dir parameter of unigui.start
+handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name of the made photo in the server folder, which is 
+optional ==upload_dir parameter in unigui.start.
 
 #### Edit and Text field. ####
 ```
