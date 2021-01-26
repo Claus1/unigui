@@ -7,9 +7,14 @@ def updated(_, value):
     return Warning(f'{_.name} is updated to {value}!')        
 
 def complete(_, value):
+    value = value[0]
     if value and isinstance(value, str) and len(value) > 2 and value[0].isalpha():
         return ['aaa', 'bbbb', 'cccccc']
     return []
+
+def complete_edit(_, value):    
+    return ['value 21', 'sum 289', 'absolute 3']
+    
 
 def changed(_, value):
     _.value = value  
@@ -36,7 +41,7 @@ def delete_row(_,v):
 
 import random
 
-table = Table('Audios', -1, changed, headers = ['Audio', 'Duration,sec', 'Stars'],
+table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'],
 rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
 append = append, complete = complete, update = table_update, delete = delete_row, view = 'i-1,2')
 
@@ -63,12 +68,12 @@ eblock = Block('New block',
         [Button('Dialog', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
         Text('Text about cats'),
         Edit('Read only', 'Try to change me!', edit = False),
-        Edit('Complete enter update field', 'Enter something', changed, complete = complete, update = updated)
+        Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)
 )
 
 treeblock = Block('Tree block',[], tree, icon = 'account_tree')
 
-tableblock = Block('Table chart', [], table, icon = 'insert_chart_outlined')
+tableblock = Block('Table chart - push the chart button on the table..', [], table, icon = 'insights')
 
 config_area = [eblock, [treeblock, tableblock]]
 
