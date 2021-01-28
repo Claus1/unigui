@@ -307,6 +307,11 @@ UpdateError(updated_element, error_nessage)
 ```
 They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
 
+### Other subtle benefits of a single protocol across all platforms and languages. ###
+1. Work with any set of resource process servers as a single system, within the same GUI user space, carry out any available operations, including cross, on the fly, without programming.
+2. Reproduce and save sequences of user interaction with the system without programming. It can be used for complex testing, support of security protocols and more.
+3. Save and restore the state of the GU session of the user. Mirror a session to many other sessions, work simultaneously in one session. 
+
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically creates and serves an environment for every user.
