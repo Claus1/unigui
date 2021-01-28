@@ -310,7 +310,7 @@ They are returned by handlers and cause appearing on the top screen colored rect
 ### Other subtle benefits of a single protocol across all platforms and languages. ###
 1. Work with any set of resource process servers as a single system, within the same GUI user space, carry out any available operations, including cross, on the fly, without programming.
 2. Reproduce and save sequences of user interaction with the system without programming. It can be used for complex testing, support of security protocols and more.
-3. Save and restore the state of the GU session of the user. Mirror a session to many other sessions, work simultaneously in one session. 
+3. Save and restore the state of the unigui session of the user. Mirror a session to other users, work simultaneously in one session for many users. 
 
 
 ### Milti-user programming? You don't need it! ###
