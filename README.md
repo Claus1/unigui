@@ -38,7 +38,7 @@ block = Block('X Block',
     [           
         Button('Clean table'),
         Select('Select', value='All', options=['All','Based','Group'])
-    ], [table, list_refs], icon = 'api')
+    ], table, icon = 'api')
 ```
 
 ### Server start ###
@@ -174,7 +174,7 @@ Special button which provide loading file from user device or computer to the se
 ```
 Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
 ```
-handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name in upload server folder, which is
+handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is name in upload server folder, which is
 optional upload_dir parameter in unigui.start.
 
 #### Camera Button ####
@@ -248,7 +248,8 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
 ```
 If headers length is equal row length Unigui counts row id as an index in rows array.
 If row length length is headers length + 1, Unigui counts row id as the last row field.
-If table does not contain append, delete arguments, then it will be wrawn without add and remove icons.  value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
+If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
+value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 
 By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False in the Table constructor.
