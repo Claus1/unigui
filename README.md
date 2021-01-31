@@ -214,7 +214,7 @@ Switch('Radio button', value = True[,changed = ..]) #value has to be boolean, ch
 
 #### Select group. Contains options field. ####
 ```
-Select('Select something', "choice1", options = ["choice1","choice2", "choice3"],changed = ..) # changed - optional as usual
+Select('Select something', "choice1", selection_is_changed, options = ["choice1","choice2", "choice3"]) 
 ```
 can be such type 'toggles','list','dropdown'. Unigui automatically choose between toogles and dropdown,
 but user can set type = 'list' then Unigui build it as vertical select list.
@@ -307,7 +307,7 @@ UpdateError(updated_element, error_nessage)
 ```
 They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
 
-### Other subtle benefits of a single protocol across all platforms and languages. ###
+### Other subtle benefits of a Unigui protocol and technology. ###
 1. Work with any set of resource process servers as a single system, within the same GUI user space, carry out any available operations, including cross, on the fly, without programming.
 2. Reproduce and save sequences of user interaction with the system without programming. It can be used for complex testing, support of security protocols and more.
 3. Save and restore the state of the unigui session of the user. Mirror a session to other users, work simultaneously in one session for many users. 
@@ -339,7 +339,7 @@ More info about User class methods you can find in manager.py in the root dir.
 
 Example is in tests folder.
 
-The articles about Unigui:
+The articles about Unigui and its protocol in details:
 
 in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
 
