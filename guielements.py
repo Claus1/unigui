@@ -22,6 +22,12 @@ class Gui:
     def mutate(self, obj):
         self.__dict__ = obj.__dict__    
 
+    def accept(self, value):
+        if hasattr(self, 'changed'):
+            self.changed(self, value)
+        else:
+            self.value = value
+
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
@@ -116,7 +122,7 @@ class Tree(Select):
             str += el[0][0]
             self.options.append([str, el[0][1]])        
 
-def accept_value( _, val):
+def accept_rowvalue( _, val):
     value, position = val
     _.rows[position[0]][position[1]] = value    
 
@@ -125,10 +131,10 @@ class Table(Gui):
         super().__init__(*args, **kwargs)        
         self.check('rows', 'headers','value')
         if not hasattr(self,'modify') and (not hasattr(self,'edit') or self.edit):
-            self.modify = accept_value
+            self.modify = accept_rowvalue
 
     def selected_list(self):                            
-        return [self.value] if self.value != -1 else [] if type(self.value) == int else self.value    
+        return [self.value] if self.value != -1 else [] if type(self.value) == int else self.value   
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):

@@ -25,7 +25,7 @@ def table_modify(_, value):
     return Error(f'{_.name} {pos} is not modified to value {value}!')
 
 def table_update(_, value):    
-    accept_value(_, value)
+    accept_rowvalue(_, value)
     value, pos = value        
     return Info(f'{_.name} {pos} is updated to value {value}!')
 

@@ -150,6 +150,10 @@ Gui('Name', value = some_value, changed = changed_handler)
 #It is possible to use short form, that is equal:
 Gui('Name', some_value, changed_handler)
 ```
+calling the method 
+def accept(self, value) 
+causes  a call changed handler if it defined, otherwise just save value to self.value
+
 #### It is possible immediately to change any Gui object paramaters and even its type, i.e. a gui element can mutate to any other type. ####
 Mutation is usefull when we want to keep actual reference from the others elements but change it to a new required type.
 After mutation the handler has to return containing Block or UpdateScreen for automatic recalculating the block or the screen geometry.
@@ -262,7 +266,7 @@ If the selected row is not on the currently visible page then setting 'show = Tr
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
 'update' is called when user presses the Enter, 'modify' when the cell value is changed. By default it has standart modify method which updates rows data, it can be locked by
 setting 'edit = False' in Table constructor.
-They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_value(table, value) for accepting the value and return None.
+They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_rowvalue(table, value) for accepting the value.
 ```
 def table_updated(table_, tabval):
     value, position = tabval
@@ -270,7 +274,7 @@ def table_updated(table_, tabval):
     ...
     if error_found:
         return Error('Can not accept the value!')
-    accept_value(_, value)
+    accept_rowvalue(_, value)
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
