@@ -125,7 +125,7 @@ For example above interception of select_mode changed event will be:
 def do_not_select_mode_x(_, value):
     if value == 'mode_x':
         return UpdateError(_, 'Do not select mode_x')
-    return _.changed(_, value) #otherwise call the default handler
+    return _.accept(value) #otherwise accept the value
 ```
 
 #### Layout of blocks. #### 
@@ -200,7 +200,7 @@ Edit('Some field', '', edit = false)
 #is equal to
 Text('Some field')
 ```
-complete handler is optional function which accepts current value and return a string list for autocomplete.
+complete handler is optional function which accepts current value and returns a string list for autocomplete.
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string or number
 
