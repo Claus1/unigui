@@ -1,5 +1,6 @@
 # unigui #
 Universal GUI and App Browser
+    Python connector
 
 ### Purpose ###
 Provide a programming technology that does not require front-end programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning. 
@@ -14,7 +15,7 @@ The exchange protocol for the solution is JSON as the most universally accessibl
 
 ### Programming ###
 Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that.
-Unigui web version is included in this library. Unigui for mobile and native platforms are in another repos.
+Unigui web version is included in this library. 
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
@@ -71,7 +72,7 @@ def clean_table(_, value):
 clean_button = Button('Clean the table’, clean_table)
 ```
 
-‘changed’ handlers have to return Gui object or array of Gui object that were changed by handler and Unigui has to redraw or nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If Gui object doesn't have 'changed' handler the object accept incoming value automatically to the 'value' variable of gui object.
+‘changed’ handlers have to return Gui object or array of Gui objects that were changed by the handler and Unigui has to redraw or does nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If a Gui object doesn't have 'changed' handler the object accepts incoming value automatically to the 'value' variable of gui object.
 
 If 'value' is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
 
@@ -87,10 +88,10 @@ def changed_range(_,value):
 
 edit = Edit('Range of involving', 0.6, changed_range)
 ```
-If the handler return None (or does not return anything) Unigui considers it as Ok.
+If the handler returns None (or does not return anything) Unigui considers it as Ok.
 
 ### Block details ###
-The width and height of blocks is calculated automatically depending on their childs. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional.
+The width and height of blocks is calculated automatically depending on their children. It is possible to set the block width and make it scrollable in height, for example for images list. Possible to add MD icon to the header, if required. Width, scroll, .. are optional.
 ```
 block = Block(‘Pictures’,add_button, *images, width = 500, scroll = True,icon = 'api')
 ```
@@ -107,7 +108,7 @@ concept_block = Block('Concept block',
        Edit('Working folder','run_folder')
    ], result_table)
 ```
-If some elements enumerated inside an array, Unigui will display them on a line, otherwise everyone will be displayed on a new own line(s).
+If some elements are enumerated inside an array, Unigui will display them on a line, otherwise everyone will be displayed on a new own line(s).
  
 Using a shared block in some screen:
 ```
@@ -129,7 +130,7 @@ def do_not_select_mode_x(_, value):
 ```
 
 #### Layout of blocks. #### 
-If the blocks are simply listed Unigui draws them from left to right or from top to bottom depending on the orientation setting. If a different layout is needed, it can be set according to the following rule: if the vertical area must contain more than one block, then the enumeration in the array will arrange the elements vertically one after another. If such an enumeration element is an array of blocks, then they will be drawn horizontally in the corresponding area.
+If the blocks are simply listed Unigui draws them from left to right or from top to bottom depending on the orientation setting. If a different layout is needed, it can be set according to the following rule: if the vertical area must contain more than one block, then the enumeration in the array will arrange the elements vertically one after another. If such an element enumeration is an array of blocks, then they will be drawn horizontally in the corresponding area.
 
 #### Example ####
 blocks = [ [b1,b2], [b3, [b4, b5]]]
@@ -142,7 +143,7 @@ You have to know that class names are used only for programmer convenience and d
 #### If the element name starts from _ , Unigui will not show its name on the screen. ####
 if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
 
-#### All constructor parameters are optional for all Gui elements except the first - name. ####
+#### All constructor parameters are optional for all Gui elements except the first one - name. ####
 
 Common form for element constructors:
 ```
@@ -174,20 +175,19 @@ Icon button
 Button('_Check', push_callback, icon = 'check')
 ```
 #### Load to server Button ####
-Special button which provide loading file from user device or computer to the server.
+Special button provides file loading from user device or computer to the Unigui server.
 ```
 Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
 ```
-handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is name in upload server folder, which is
-optional upload_dir parameter in unigui.start.
+handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is a file name in upload server folder. This folder name is optional upload_dir parameter in unigui.start.
 
 #### Camera Button ####
-Special button which provide to make photo on the user mobile device. On PC behaves as 'Load to server Button'.
+Special button provides to make a photo on the user mobile device. 
 ```
-Button('Make photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
+Button('Make a photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
 ```
-handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is name of the made photo in the server folder, which is 
-optional ==upload_dir parameter in unigui.start.
+handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is the made photo name in the server folder. This folder name is an
+optional upload_dir parameter in unigui.start.
 
 #### Edit and Text field. ####
 ```
@@ -200,7 +200,7 @@ Edit('Some field', '', edit = false)
 #is equal to
 Text('Some field')
 ```
-complete handler is optional function which accepts current value and returns a string list for autocomplete.
+complete handler is optional function which accepts the current field value and returns a string list for autocomplete.
 ```
 Edit('Edit me', value = '', complete = get_complete_list) #value has to be string or number
 
@@ -220,8 +220,8 @@ Switch('Radio button', value = True[,changed = ..]) #value has to be boolean, ch
 ```
 Select('Select something', "choice1", selection_is_changed, options = ["choice1","choice2", "choice3"]) 
 ```
-can be such type 'toggles','list','dropdown'. Unigui automatically choose between toogles and dropdown,
-but user can set type = 'list' then Unigui build it as vertical select list.
+can be such type 'toggles','list','dropdown'. Unigui automatically chooses between toogles and dropdown,
+but the user can set type = 'list' then Unigui build it as vertical select list.
 
 #### Image. #### 
 width,changed and height are optional, changed is called if the user click or touch the image.
@@ -241,7 +241,7 @@ unique_elems for the data without repeating names, it is dictionary {item_name:p
 parent_name and parent_key are None for root items. changed_handler gets the tree object and item key as value which is the item name for unique items. 
 
 ### Table. ###
-Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode value is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
+Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode parameter is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status'],  
   rows = [
@@ -250,21 +250,22 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
   ], 
   multimode = false, update = update)
 ```
-If headers length is equal row length Unigui counts row id as an index in rows array.
-If row length length is headers length + 1, Unigui counts row id as the last row field.
+If 'headers' length is equal 'rows' length Unigui counts rows id as an index in rows array.
+If 'rows' length is 'headers' length + 1, Unigui counts rows id as the last row field.
+So it is possible to use some keys as row ids just by adding it to the row as the last element.
 If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
 value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 
-By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set tools = False in the Table constructor.
+By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set 'tools = False' in the Table constructor.
 
-Table has paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant and omitted.
+Table shows a paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant and omitted.
 
 If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
 ### Table handlers. ###
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
-'update' is called when user presses the Enter, 'modify' when the cell value is changed. By default it has standart modify method which updates rows data, it can be locked by
+'update' is called when the user presses the Enter, 'modify' when the cell value is changed by the user. By default it has standart modify method which updates rows data, it can be locked by
 setting 'edit = False' in Table constructor.
 They can return Error or Warning if the value is not accepted, othewise the handler has to call accept_rowvalue(table, value) for accepting the value.
 ```
@@ -278,11 +279,11 @@ def table_updated(table_, tabval):
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
-'editing' handler called when the user switch the table edit mode. it is optional and has signature editing(table, edit_mode_now) where the second parameter says the table is being edited or not.
+'editing' handler is called when the user switches the table edit mode. it is optional and has signature editing(table, edit_mode_now) where the second parameter says the table is being edited or not.
 
 ### Chart ###
 Chart is a table with additional Table constructor parameter 'view' which explaines unigui how to draw a chart. The format is '{x index}-{y index1},{y index2}[,..]'. '0-1,2,3' means that x axis values will be taken from 0 column, and y values from 1,2,3 columns of row data.
-'i-3,5' means that x axis values will be equal the row index in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'view' in addition to view parameter the table will be displayed as chart on start. In the chart mode pushing the icon button on the top right switches back to table row mode.
+'i-3,5' means that x axis values will be equal the row indexes in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'view' in addition to view parameter the table will be displayed as chart on start. In the chart mode pushing the icon button on the top right switches back to table row mode.
 
 ### Signals ###
 Unigui supports a dedicated signal event handling mechanism. They are useful in table fields and shared blocks when the containing blocks and screens must respond to their elements without program linking. If a string in a table field started from @ then it considered as a signal. If the user clicks such field in non-edit mode then Unigui generates a signal event, which comes to dispatch function of its containters. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.
@@ -303,7 +304,7 @@ def dicallback(current_dialog, bname):
 content can be filled by any Gui element sequence for additional dialog functionality.
 
 ### Popup windows ###
-They are intended for non-blocking display of error messages and informing about some events, for example, incorrect user input and the completion of a long process on the server.
+They are intended for non-blocking displaying of error messages and informing about some events, for example, incorrect user input and the completion of a long process on the server.
 ```
 Info(info_message)
 Warning(warning_message)
@@ -313,14 +314,14 @@ UpdateError(updated_element, error_nessage)
 They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
 
 ### Other subtle benefits of a Unigui protocol and technology. ###
-1. Work with any set of resource process servers as a single system, within the same GUI user space, carry out any available operations, including cross, on the fly, without programming.
-2. Reproduce and save sequences of user interaction with the system without programming. It can be used for complex testing, support of security protocols and more.
-3. Save and restore the state of the unigui session of the user. Mirror a session to other users, work simultaneously in one session for many users. 
+1. Works with any set of resource process servers as a single system, within the same GUI user space, carries out any available operations, including cross, on the fly, without programming.
+2. Reproduces and saves sequences of the user interaction with the system without programming. It can be used for complex testing, supporting of security protocols and more.
+3. Saves and restores the state of the unigui session of the user. Mirrors a session to other users, works simultaneously in one session for many users. 
 
 
 ### Milti-user programming? You don't need it! ###
 Unigui automatically creates and serves an environment for every user.
-The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for using history, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same thing about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui use the system User class and you do not need to point it. If we need special user class logic, we can define own inheritor User.
+The management class is User which contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui use the system User class and you do not need to point it. If we need special user class logic, we can define own inheritor User.
 ```
 class Hello_user(unigui.User):
     def __init__(self):
@@ -342,7 +343,7 @@ print(isinstance(user, Hello_user))
 
 More info about User class methods you can find in manager.py in the root dir.
 
-Example is in tests folder.
+Examples are in tests folder.
 
 The articles about Unigui and its protocol in details:
 
