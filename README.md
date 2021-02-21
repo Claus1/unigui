@@ -15,7 +15,7 @@ The exchange protocol for the solution is JSON as the most universally accessibl
 
 ### Programming ###
 Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that.
-Unigui web version is included in this library. 
+Unigui web version is included in this library. Unigui for Go is accesible in https://github.com/Claus1/unigui-go
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
