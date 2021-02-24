@@ -210,7 +210,7 @@ class User:
             if type(raw) == dict and 'update' in raw:
                 raw['update'] = self.find_path(raw['data'])
             elif isinstance(raw,Gui):
-                raw = {'update': self.find_path(raw), 'data': raw}
+                 raw = {'update': self.find_path(raw), 'data': raw}
             elif isinstance(raw, list) and all(isinstance(e,Gui) for e in raw):
                 raw = {'update': [self.find_path(e) for e in raw],'multi': True, 'data': raw}
         return raw

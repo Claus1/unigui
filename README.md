@@ -15,7 +15,7 @@ The exchange protocol for the solution is JSON as the most universally accessibl
 
 ### Programming ###
 Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that.
-Unigui web version is included in this library. Unigui for Go is accesible in https://github.com/Claus1/unigui-go
+Unigui web version is included in this library. Unigui for Go is accessible in https://github.com/Claus1/unigui-go
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
@@ -177,14 +177,14 @@ Button('_Check', push_callback, icon = 'check')
 #### Load to server Button ####
 Special button provides file loading from user device or computer to the Unigui server.
 ```
-Button('Load', handler_when_loading_finish, icon='photo_library', type = 'gallery')
+UploadButton('Load', handler_when_loading_finish, icon='photo_library')
 ```
 handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is a file name in upload server folder. This folder name is optional upload_dir parameter in unigui.start.
 
 #### Camera Button ####
 Special button provides to make a photo on the user mobile device. 
 ```
-Button('Make a photo', handler_when_shooting_finish, icon='camera_alt', type = 'camera')
+CameraButton('Make a photo', handler_when_shooting_finish, icon='camera_alt')
 ```
 handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is the made photo name in the server folder. This folder name is an
 optional upload_dir parameter in unigui.start.

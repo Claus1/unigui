@@ -46,6 +46,14 @@ class Button(Gui):
             self.changed = args[1]        
         for key in kwargs.keys():            
             self.add(key, kwargs[key])
+
+def CameraButton(name, handler,**kwargs):
+    kwargs['type'] = 'camera'
+    return Button(name, handler, **kwargs)
+
+def UploadButton(name, handler,**kwargs):
+    kwargs['type'] = 'gallery'
+    return Button(name, handler, **kwargs)
         
 class Image(Gui):
     '''has to contain file,width,height parameters'''

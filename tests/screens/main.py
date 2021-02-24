@@ -26,7 +26,6 @@ def block_dispatch(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]
     return list_refs
 
-
 @handle(selector,'changed')
 def selchanged(_, val):
     if val == 'Based':
@@ -47,7 +46,7 @@ block = Block('X Block',
     ], [table, list_refs], icon = 'api')
 bottom_block = Block('Bottom block', 
     [
-        Button('Replace the logo', replace_image, type = 'gallery'),
+        UploadButton('Replace the logo', replace_image),
         Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy'))
     ],
      image, 
