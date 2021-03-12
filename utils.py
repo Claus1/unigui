@@ -1,4 +1,6 @@
 import os 
+import jsonpickle
+import json
 
 resource_port = None
 appname = 'Unigui'
@@ -7,6 +9,10 @@ upload_dir = 'upload'
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
+
+def toJson(obj, indent, pretty_print):
+    return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
+        indent = indent, sort_keys = pretty_print)
 
 def fn2url(fn):      
     s =  f":{resource_port}/{fn}"

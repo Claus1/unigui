@@ -1,8 +1,6 @@
 import websockets
 import asyncio
 import traceback
-import jsonpickle
-import json
 import inspect
 from . import utils
 
@@ -55,7 +53,7 @@ class ReqHandler(SimpleHTTPRequestHandler):
                 return (False, "Can't create file to write, do you have permission to write?")
             return (True, "Files uploaded")
 
-        return (False,'Invalide header type!')
+        return (False,f'Invalide header type {ctype}!')
 
 def start_server(path, port=8000):
     '''Start a resource webserver serving path on port'''    
@@ -75,8 +73,7 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
     indent = 4 if pretty_print else None
     
     def jsonString(obj):
-        return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
-            indent = indent, sort_keys = pretty_print)
+        return toJson(obj, indent, pretty_print)
 
     async def session(websocket, path):
         address = websocket.remote_address
