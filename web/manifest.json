@@ -1,12 +1,12 @@
 {
-    "name": "flutest",
-    "short_name": "flutest",
+    "name": "fgui2",
+    "short_name": "fgui2",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
-    "orientation": "landscape-primary",
+    "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
