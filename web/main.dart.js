@@ -68918,7 +68918,7 @@ $.kQ=(s.a>s.b?C.a0k:C.vp)===C.vp}if($.j9==null)$.j9=!0
 if($.ut==null)$.ut=!0
 if($.kO==null)P.ez("reconnecting")
 s=$.kO
-if(s==null)s=$.kO="137.117.88.67"
+if(s==null)s=$.kO="localhost"
 if($.Sh==null){s=C.c.v6(":",s)
 s=s.gm(s)
 r=$.kO
