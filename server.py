@@ -106,5 +106,10 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
     print(f'Start {appname} server on {port} port..')
     asyncio.get_event_loop().run_until_complete(
         websockets.serve(session, '0.0.0.0', socket_port))
-    asyncio.get_event_loop().run_forever()
+    
+    while True:
+        try:
+            asyncio.get_event_loop().run_forever()
+        except:
+            print('Async core reloaded!')
 
