@@ -1,2 +1,2 @@
-recursive-include web/*
+recursive-include unigui/web *
 include *.py
