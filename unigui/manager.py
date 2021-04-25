@@ -9,6 +9,8 @@ import time
 from .guielements import *
 import sys
 from . import userset
+import asyncio
+from threading import Thread
 
 users = {}
 modules = {}
@@ -47,6 +49,19 @@ class User:
     def save_changes(self,*_):
         pass
 
+    def progress(self, str):
+        """open progress window if str != null else close it
+           making tread is only a way I found to send message immediately from the busy main thread
+        """        
+        loop = asyncio.new_event_loop()
+
+        def f(loop):
+            asyncio.set_event_loop(loop)
+            loop.run_until_complete(self.send({'progress': str}))
+
+        t = Thread(target=f, args=(loop,))
+        t.start()            
+        
     def undo_last_operation(self, *_):
         if self.undo_last_changes():            
             return True  

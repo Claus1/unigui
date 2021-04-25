@@ -82,6 +82,9 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
                 user = users[address]
             else:
                 user = user_type()
+                async def send(res):
+                    await websocket.send(jsonString(user.prepare_result(res)))
+                user.send = send 
                 user.load()
                 users[address] = user
                 await websocket.send(jsonString([user.menu,user.screen])) 
@@ -95,7 +98,7 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
                 data = json.loads(message)            
                 result = user.result4message(data)
                 if result:                
-                    await websocket.send(jsonString(user.prepare_result(result)))            
+                    await websocket.send(jsonString(user.prepare_result(result)))
         except Exception as e:
             if getattr(e,'code',0) != 1006: #client interruption
                 print(e,traceback.format_exc())              

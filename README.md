@@ -313,6 +313,10 @@ UpdateError(updated_element, error_nessage)
 ```
 They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
 
+For long time processes it is possible to create Progress window. It is just call user.progress in any place.
+Open window user.progress("Analyze .. Wait..")
+Close window user.progress(null)
+
 ### Other subtle benefits of a Unigui protocol and technology. ###
 1. Possible to works with any set of resource process servers as a single system, within the same GUI user space, carries out any available operations, including cross, on the fly.
 2. Reproduces and saves sequences of the user interaction with the system without programming. It can be used for complex testing, supporting of security protocols and more.
