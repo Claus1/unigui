@@ -259,8 +259,8 @@ class User:
                 result = handler(elem, val)                
                 return result
             
-            if hasattr(elem, smeth):
-                handler = getattr(elem, smeth)                                
+            handler = getattr(elem, smeth)                                
+            if handler:                
                 res = handler(elem, val)  
                 if id:                        
                     res = Answer(res, None, id)                

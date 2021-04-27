@@ -134,12 +134,33 @@ def accept_rowvalue( _, val):
     value, position = val
     _.rows[position[0]][position[1]] = value    
 
+def standart_table_delete(t, _):
+    if len(t.rows) == 0:
+        return
+    keyed = len(t.headers) < len(t.rows[0])
+    value = t.value
+    if isinstance(value, list):
+        if keyed:
+            t.rows = [row for row in t.rows if row[-1] not in value]
+        else:
+            t.rows = [row for i, row in enumerate(t.rows) if i not in value]
+        t.value = []
+    else:
+        if keyed:
+            t.rows = [row for row in t.rows if row[-1] != value]
+        else:
+            del t.rows[value]  
+        t.value = -1
+    return t  
+
 class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
         self.check('rows', 'headers','value')
         if not hasattr(self,'modify') and (not hasattr(self,'edit') or self.edit):
             self.modify = accept_rowvalue
+        if not hasattr(self,'delete'):
+            self.delete = standart_table_delete
 
     def selected_list(self):                            
         return [self.value] if self.value != -1 else [] if type(self.value) == int else self.value   
