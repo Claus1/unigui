@@ -259,7 +259,7 @@ class User:
                 result = handler(elem, val)                
                 return result
             
-            handler = getattr(elem, smeth)                                
+            handler = getattr(elem, smeth, False)                                
             if handler:                
                 res = handler(elem, val)  
                 if id:                        
