@@ -11,7 +11,7 @@ import io
 import cgi
 from .manager import * 
 
-class ReqHandler(SimpleHTTPRequestHandler):    
+class UniHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
         return
 
@@ -55,18 +55,18 @@ class ReqHandler(SimpleHTTPRequestHandler):
 
         return (False,f'Invalide header type {ctype}!')
 
-def start_server(path, port=8000):
+def start_server(path, httpHandler = UniHandler, port=8000):
     '''Start a resource webserver serving path on port'''    
-    httpd = HTTPServer(('', port), ReqHandler)    
+    httpd = HTTPServer(('', port), httpHandler)    
     httpd.serve_forever()                
 
 def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, 
-        socket_port = 1234, upload_dir = 'upload', translate_path = None):
+  httpHandler = UniHandler, socket_port = 1234, upload_dir = 'upload', translate_path = None):
     set_utils(appname,user_dir,port,upload_dir, translate_path)    
     
     pretty_print = pretty_print
 
-    daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', port))
+    daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', httpHandler, port))
     daemon.setDaemon(True)
     daemon.start()
 

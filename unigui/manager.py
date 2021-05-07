@@ -219,7 +219,7 @@ class User:
     def prepare_result(self, raw):
         if raw == UpdateScreen:
             raw = self.screen            
-            if hasattr(raw,'prepare'):
+            if getattr(raw,'prepare', False):
                 raw.prepare()
         else:
             if type(raw) == dict and 'update' in raw:
@@ -235,7 +235,7 @@ class User:
             for s in self.screens:
                 if s.name == arr[1]:
                     self.screen_module = s
-                    if hasattr(s.screen,'prepare'):
+                    if getattr(s.screen,'prepare', False):
                         s.screen.prepare()
                     return True
             return Error(f'Unknown menu {s.name}')
