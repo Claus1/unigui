@@ -69182,7 +69182,7 @@ $.kQ=(s.a>s.b?C.a0x:C.vx)===C.vx}if($.jb==null)$.jb=!0
 if($.uv==null)$.uv=!0
 if($.kO==null)P.ef("reconnecting")
 s=$.kO
-if(s==null)s=$.kO="http://3.94.99.28/"
+if(s==null)s=$.kO="3.94.99.28/"
 if($.Sq==null){s=C.c.vf(":",s)
 s=s.gm(s)
 r=$.kO
