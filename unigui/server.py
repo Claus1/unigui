@@ -5,6 +5,7 @@ import inspect
 from . import utils
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import urlparse
 import threading
 import os
 import io
@@ -21,6 +22,35 @@ class UniHandler(SimpleHTTPRequestHandler):
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
         SimpleHTTPRequestHandler.end_headers(self)    
+
+    def send_str(self, s):
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')        
+        self.end_headers()           
+        b = bytearray()
+        b.extend(map(ord, s))
+        self.wfile.write(b)
+
+    def create_get_fixed_main(self):
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/js')        
+        self.end_headers()           
+        if not hasattr(self, 'fixed_main'):
+            fn = f"{utils.webpath}/main.dart.js"
+            with open(fn, 'rb') as main:
+                b = main.read()
+                b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                self.fixed_main = b
+
+        self.wfile.write(self.fixed_main)
+
+    def do_GET(self):
+        if utils.socket_ip != 'localhost':
+            parsed = urlparse(self.path)
+            if parsed.path == '/main.dart.js':
+                return self.create_get_fixed_main()
+                    
+        return super().do_GET()  
         
     def do_POST(self):        
         r, info = self.deal_post_data()
@@ -60,9 +90,9 @@ def start_server(path, httpHandler = UniHandler, port=8000):
     httpd = HTTPServer(('', port), httpHandler)    
     httpd.serve_forever()                
 
-def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, 
+def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, socket_ip = 'localhost',
   httpHandler = UniHandler, socket_port = 1234, upload_dir = 'upload', translate_path = None):
-    set_utils(appname,user_dir,port,upload_dir, translate_path)    
+    set_utils(appname,user_dir,port,upload_dir, translate_path, socket_ip)    
     
     pretty_print = pretty_print
 
