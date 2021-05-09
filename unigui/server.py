@@ -35,12 +35,13 @@ class UniHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', 'application/js')        
         self.end_headers()           
-        if not hasattr(self, 'fixed_main'):
+        if not hasattr(UniHandler, 'fixed_main'):
             fn = f"{utils.webpath}/main.dart.js"
             with open(fn, 'rb') as main:
                 b = main.read()
                 b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
-                self.fixed_main = b
+                UniHandler.fixed_main = b
+                print(f"Fixed main created on ip {utils.socket_ip} created.")
 
         self.wfile.write(self.fixed_main)
 
