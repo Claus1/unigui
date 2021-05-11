@@ -41,8 +41,8 @@ class User:
         self.time_last_change = time.time()
         self.max_oper_time = 0.1  
 
-        self.tool_buttons = [Button('_Back', icon='arrow_back',changed=self.go_back), 
-            Button('_Forward', icon='arrow_forward',changed=self.go_forward),
+        self.tool_buttons = [Button('_Back', icon='arrow_back',changed=self.go_back, tooltip = 'Go back'), 
+            Button('_Forward', icon='arrow_forward',changed=self.go_forward, tooltip = 'Go back'),
             Button('_Undo', icon='undo', tooltip = 'Undo last operation',changed = self.undo_last_operation),
             Button('_Redo', icon='redo', tooltip = 'Redo last operation',changed = self.redo_last_operation)]
 
