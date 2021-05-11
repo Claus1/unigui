@@ -1,4 +1,6 @@
 from unigui import *
+import time
+user = get_user()
 
 def append(_,val):
     pass
@@ -30,10 +32,16 @@ def table_update(_, value):
     return Info(f'{_.name} {pos} is updated to value {value}!')
 
 def dialog_callback(_,button_name):
-    return Warning(f'Dialog: {button_name} pushed!')
+    perstr = lambda per : 'Process executing {}%'.format(per)
+    if button_name == 'Yes':
+        user.progress(perstr(0))
+        for i in range(100):
+            user.progress(perstr(i))
+            time.sleep(0.02)
+    return user.progress(None)
 
 def call_dialog(*_):
-    return Dialog('Dialog', 'Answer please..', dialog_callback, buttons = ['Yes','No'])
+    return Dialog('Dialog', 'Start a long process?', dialog_callback, buttons = ['Yes','No'])
 
 def delete_row(_,v):
     del _.rows[_.value]
@@ -65,7 +73,7 @@ ld = {
 tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
 eblock = Block('New block',                        
-        [Button('Dialog', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
+        [Button('Dialog for a process', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
         Text('Text about cats'),
         Edit('Read only', 'Try to change me!', edit = False),
         Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)

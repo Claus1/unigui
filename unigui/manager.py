@@ -171,9 +171,7 @@ class User:
                 return                    
             elif len(data) == 2: #button pressed
                 result = dialog.callback(dialog, data[1]) #data[1] == returned value
-                self.active_dialog = None 
-                if result is None:
-                    result = self.process(data) # rise up                   
+                self.active_dialog = None                                   
             else:
                 el = self.find_element(data)
                 if el:
@@ -237,8 +235,9 @@ class User:
                     self.screen_module = s
                     if getattr(s.screen,'prepare', False):
                         s.screen.prepare()
-                    return True
-            return Error(f'Unknown menu {s.name}')
+                    return True            
+            print(f'Unknown root command {s.name}')
+            return 
         elem = self.find_element(arr)
         #recursive for Signals
         while True:
