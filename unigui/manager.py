@@ -15,7 +15,16 @@ from threading import Thread
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify','$': 'params'}        
+sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify','$': 'params'}    
+
+#loop and thread for progress functionality
+loop = asyncio.new_event_loop()
+def f(loop):
+    asyncio.set_event_loop(loop)
+    loop.run_forever() 
+
+t = Thread(target=f, args=(loop,))
+t.start()  
 
 class User:      
     def __init__(self):   
@@ -53,15 +62,8 @@ class User:
         """open progress window if str != null else close it
            making tread is only a way I found to send message immediately from the busy main thread
         """        
-        loop = asyncio.new_event_loop()
-
-        def f(loop):
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(self.send({'progress': str}))
-
-        t = Thread(target=f, args=(loop,))
-        t.start()            
-        
+        asyncio.run_coroutine_threadsafe(self.send({'progress': str}), loop)
+                          
     def undo_last_operation(self, *_):
         if self.undo_last_changes():            
             return True  
