@@ -42,7 +42,7 @@ class User:
         self.max_oper_time = 0.1  
 
         self.tool_buttons = [Button('_Back', icon='arrow_back',changed=self.go_back, tooltip = 'Go back'), 
-            Button('_Forward', icon='arrow_forward',changed=self.go_forward, tooltip = 'Go back'),
+            Button('_Forward', icon='arrow_forward',changed=self.go_forward, tooltip = 'Go forward'),
             Button('_Undo', icon='undo', tooltip = 'Undo last operation',changed = self.undo_last_operation),
             Button('_Redo', icon='redo', tooltip = 'Redo last operation',changed = self.redo_last_operation)]
 
@@ -59,9 +59,7 @@ class User:
         pass
 
     def progress(self, str):
-        """open progress window if str != null else close it
-           making tread is only a way I found to send message immediately from the busy main thread
-        """        
+        """open or update progress window if str != null else close it  """        
         asyncio.run_coroutine_threadsafe(self.send({'progress': str}), loop)
                           
     def undo_last_operation(self, *_):
@@ -141,7 +139,7 @@ class User:
                 
                 if not screen.toolbar:
                     screen.toolbar = [*self.tool_buttons, Button('_Save model', icon='cloud_upload', 
-                        tooltip = 'Save model to disk',changed = screen.save)]
+                        tooltip = 'Save to disk',changed = screen.save)]
                                 
                 screen.check()                         
                 #del sys.modules[name]       
