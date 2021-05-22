@@ -13386,7 +13386,7 @@ if(b!=null)if(t.l.b(a))for(s=J.ae(a);s.t();)J.bI(s.gv(s),p,b)
 else J.bI(a,p,b)
 if(t.l.b(a))s=new A.yr(a,q)
 else{s=J.m(a)
-if(s.a1(a,"image"))s=new A.qG(s.h(a,"header"),a,q)
+if(s.a1(a,"image"))s=new A.qG(a,q)
 else if(s.h(a,"options")!=null)if(J.e(s.h(a,o),"list"))s=new A.r6(a,q)
 else s=new A.r5(J.DA(J.aI(s.h(a,"options")),4)||J.e(s.h(a,o),"toggles"),a,q)
 else if(s.a1(a,n))if(J.e(s.h(a,o),"view"))s=new O.t3(a,q)
@@ -13403,9 +13403,8 @@ return A.apf(r,p,q.h(a,s))},
 apf:function(a,b,c){var s=new A.r2(b,c,a,null)
 s.YH(a,b,c)
 return s},
-qG:function qG(a,b,c){this.e=a
-this.c=b
-this.a=c},
+qG:function qG(a,b){this.c=a
+this.a=b},
 OT:function OT(a){var _=this
 _.a=_.x=_.r=null
 _.b=a
@@ -71101,7 +71100,7 @@ j=J.e(J.w(q.a.c,"scroll"),!0)
 s=m!=null&&q.c!=null?3:4
 break
 case 3:if(j)l=null
-else{l=q.a.e==null?0:20
+else{l=J.w(q.a.c,"header")==null?0:20
 l=k.b-l}p=j?null:k.a
 o=M.ap9(null,null,new M.lz(m,1))
 n=new U.q5(o,p,l,null)
@@ -71144,12 +71143,11 @@ break
 case 1:return P.a8(q,r)
 case 2:return P.a7(o,r)}})
 return P.a9($async$wH,r)},
-F:function(a,b){var s,r=this,q=null,p=r.x,o=J.w(r.a.c,"image")
-if(p==null?o!=null:p!==o)r.Pm()
-p=r.r
-s=R.jD(!1,!0,M.aN(q,p,q,q,q,q,q,q,q),q,!0,q,q,q,q,q,q,q,q,q,new A.ada(r),q,q,q)
-o=r.a.e
-return o!=null&&p!=null?M.aN(q,T.fO(H.c([L.bW(o,q,q,q,q,q,q,q,q),s],t.t),C.L,C.V,C.P,C.ap),q,q,q,q,q,q,q):s}}
+F:function(a,b){var s,r,q=this,p=null,o=q.x,n=J.w(q.a.c,"image")
+if(o==null?n!=null:o!==n)q.Pm()
+s=R.jD(!1,!0,M.aN(p,q.r,p,p,p,p,p,p,p),p,!0,p,p,p,p,p,p,p,p,p,new A.ada(q),p,p,p)
+r=J.w(q.a.c,"header")
+return r!=null&&q.r!=null?M.aN(p,T.fO(H.c([L.bW(r,p,p,p,p,p,p,p,p),s],t.t),C.L,C.V,C.P,C.ap),p,p,p,p,p,p,p):s}}
 A.adb.prototype={
 $0:function(){this.a.r=this.b},
 $S:2}
