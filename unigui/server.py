@@ -41,7 +41,7 @@ class UniHandler(SimpleHTTPRequestHandler):
                 b = main.read()
                 b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
                 UniHandler.fixed_main = b
-                print(f"Fixed main created on ip {utils.socket_ip} created.")
+                print(f"Fixed main created on ip {utils.socket_ip}.")
 
         self.wfile.write(self.fixed_main)
 

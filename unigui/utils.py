@@ -78,6 +78,13 @@ def Update(data):
 def UpdateError(data, message):
     return {'data': data, 'error':message, 'update': None}
 
+def UpdateInfo(data, message):
+    return {'data': data, 'info':message, 'update': None}
+
+def UpdateWarning(data, message):
+    return {'data': data, 'warning':message, 'update': None}
+
+
 def upload_path(fpath):
     return f'{os.getcwd()}/{upload_dir}/{fpath}'
 

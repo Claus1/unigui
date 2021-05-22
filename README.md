@@ -275,7 +275,7 @@ def table_updated(table_, tabval):
     ...
     if error_found:
         return Error('Can not accept the value!')
-    accept_rowvalue(_, value)
+    accept_rowvalue(table_, tabval)
 ```
 The 'changed' table handler accept the selected row number or id as a value.
 
