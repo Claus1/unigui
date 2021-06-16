@@ -131,19 +131,21 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
                 if result:                
                     await websocket.send(jsonString(user.prepare_result(result)))
         except Exception as e:
+            print('Session exception!')
             if getattr(e,'code',0) != 1006: #client interruption
                 print(e,traceback.format_exc())              
         finally:        
             if address in users:
                 del users[address]    
 
-    print(f'Start {appname} server on {port} port..')
-    asyncio.get_event_loop().run_until_complete(
-        websockets.serve(session, '0.0.0.0', socket_port))
+    print(f'Start {appname} server on {port} port..')    
     
     while True:
         try:
+            asyncio.get_event_loop().run_until_complete(
+                websockets.serve(session, '0.0.0.0', socket_port))
             asyncio.get_event_loop().run_forever()
-        except:
+        except Exception as e:
+            print(e,traceback.format_exc()) 
             print('Async core reloaded!')
 

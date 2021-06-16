@@ -315,9 +315,8 @@ They are returned by handlers and cause appearing on the top screen colored rect
 
 For long time processes it is possible to create Progress window. It is just call user.progress in any place.
 Open window user.progress("Analyze .. Wait..")
-Update window message user.progress("Analysis 1% is done.."
-Close window user.progress(None)
-If you forget to close window it will stay on the screen forever.)
+Update window message user.progress(" 1% is done..")
+Close window user.progress(None) or automatically when the handler returns something.
 
 ### Other subtle benefits of a Unigui protocol and technology. ###
 1. Possible to works with any set of resource process servers as a single system, within the same GUI user space, carries out any available operations, including cross, on the fly.
