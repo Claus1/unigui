@@ -39,16 +39,19 @@ class UniHandler(SimpleHTTPRequestHandler):
             fn = f"{utils.webpath}/main.dart.js"
             with open(fn, 'rb') as main:
                 b = main.read()
-                b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                if utils.socket_ip != 'localhost':
+                    b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                if utils.resource_port != 8000:
+                    b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
                 UniHandler.fixed_main = b
-                print(f"Fixed main created on ip {utils.socket_ip}.")
+                print(f"Fixed main created on ip {utils.socket_ip}, port {utils.resource_port}.")
 
         self.wfile.write(self.fixed_main)
 
     def do_GET(self):
-        if utils.socket_ip != 'localhost':
-            parsed = urlparse(self.path)
-            if parsed.path == '/main.dart.js':
+        parsed = urlparse(self.path)
+        if parsed.path == '/main.dart.js':
+            if utils.socket_ip != 'localhost' or utils.resource_port != 8000:                            
                 return self.create_get_fixed_main()
                     
         return super().do_GET()  
