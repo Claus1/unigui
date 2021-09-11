@@ -84,7 +84,7 @@ class Select(Gui):
 class Tree(Select):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)         
-        self.type = 'list' #for GUI
+        self.type = 'tree' #for GUI
         if hasattr(self,'unique_elems'):
             self.set_unique_strings(self.unique_elems) #unique_elems has to be dict{item_name:parent_name}
         elif hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
@@ -201,7 +201,7 @@ class Screen(Gui):
         self.name = args[0]        
         for key in kwargs.keys():            
             self.add(key, kwargs[key])   
-        self.type = 'Screen'
+        self.type = 'screen'
 
     def check(self):
         bl_names = set()        

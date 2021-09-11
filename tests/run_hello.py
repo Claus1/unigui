@@ -1,10 +1,10 @@
 import sys
 import os
 
-#wd = os.getcwd()
+wd = os.getcwd()
 #add 2 path if unigui not installed
-#print(wd[:wd.find('/unigui')] + '/unigui')
-#sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
+print(wd[:wd.find('/unigui')] + '/unigui')
+sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
 
 import unigui
 
