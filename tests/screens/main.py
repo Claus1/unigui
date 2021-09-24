@@ -32,12 +32,12 @@ def selchanged(_, val):
         return UpdateError(_,'Select can not be Based!')
     _.value = val    
 
-image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
+#image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
 
 def replace_image(_, iname):
     print(iname)
-    image.image = fn2url(f'images/{iname}')
-    return image
+    #image.image = fn2url(f'images/{iname}')
+    #return image
 
 block = Block('X Block',
     [           
@@ -45,11 +45,11 @@ block = Block('X Block',
         selector,
     ], [table, list_refs], icon = 'api')
 bottom_block = Block('Bottom block', 
-    [
-        UploadButton('Replace the logo', replace_image),
+    [        
         Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy'))
     ],
-     image, 
+    UploadButton('Replace the logo', replace_image),
+     #image, 
     dispatch = block_dispatch)
 
 blocks= [[block,bottom_block],config_area]

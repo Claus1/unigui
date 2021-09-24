@@ -15,7 +15,7 @@ def complete(_, value):
     return []
 
 def complete_edit(_, value):    
-    return ['value 21', 'sum 289', 'absolute 3']
+    return [v for v in ['value 21', 'sum 289', 'absolute 3'] if value in v]
     
 
 def changed(_, value):
@@ -49,7 +49,7 @@ def delete_row(_,v):
 
 import random
 
-table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'],
+table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
 rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
 append = append, complete = complete, update = table_update, delete = delete_row, view = 'i-1,2')
 
@@ -81,7 +81,7 @@ eblock = Block('New block',
 
 treeblock = Block('Tree block',[], tree, icon = 'account_tree')
 
-tableblock = Block('Table chart - push the chart button on the table..', [], table, icon = 'insights')
+tableblock = Block('Table chart - push the chart button..', [], table, icon = 'insights')
 
 config_area = [eblock, [treeblock, tableblock]]
 

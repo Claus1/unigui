@@ -21,6 +21,8 @@ class UniHandler(SimpleHTTPRequestHandler):
 
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
+        #self.send_header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+        #self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
         SimpleHTTPRequestHandler.end_headers(self)    
 
     def send_str(self, s):
