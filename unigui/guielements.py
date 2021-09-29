@@ -1,5 +1,7 @@
 from . import utils
 
+default = 'default'
+
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
@@ -150,20 +152,20 @@ def standart_table_delete(t, _):
             t.rows = [row for row in t.rows if row[-1] != value]
         else:
             del t.rows[value]  
-        t.value = -1
+        t.value = None
     return t  
 
 class Table(Gui):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, delete = default, modify = default, **kwargs):
         super().__init__(*args, **kwargs)        
         self.check('rows', 'headers','value')
-        if not hasattr(self,'modify') and (not hasattr(self,'edit') or self.edit):
-            self.modify = accept_rowvalue
-        if not hasattr(self,'delete'):
-            self.delete = standart_table_delete
+        if modify != None:
+            self.modify = accept_rowvalue if modify == default else modify
+        if delete != None:
+            self.delete = standart_table_delete if delete == default else delete
 
     def selected_list(self):                            
-        return [self.value] if self.value != -1 else [] if type(self.value) == int else self.value   
+        return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):

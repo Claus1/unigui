@@ -185,7 +185,8 @@ class User:
 
     @property
     def blocks(self):
-        return [self.active_dialog.content] if self.active_dialog and self.active_dialog.content else self.screen.blocks
+        return [self.active_dialog.content] if self.active_dialog and \
+            self.active_dialog.content else self.screen.blocks
 
     def find_element(self, path):       
         if path[0] == 'toolbar':

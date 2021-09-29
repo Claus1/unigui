@@ -1,9 +1,16 @@
 from unigui import *
 import time
+import random
+
 user = get_user()
 
+
 def append(_,val):
-    pass
+    ''' append has to return new row or error string'''
+    id, search = val
+    new = [search, '', '']
+    _.rows.append(new)
+    return new
 
 def updated(_, value):
     return Warning(f'{_.name} is updated to {value}!')        
@@ -15,8 +22,7 @@ def complete(_, value):
     return []
 
 def complete_edit(_, value):    
-    return [v for v in ['value 21', 'sum 289', 'absolute 3'] if value in v]
-    
+    return [v for v in ['value 21', 'sum 289', 'absolute 3'] if value in v]    
 
 def changed(_, value):
     _.value = value  
@@ -44,10 +50,12 @@ def call_dialog(*_):
     return Dialog('Dialog', 'Start a long process?', dialog_callback, buttons = ['Yes','No'])
 
 def delete_row(_,v):
-    del _.rows[_.value]
+    if isinstance(v, list):
+        for i in v:
+            del _.rows[i]
+    else:
+        del _.rows[v]
     return _
-
-import random
 
 table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
 rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
