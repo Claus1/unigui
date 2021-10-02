@@ -37,17 +37,17 @@ def table_update(_, value):
     value, pos = value        
     return Info(f'{_.name} {pos} is updated to value {value}!')
 
-def dialog_callback(_,button_name):
+def dialog_callback(_,value):
     perstr = lambda per : 'Process executing {}%'.format(per)
-    if button_name == 'Yes':
+    if value:
         user.progress(perstr(0))
         for i in range(100):
             user.progress(perstr(i))
-            time.sleep(0.02)
-    return user.progress(None)
+            time.sleep(0.04)
+        return user.progress(None)
 
 def call_dialog(*_):
-    return Dialog('Dialog', 'Start a long process?', dialog_callback, buttons = ['Yes','No'])
+    return Dialog('Dialog', dialog_callback, 'Start a long process?')
 
 def delete_row(_,v):
     if isinstance(v, list):
@@ -87,7 +87,10 @@ eblock = Block('New block',
         Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)
 )
 
-treeblock = Block('Tree block',[], tree, icon = 'account_tree')
+def switch(_, val):
+    return Info(f'Switched to {val}')
+
+treeblock = Block('Tree block',[Switch('My switch', True, switch)], tree, icon = 'account_tree')
 
 tableblock = Block('Table chart - push the chart button..', [], table, icon = 'insights')
 

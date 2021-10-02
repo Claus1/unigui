@@ -170,6 +170,7 @@ class Table(Gui):
 class Block(Gui):
     def __init__(self, *args, **kwargs):
         self.name = args[0]        
+        self.type = 'block'
         for key in kwargs.keys():            
             self.add(key, kwargs[key])
         la = len(args) 
@@ -183,21 +184,21 @@ class Block(Gui):
             if isinstance(child, list) or isinstance(child, tuple):
                 for sub in child:                                        
                     if sub.name in ch_names:                        
-                        raise Exception(f'Error: block {self.name} contains duplicated name {sub.name}!')                        
+                        raise Exception(f'Error: the block {self.name} contains a duplicated name {sub.name}!')                        
                     ch_names.add(sub.name)
             else:
                 if child.name in ch_names:
-                    raise Exception(f'Error: block {self.name} contains duplicated name {child.name}!')                    
+                    raise Exception(f'Error: the block {self.name} contains a duplicated name {child.name}!')                    
                 ch_names.add(child.name)
 
 class Dialog:  
-    def __init__(self, name, text, callback, buttons,  content = None):
+    def __init__(self, name, callback, text = '', *content):
         self.name = name
+        self.callback = callback  
+        self.type = 'dialog'
         self.text = text
-        self.content = Block('root',[], *content, dialog = True) if content else None
-        self.buttons = buttons
-        self.callback = callback        
-        
+        self.content = Block('root',[], *content, dialog = True) if content else None        
+                     
 class Screen(Gui):
     def __init__(self, *args, **kwargs):
         self.name = args[0]        
@@ -209,7 +210,6 @@ class Screen(Gui):
         bl_names = set()        
         for bl in utils.flatten(self.blocks):                                    
             if bl.name in bl_names:
-                print(f'Error: screen {self.name} contains duplicated name {bl.name}!')
-                return
+                raise Exception(f'Error: the screen {self.name} contains a duplicated name {bl.name}!')                
             bl_names.add(bl.name)
             bl.check()    
