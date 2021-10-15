@@ -16,7 +16,7 @@ def toJson(obj, indent, pretty_print):
         indent = indent, sort_keys = pretty_print)
 
 def fn2url(fn):      
-    s =  f":{resource_port}/{fn}"
+    s =  fn #f":{resource_port}/{fn}"
     return s.replace(' ','%20')
 
 def url2fn(url):

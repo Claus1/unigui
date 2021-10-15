@@ -166,12 +166,11 @@ class User:
         result = None
         dialog = self.active_dialog
         if dialog:
-            if (data[0] == 'root' and data[1] is None):
+            if (data[0] == 'root' and not data[1]): #closed
                 self.active_dialog = None
-                return                    
-            elif len(data) == 2: #button pressed
-                result = dialog.callback(dialog, data[1]) #data[1] == returned value
-                self.active_dialog = None                                   
+                return    
+            if len(data) == 2: #button pressed
+                result = dialog.callback(dialog, data[1]) #data[1] == returned value                
             else:
                 el = self.find_element(data)
                 if el:

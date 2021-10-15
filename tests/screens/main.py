@@ -24,7 +24,7 @@ list_refs = Select('Detail ref list signals', type = 'list', options = ['Select 
 
 def block_dispatch(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]
-    return list_refs
+    return block
 
 @handle(selector,'changed')
 def selchanged(_, val):

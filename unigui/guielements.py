@@ -61,6 +61,7 @@ class Image(Gui):
     '''has to contain file,width,height parameters'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.type='image'
         if not hasattr(self,'width'):
             self.width = 500.0
         if not hasattr(self,'height'):
@@ -192,12 +193,13 @@ class Block(Gui):
                 ch_names.add(child.name)
 
 class Dialog:  
-    def __init__(self, name, callback, text = '', *content):
+    def __init__(self, name, callback, *content, buttons = ['Ok', 'Cancel'], icon = 'not_listed_location'):
         self.name = name
         self.callback = callback  
-        self.type = 'dialog'
-        self.text = text
-        self.content = Block('root',[], *content, dialog = True) if content else None        
+        self.type = 'dialog'         
+        self.buttons = buttons
+        
+        self.content = Block(name,[], *content, dialog = True, icon = icon) 
                      
 class Screen(Gui):
     def __init__(self, *args, **kwargs):
