@@ -15,7 +15,9 @@ def toJson(obj, indent, pretty_print):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
         indent = indent, sort_keys = pretty_print)
 
-def fn2url(fn):      
+def fn2url(fn):   
+    if fn[0] == '/':
+        fn = fn[len(app_user_dir):]   
     s =  fn #f":{resource_port}/{fn}"
     return s.replace(' ','%20')
 
