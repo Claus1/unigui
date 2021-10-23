@@ -7,7 +7,7 @@ icon = 'blur_linear'
 order = 0
 header = 'Test app'
 
-table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'],rows = [
+table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'], tools = False, rows = [
     ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1', True],
     ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]    
 ])
