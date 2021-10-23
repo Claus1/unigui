@@ -120,6 +120,7 @@ def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = F
                 user = user_type()
                 async def send(res):
                     await websocket.send(jsonString(user.prepare_result(res)))
+                    await asyncio.sleep(1)
                 user.send = send 
                 user.load()
                 users[address] = user

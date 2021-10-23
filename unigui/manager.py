@@ -58,9 +58,13 @@ class User:
     def save_changes(self,*_):
         pass
 
-    def progress(self, str):
-        """open or update progress window if str != null else close it  """        
-        asyncio.run_coroutine_threadsafe(self.send({'progress': str}), loop)
+    def progress(self, str, *updates):
+        """open or update progress window if str != null else close it  """     
+        d = {'progress': str}
+        if updates:
+            d['update'] = None            
+            d['data'] = updates            
+        asyncio.run_coroutine_threadsafe(self.send(d), loop)
                           
     def undo_last_operation(self, *_):
         if self.undo_last_changes():            
@@ -221,7 +225,11 @@ class User:
                 raw.prepare()
         else:
             if type(raw) == dict and 'update' in raw:
-                raw['update'] = self.find_path(raw['data'])
+                if isinstance(raw['data'], (list,tuple)):
+                    raw['multi'] = True
+                    raw['update'] = [self.find_path(e) for e in raw['data']]
+                else:
+                    raw['update'] = self.find_path(raw['data'])
             elif isinstance(raw,Gui):
                  raw = {'update': self.find_path(raw), 'data': raw}
             elif isinstance(raw, list) and all(isinstance(e,Gui) for e in raw):

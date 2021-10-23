@@ -42,12 +42,13 @@ def dialog_callback(_,value):
     if value:
         user.progress(perstr(0))
         for i in range(100):
-            user.progress(perstr(i))
+            txt.value = i
+            user.progress(perstr(i), txt)
             time.sleep(0.04)
         return user.progress(None)
 
 def call_dialog(*_):
-    return Dialog('Dialog', dialog_callback, 'Start a long process?')
+    return Dialog('Start a long process?', dialog_callback)
 
 def delete_row(_,v):
     if isinstance(v, list):
@@ -80,9 +81,11 @@ ld = {
 
 tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
 
+txt = Text('Text about cats')
+
 eblock = Block('New block',                        
         [Button('Dialog for a process', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
-        Text('Text about cats'),
+        txt,
         Edit('Read only', 'Try to change me!', edit = False),
         Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)
 )
