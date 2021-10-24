@@ -68,22 +68,22 @@ def Answer(data, param, id):
 def Error(message, *data):
     d = {'error':message}
     if data:
-        d.data = data
-        d.update = None
+        d['data'] = data
+        d['update'] = None
     return d
 
 def Info(message, *data):
     d = {'info':message}
     if data:
-        d.data = data
-        d.update = None
+        d['data'] = data
+        d['update'] = None
     return d
     
 def Warning(message, *data):
     d = {'warning':message}
     if data:
-        d.data = data
-        d.update = None
+        d['data'] = data
+        d['update'] = None
     return d    
 
 def Update(data):
