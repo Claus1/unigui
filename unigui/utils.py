@@ -65,27 +65,29 @@ def handle(elem, event):
 def Answer(data, param, id):
     return {'answer': data,'param': param, 'id' : id}
 
-def Error(message):
-    return {'error':message}
+def Error(message, *data):
+    d = {'error':message}
+    if data:
+        d.data = data
+        d.update = None
+    return d
 
-def Info(message):
-    return {'info':message}
-
-def Warning(message):
-    return {'warning':message}
+def Info(message, *data):
+    d = {'info':message}
+    if data:
+        d.data = data
+        d.update = None
+    return d
+    
+def Warning(message, *data):
+    d = {'warning':message}
+    if data:
+        d.data = data
+        d.update = None
+    return d    
 
 def Update(data):
     return {'data': data,'update': None}
-
-def UpdateError(data, message):
-    return {'data': data, 'error':message, 'update': None}
-
-def UpdateInfo(data, message):
-    return {'data': data, 'info':message, 'update': None}
-
-def UpdateWarning(data, message):
-    return {'data': data, 'warning':message, 'update': None}
-
 
 def upload_path(fpath):
     return f'{os.getcwd()}/{upload_dir}/{fpath}'
