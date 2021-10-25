@@ -23,6 +23,9 @@ def fn2url(fn):
 
 def url2fn(url):
     return url[url.find('/') + 1:].replace('%20',' ')
+
+def upload_fn(fn):
+    return f'{upload_dir}/{fn}'     
     
 def translate_http_path(path):
     if '?' in path:

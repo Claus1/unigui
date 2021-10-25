@@ -29,7 +29,7 @@ def block_dispatch(_, ref):
 @handle(selector,'changed')
 def selchanged(_, val):
     if val == 'Based':
-        return UpdateError(_,'Select can not be Based!')
+        return Error('Select can not be Based!',_)
     _.value = val    
 
 #image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
