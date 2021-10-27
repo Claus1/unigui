@@ -11,6 +11,7 @@ import os
 import io
 import cgi
 from .manager import * 
+import requests
 
 class UniHandler(SimpleHTTPRequestHandler):    
     def log_message(self, format, *args):
@@ -18,6 +19,25 @@ class UniHandler(SimpleHTTPRequestHandler):
 
     def translate_path(self, path):        
         return utils.translate_path(path)
+
+    @staticmethod
+    def cache_name(url):    
+        name = url.split('/')[-1]
+        name = utils.upload_path(name)
+        return name
+        
+    @staticmethod
+    def cache_url(url):
+        "returns cached name of url image"
+        cname = UniHandler.cache_name(url)
+        if not os.path.exists(cname):
+            response = requests.get(url)
+            if response.status_code != 200:
+                return None
+            file = open(cname, "wb")
+            file.write(response.content)
+            file.close() 
+        return cname
 
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
@@ -33,30 +53,32 @@ class UniHandler(SimpleHTTPRequestHandler):
         b.extend(map(ord, s))
         self.wfile.write(b)
 
-    def create_get_fixed_main(self):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/js')        
-        self.end_headers()           
-        if not hasattr(UniHandler, 'fixed_main'):
-            fn = f"{utils.webpath}/main.dart.js"
-            with open(fn, 'rb') as main:
-                b = main.read()
-                if utils.socket_ip != 'localhost':
-                    b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
-                if utils.resource_port != 8000:
-                    b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
-                UniHandler.fixed_main = b
-                print(f"Fixed main created on ip {utils.socket_ip}, port {utils.resource_port}.")
-
-        self.wfile.write(self.fixed_main)
+    @staticmethod
+    def create_fixed_js():
+        dir = f"{utils.webpath}/js"        
+        for file in os.listdir(dir):
+            fn = f'{dir}/{file}'
+            if file[0].isdigit() and file.endswith(".js") and os.path.getsize(fn) > 25000:
+                UniHandler.fix_file = f'/js/{file}'
+                with open(fn, 'rb') as main:
+                    b = main.read()
+                    if utils.socket_ip != 'localhost':
+                        b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                    if utils.resource_port != 8000:
+                        b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
+                    UniHandler.fixed_main = b
+                    print(f"Fixed {file} created on ip {utils.socket_ip}, port {utils.resource_port}.")
+                    break
 
     def do_GET(self):
         parsed = urlparse(self.path)
-        if parsed.path == '/main.dart.js':
-            if utils.socket_ip != 'localhost' or utils.resource_port != 8000:                            
-                return self.create_get_fixed_main()
-                    
-        return super().do_GET()  
+        if parsed.path == UniHandler.fix_file:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/js')        
+            self.end_headers()           
+            self.wfile.write(self.fixed_main)
+        else:                        
+            return super().do_GET()  
         
     def do_POST(self):        
         r, info = self.deal_post_data()
@@ -99,6 +121,11 @@ def start_server(path, httpHandler = UniHandler, port=8000):
 def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, socket_ip = 'localhost',
   httpHandler = UniHandler, socket_port = 1234, upload_dir = 'upload', translate_path = None):
     set_utils(appname,user_dir,port,upload_dir, translate_path, socket_ip)    
+
+    if utils.socket_ip != 'localhost' or utils.resource_port != 8000:
+        UniHandler.create_fixed_js()
+    else:
+        UniHandler.fix_file = None
     
     pretty_print = pretty_print
 
