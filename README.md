@@ -306,12 +306,11 @@ content can be filled by any Gui element sequence for additional dialog function
 ### Popup windows ###
 They are intended for non-blocking displaying of error messages and informing about some events, for example, incorrect user input and the completion of a long process on the server.
 ```
-Info(info_message)
-Warning(warning_message)
-Error(error_message)
-UpdateError(updated_element, error_nessage)
+Info(info_message, *someGUIforUpdades)
+Warning(warning_message, *someGUIforUpdades)
+Error(error_message, *someGUIforUpdades)
 ```
-They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. UpdateError also says Unigui to update changed updated_element.
+They are returned by handlers and cause appearing on the top screen colored rectangles window for 3 second. someGUIforUpdades is optional GUI enumeration for updating.
 
 For long time processes it is possible to create Progress window. It is just call user.progress in any place.
 Open window user.progress("Analyze .. Wait..")
