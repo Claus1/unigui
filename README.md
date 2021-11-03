@@ -224,9 +224,9 @@ can be such type 'toggles','list','dropdown'. Unigui automatically chooses betwe
 but the user can set type = 'list' then Unigui build it as vertical select list.
 
 #### Image. #### 
-width,changed and height are optional, changed is called if the user click or touch the image.
+width,changed and height are optional, changed is called if the user select/ or touch the image.
 ```
-Image("Image", image = "some url", changed = show_image_info, width = .., height = ..)
+Image("Image", True, image = "some url", changed = selecting_changed, width = .., height = ..)
 or short version
 Image("Image", "some url", show_image_info, width = .., height = ..)
 
