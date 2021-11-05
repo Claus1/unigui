@@ -47,10 +47,11 @@ tests/run_hello.py
 ```
 import unigui
 #app name, port for initial connection and upload_dir folder are optional
-unigui.start('Test app', port = 8080) 
+unigui.start('Test app') 
 ```
 Unigui builds the interactive app for the code above.
-Connect a browser to localhast:8080 and will see:
+Connect a browser to localhast:8000 which are by default and will see:
+server port and ip config is in config.py file in the working directory
 
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
 
