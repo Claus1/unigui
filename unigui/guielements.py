@@ -200,6 +200,11 @@ class Dialog:
         self.buttons = buttons
         
         self.content = Block(name,[], *content, dialog = True, icon = icon) 
+
+class TextViewer(Gui):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type = 'docviewer' 
                      
 class Screen(Gui):
     def __init__(self, *args, **kwargs):

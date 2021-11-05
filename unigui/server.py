@@ -118,9 +118,14 @@ def start_server(path, httpHandler = UniHandler, port=8000):
     httpd = HTTPServer(('', port), httpHandler)    
     httpd.serve_forever()                
 
-def start(appname, port = 8000, user_type = User, user_dir = '',pretty_print = False, socket_ip = 'localhost',
-  httpHandler = UniHandler, socket_port = 1234, upload_dir = 'upload', translate_path = None):
-    set_utils(appname,user_dir,port,upload_dir, translate_path, socket_ip)    
+def start(appname, user_type = User, httpHandler = UniHandler, translate_path = None):
+    wd = os.getcwd()
+    import sys
+    sys.path.insert(0,wd) #load from working directory
+    from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
+    sys.path.pop(0) #delete work path
+
+    set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip)    
 
     if utils.socket_ip != 'localhost' or utils.resource_port != 8000:
         UniHandler.create_fixed_js()
