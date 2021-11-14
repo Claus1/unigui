@@ -145,24 +145,25 @@ def standart_table_delete(t, _):
     if len(t.rows) == 0:
         return
     keyed = len(t.headers) < len(t.rows[0])
-    value = t.value
-    if isinstance(value, list):
+    value = t.value    
+    if isinstance(value, list):        
         if keyed:
             t.rows = [row for row in t.rows if row[-1] not in value]
         else:
-            t.rows = [row for i, row in enumerate(t.rows) if i not in value]
+            value.sort(reverse=True)
+            for v in value:            
+                del t.rows[v]
         t.value = []
     else:
-        if keyed:
+        if keyed:            
             t.rows = [row for row in t.rows if row[-1] != value]
         else:
             del t.rows[value]  
-        t.value = None
-    return t  
+        t.value = None    
 
 class Table(Gui):
     def __init__(self, *args, delete = default, modify = default, **kwargs):
-        super().__init__(*args, **kwargs)        
+        super().__init__(*args, **kwargs)             
         self.check('rows', 'headers','value')
         if modify != None:
             self.modify = accept_rowvalue if modify == default else modify

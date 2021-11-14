@@ -44,9 +44,15 @@ block = Block('X Block',
         clean_button,
         selector,
     ], [table, list_refs], icon = 'api')
+
+def chtable(_, v):
+    table.rows[1][0] = 'changed'
+    table.value = 1
+    return table
+    
 bottom_block = Block('Bottom block', 
     [        
-        Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy'))
+        Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy')), Button('Change table', chtable)
     ],
     UploadButton('Replace the logo', replace_image),
      #image, 

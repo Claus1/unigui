@@ -50,17 +50,9 @@ def dialog_callback(_,value):
 def call_dialog(*_):
     return Dialog('Start a long process?', dialog_callback)
 
-def delete_row(_,v):
-    if isinstance(v, list):
-        for i in v:
-            del _.rows[i]
-    else:
-        del _.rows[v]
-    return _
-
 table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
 rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
-append = append, complete = complete, update = table_update, delete = delete_row, view = 'i-1,2')
+append = append, complete = complete, update = table_update, view = 'i-1,2')
 
 ld = { 
     'Animals' : None,
