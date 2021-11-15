@@ -75,7 +75,7 @@ clean_button = Button('Clean the table’, clean_table)
 
 ‘changed’ handlers have to return Gui object or array of Gui objects that were changed by the handler and Unigui has to redraw or does nothing if all visible elements have the same state. Unigui will do all other jobs for synchronizing automatically. If a Gui object doesn't have 'changed' handler the object accepts incoming value automatically to the 'value' variable of gui object.
 
-If 'value' is not acceptable instead of returning an object possible to return Error or Warning or UpdateError. The last function has a list object, which has to be synchronized simultaneously with informing about the Error.
+If 'value' is not acceptable instead of returning an object possible to return Error or Warning or Info. That functions can update a list object after the message argument, and synchronize simultaneously.
 
 #### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with the program/system data. prepare() is also automatically called when the screen loaded. prepare() is optional.
 
