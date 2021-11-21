@@ -172,6 +172,11 @@ class Table(Gui):
 
     def selected_list(self):                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
+
+    def clean(self):
+        self.rows = []
+        self.value = [] if isinstance(self.value,(tuple, list)) else None
+        return self
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):

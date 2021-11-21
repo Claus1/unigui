@@ -37,7 +37,7 @@ table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'],row
 #widgets are groped in blocks (complex widgets with logic)
 block = Block('X Block',
     [           
-        Button('Clean table'),
+        Button('Clean table', icon = 'swipe'),
         Select('Select', value='All', options=['All','Based','Group'])
     ], table, icon = 'api')
 ```
@@ -80,9 +80,9 @@ If 'value' is not acceptable instead of returning an object possible to return E
 #### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with the program/system data. prepare() is also automatically called when the screen loaded. prepare() is optional.
 
 ```
-def changed_range(_,value):
+def changed_range(_, value):
    if value < 0.5 and value > 1.0:
-       #or UpdateError(_, message) if we want to return the previous visible value to the field
+       #or Error(message, _) if we want to return the previous visible value to the field
        return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!') 
     #accept value othewise
     _.value = value
@@ -126,7 +126,7 @@ For example above interception of select_mode changed event will be:
 @handle(select_mode, 'changed')
 def do_not_select_mode_x(_, value):
     if value == 'mode_x':
-        return UpdateError(_, 'Do not select mode_x')
+        return Error('Do not select mode_x', _) # _ means update select_mode to the previous state
     return _.accept(value) #otherwise accept the value
 ```
 
@@ -140,7 +140,7 @@ blocks = [ [b1,b2], [b3, [b4, b5]]]
 ![alt text](https://github.com/Claus1/unigui/blob/main/tests/multiscreen.png?raw=true)
 
 ### Basic gui elements ###
-You have to know that class names are used only for programmer convenience and do not receive Unigui.
+Normally they have type property which says unigui how to draw the element. If the type is omitting unigui can detect it by analyzing its content.
 #### If the element name starts from _ , Unigui will not show its name on the screen. ####
 if we need to paint an icon somewhere in the element, add 'icon': 'any MD icon name'.
 
@@ -210,6 +210,9 @@ def get_complete_list(gui_element, current_value):
 ```
 Can contain optional 'update' handler which is called when the user press Enter in the field.
 It can return None or objects for updating as usual handler.
+
+Can contain optional selection property == (start, end) of selection in the input
+Can contain optional autogrow property, which uses for multiline fileds.
 
 
 #### Radio button ####
