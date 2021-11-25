@@ -7,6 +7,7 @@ appname = 'Unigui'
 app_user_dir = os.getcwd()
 upload_dir = 'upload'
 socket_ip = ''
+socket_port = 1234
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
@@ -36,12 +37,13 @@ def translate_http_path(path):
 
 translate_path = translate_http_path
 
-def set_utils(appname_,user_dir_,port_,upload_dir_, translate_path_, socket_ip_):
-    global appname, resource_port, upload_dir, translate_path, socket_ip
+def set_utils(appname_,user_dir_,port_,upload_dir_, translate_path_, socket_ip_, socket_port_):
+    global appname, resource_port, upload_dir, translate_path, socket_ip, socket_port
     appname = appname_
     resource_port = port_
     upload_dir = upload_dir_
     socket_ip = socket_ip_
+    socket_port = socket_port_
 
     if translate_path_:
         translate_path = translate_path_

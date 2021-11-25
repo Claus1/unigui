@@ -15,7 +15,7 @@ from threading import Thread
 users = {}
 modules = {}
 
-sing2method = {'=' : 'changed', '->': 'update','?': 'complete','+': 'append','-':'delete', '!': 'editing', '#': 'modify','$': 'params'}    
+sing2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
 
 #loop and thread for progress functionality
 loop = asyncio.new_event_loop()

@@ -1,7 +1,6 @@
 import websockets
 import asyncio
 import traceback
-import inspect
 from . import utils
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -42,7 +41,8 @@ class UniHandler(SimpleHTTPRequestHandler):
     def end_headers (self):
         self.send_header('Access-Control-Allow-Origin', '*')
         #self.send_header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-        #self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+        #self.send_header("Access-Control-Allow-Headers", 
+        # "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
         SimpleHTTPRequestHandler.end_headers(self)    
 
     def send_str(self, s):
@@ -66,8 +66,10 @@ class UniHandler(SimpleHTTPRequestHandler):
                         b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
                     if utils.resource_port != 8000:
                         b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
+                    if utils.socket_port != 1234:
+                        b = b.replace(bytes('1234',encoding='utf8'), bytes(str(utils.socket_port),encoding='utf8'))                
                     UniHandler.fixed_main = b
-                    print(f"Fixed {file} created on ip {utils.socket_ip}, port {utils.resource_port}.")
+                    print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
                     break
 
     def do_GET(self):
@@ -125,9 +127,9 @@ def start(appname, user_type = User, httpHandler = UniHandler, translate_path = 
     from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
     sys.path.pop(0) #delete work path
 
-    set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip)    
+    set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip, socket_port)    
 
-    if utils.socket_ip != 'localhost' or utils.resource_port != 8000:
+    if utils.socket_ip != 'localhost' or utils.resource_port != 8000 or utils.socket_port != 1234:
         UniHandler.create_fixed_js()
     else:
         UniHandler.fix_file = None
