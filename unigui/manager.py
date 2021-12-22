@@ -13,7 +13,6 @@ import asyncio
 from threading import Thread
 
 users = {}
-modules = {}
 
 sing2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
 
@@ -117,18 +116,18 @@ class User:
         userset.user = self    
         blocks_dir = 'blocks'        
         screens_dir =  'screens'
-
+        modules = {}
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
                 name = file[0:-3]
 
-                if name not in modules:                    
-                    path = f'{screens_dir}/{file}'                
-                    spec = importlib.util.spec_from_file_location(name,path)
-                    module = importlib.util.module_from_spec(spec)
-                    modules[name] = module, spec
-                else:
-                    module, spec = modules[name]
+                #if name not in modules:                    
+                path = f'{screens_dir}/{file}'                
+                spec = importlib.util.spec_from_file_location(name,path)
+                module = importlib.util.module_from_spec(spec)
+                modules[name] = module, spec
+                #else:
+                #    module, spec = modules[name]
                 
                 utils.clean_handlers()
                 spec.loader.exec_module(module)            
@@ -149,7 +148,10 @@ class User:
                 #del sys.modules[name]       
         
         self.screens.sort(key=lambda s: s.order)
-        self.screen_module = self.screens[0]
+        main = self.screens[0]
+        if 'prepare' in dir(main):
+            main.prepare()
+        self.screen_module = main
         self.menu = [[s.name,s.icon] for s in self.screens]        
 
         #remove user modules from sys for repeating loading for new users
