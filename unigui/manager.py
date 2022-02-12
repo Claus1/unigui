@@ -58,6 +58,47 @@ class User:
     def save_changes(self,*_):
         pass
 
+    def translate_path(self, path):        
+        return utils.translate_path(path)
+
+    @staticmethod
+    def cache_name(url):    
+        name = url.split('/')[-1]
+        name = utils.upload_path(name)
+        return name
+        
+    @staticmethod
+    def cache_url(url):
+        "returns cached name of url image"
+        cname = User.cache_name(url)
+        if not os.path.exists(cname):
+            response = requests.get(url)
+            if response.status_code != 200:
+                return None
+            file = open(cname, "wb")
+            file.write(response.content)
+            file.close() 
+        return cname
+
+    @staticmethod
+    def create_fixed_js():
+        dir = f"{utils.webpath}/js"        
+        for file in os.listdir(dir):
+            fn = f'{dir}/{file}'
+            if file[0].isdigit() and file.endswith(".js") and os.path.getsize(fn) > 25000:
+                User.fix_file = f'/js/{file}'
+                with open(fn, 'rb') as main:
+                    b = main.read()
+                    if utils.socket_ip != 'localhost':
+                        b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                    if utils.resource_port != 8000:
+                        b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
+                    if utils.socket_port != 1234:
+                        b = b.replace(bytes('1234',encoding='utf8'), bytes(str(utils.socket_port),encoding='utf8'))                
+                    User.fixed_main = b.decode("utf-8") 
+                    print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
+                    break
+
     def progress(self, str, *updates):
         """open or update progress window if str != null else close it  """     
         d = {'progress': str}
