@@ -10,6 +10,7 @@ from .guielements import *
 import sys
 from . import userset
 import asyncio
+import aiohttp
 from threading import Thread
 
 users = {}
@@ -62,8 +63,13 @@ class User:
         d = {'progress': str}
         if updates:
             d['update'] = None            
-            d['data'] = updates            
+            d['data'] = updates         
+        
         asyncio.run_coroutine_threadsafe(self.send(d), loop)
+        """  loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop) # <----
+        #f  = asyncio.ensure_future(self.send(d))
+        loop.run_until_complete(self.send(d))    """     
                           
     def undo_last_operation(self, *_):
         if self.undo_last_changes():            

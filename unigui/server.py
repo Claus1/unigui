@@ -1,18 +1,14 @@
-import websockets
+from aiohttp import web, WSMsgType
 import asyncio
 import traceback
 from . import utils
 
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-from urllib.parse import urlparse
-import threading
 import os
-import io
 import cgi
 from .manager import * 
 import requests
 
-class UniHandler(SimpleHTTPRequestHandler):    
+class UniHandler:    
     def log_message(self, format, *args):
         return
 
@@ -38,21 +34,6 @@ class UniHandler(SimpleHTTPRequestHandler):
             file.close() 
         return cname
 
-    def end_headers (self):
-        self.send_header('Access-Control-Allow-Origin', '*')
-        #self.send_header("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
-        #self.send_header("Access-Control-Allow-Headers", 
-        # "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
-        SimpleHTTPRequestHandler.end_headers(self)    
-
-    def send_str(self, s):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')        
-        self.end_headers()           
-        b = bytearray()
-        b.extend(map(ord, s))
-        self.wfile.write(b)
-
     @staticmethod
     def create_fixed_js():
         dir = f"{utils.webpath}/js"        
@@ -68,37 +49,9 @@ class UniHandler(SimpleHTTPRequestHandler):
                         b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
                     if utils.socket_port != 1234:
                         b = b.replace(bytes('1234',encoding='utf8'), bytes(str(utils.socket_port),encoding='utf8'))                
-                    UniHandler.fixed_main = b
+                    UniHandler.fixed_main = b.decode("utf-8") 
                     print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
                     break
-
-    def do_GET(self):
-        parsed = urlparse(self.path)
-        if parsed.path == UniHandler.fix_file:
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/js')        
-            self.end_headers()           
-            self.wfile.write(self.fixed_main)
-        else:                        
-            return super().do_GET()  
-        
-    def do_POST(self):        
-        r, info = self.deal_post_data()
-        print(r, info, "by: ", self.client_address)
-        f = io.BytesIO()
-        if r:
-            f.write(b"Success\n")
-        else:
-            f.write(b"Failed\n")
-        length = f.tell()
-        f.seek(0)
-        self.send_response(200)
-        self.send_header("Content-type", "text/plain")
-        self.send_header("Content-Length", str(length))        
-        self.end_headers()
-        if f:
-            self.copyfile(f, self.wfile)
-            f.close()      
 
     def deal_post_data(self):
         ctype, _ = cgi.parse_header(self.headers['Content-Type'])
@@ -115,36 +68,76 @@ class UniHandler(SimpleHTTPRequestHandler):
 
         return (False,f'Invalide header type {ctype}!')
 
-def start_server(path, httpHandler = UniHandler, port=8000):
-    '''Start a resource webserver serving path on port'''    
-    httpd = HTTPServer(('', port), httpHandler)    
-    httpd.serve_forever()                
+from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
+from pathlib import Path
 
-def start(appname, user_type = User, httpHandler = UniHandler, translate_path = None):
+async def static_serve(request):
+    if "Upgrade" in request.headers and request.headers["Upgrade"] == 'websocket':
+        return await websocket_handler(request)
+    file_path = request.path
+    if upload_dir not in  request.path:
+        file_path = f"{utils.webpath}{file_path}"  # rebase into static dir
+    file_path  = Path(file_path)
+    
+    if request.path == '/':
+        file_path /= 'index.html'
+        
+    if not file_path.exists():
+        return web.HTTPNotFound()
+     
+    return web.FileResponse(file_path) if request.path != UniHandler.fix_file else web.Response(text = UniHandler.fixed_main) 
+
+async def websocket_handler(request):
+
+        ws = web.WebSocketResponse()
+        await ws.prepare(request)
+
+        def jsonString(obj):
+            return toJson(obj, 0, False)
+        
+        user = User()
+        async def send(res):
+            await ws.send_str(jsonString(user.prepare_result(res)))
+            #await asyncio.sleep(1)
+        user.send = send 
+        user.load()
+        
+        await ws.send_str(jsonString([user.menu,user.screen])) 
+
+        async for msg in ws:
+            if msg.type == WSMsgType.TEXT:
+                if msg.data == 'close':
+                    await ws.close()
+                else:
+                    data = json.loads(msg.data)            
+                    result = user.result4message(data)
+                    if result:                
+                        await ws.send_str(jsonString(user.prepare_result(result)))
+            elif msg.type == WSMsgType.ERROR:
+                print('ws connection closed with exception %s' %
+                    ws.exception())
+
+        print('websocket connection closed')
+
+        return ws       
+
+def start(appname, user_type = User, httpHandler = UniHandler, translate_path = None, http_handlers = []):
     wd = os.getcwd()
     import sys
     sys.path.insert(0,wd) #load from working directory
-    from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
+    
     sys.path.pop(0) #delete work path
 
     set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip, socket_port)    
 
     if utils.socket_ip != 'localhost' or utils.resource_port != 8000 or utils.socket_port != 1234:
-        UniHandler.create_fixed_js()
+        UniHandler.create_fixed_js()     
+        #http_handlers.insert(0, web.get(UniHandler.fix_file, serve_fixed))   
     else:
         UniHandler.fix_file = None
     
-    pretty_print = pretty_print
 
-    daemon = threading.Thread(name='daemon_server', target=start_server, args=('.', httpHandler, port))
-    daemon.setDaemon(True)
-    daemon.start()
-
-    indent = 4 if pretty_print else None
-    
-    def jsonString(obj):
-        return toJson(obj, indent, pretty_print)
-
+    """ 
     async def session(websocket, path):
         address = websocket.remote_address
         try:            
@@ -172,20 +165,27 @@ def start(appname, user_type = User, httpHandler = UniHandler, translate_path = 
                     await websocket.send(jsonString(user.prepare_result(result)))
         except Exception as e:
             print('Session exception!')
-            if getattr(e,'code',0) != 1006: #client interruption
-                print(e,traceback.format_exc())              
+            print(e,traceback.format_exc())              
         finally:        
             if address in users:
                 del users[address]    
+    """    
+    http_handlers.insert(0, web.get('/ws', websocket_handler))
+    if UniHandler.fix_file:
+        http_handlers.append(web.get(UniHandler.fix_file, static_serve))
+    http_handlers.append(web.get('/', static_serve))
+    http_handlers.append(web.static('/js', f"{utils.webpath}/js"))
+    http_handlers.append(web.static('/fonts', f"{utils.webpath}/fonts"))
+    http_handlers.append(web.static('/css', f"{utils.webpath}/css"))
+    http_handlers.append(web.static(f'/{upload_dir}', f"/{utils.app_user_dir}/{upload_dir}"))
+    
+
 
     print(f'Start {appname} server on {port} port..')    
-    
-    while True:
-        try:
-            asyncio.get_event_loop().run_until_complete(
-                websockets.serve(session, '0.0.0.0', socket_port))
-            asyncio.get_event_loop().run_forever()
-        except Exception as e:
-            print(e,traceback.format_exc()) 
-            print('Async core reloaded!')
 
+    app = web.Application()
+    
+    app.add_routes(http_handlers)
+    
+    web.run_app(app,  port=port)
+    
