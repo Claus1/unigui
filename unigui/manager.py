@@ -1,16 +1,14 @@
 import os
 import importlib
-import pickle
 from .utils import *
 from . import utils
 import itertools
-from datetime import datetime
 import time
 from .guielements import *
 import sys
 from . import userset
 import asyncio
-import aiohttp
+import requests
 from threading import Thread
 
 users = {}
