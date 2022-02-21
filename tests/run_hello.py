@@ -16,8 +16,7 @@ http_handlers = [web.get('/get', handle_get)]
 
 class Hello_user(unigui.User):
     def __init__(self):
-        super().__init__()
-        Hello_user.cache_url()
+        super().__init__()        
         print('New Hello user connected and created!')
 
 unigui.start('Test app', user_type = Hello_user, http_handlers = http_handlers)
