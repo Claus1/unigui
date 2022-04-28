@@ -54,7 +54,7 @@ bottom_block = Block('Bottom block',
     [        
         Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy')), Button('Change table', chtable)
     ],
-    UploadButton('Replace the logo', replace_image),
+    Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback" ), 
      #image, 
     dispatch = block_dispatch)
 

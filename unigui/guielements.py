@@ -1,7 +1,5 @@
 from . import utils
 
-default = 'default'
-
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
@@ -29,6 +27,8 @@ class Gui:
             self.changed(self, value)
         else:
             self.value = value
+
+Line = Gui("Line", type = 'line')
 
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
@@ -67,11 +67,21 @@ class Image(Gui):
         super().__init__(*args, **kwargs)
         self.type='image'
         if not hasattr(self,'width'):
-            self.width = 500.0
-        if not hasattr(self,'height'):
-            self.height = 350.0        
+            self.width = 500.0              
         if not hasattr(self,'image'):
             self.image = self.value if hasattr(self, 'value') else None
+
+class Video(Gui):
+    '''has to contain file,width,height parameters'''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type='video'
+        if not hasattr(self,'width'):
+            self.width = 500.0              
+        if not hasattr(self,'src'):
+            raise "No video src reference!"
+        if not hasattr(self,'ratio'):
+            self.ratio = "9/9"
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
@@ -162,13 +172,14 @@ def standart_table_delete(t, _):
         t.value = None    
 
 class Table(Gui):
-    def __init__(self, *args, delete = default, modify = default, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)             
         self.check('rows', 'headers','value')
-        if modify != None:
-            self.modify = accept_rowvalue if modify == default else modify
-        if delete != None:
-            self.delete = standart_table_delete if delete == default else delete
+        if not hasattr(self,'edit') or self.edit != False:
+            if not hasattr(self,'modify'):
+                self.modify = accept_rowvalue 
+            if not hasattr(self,'delete'):
+                self.delete = standart_table_delete 
 
     def selected_list(self):                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   

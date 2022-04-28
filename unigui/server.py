@@ -102,6 +102,7 @@ def start(appname, user_type = User, translate_path = None, http_handlers = []):
         web.static('/js', f"{utils.webpath}/js"),
         web.static('/fonts', f"{utils.webpath}/fonts"),
         web.static('/css', f"{utils.webpath}/css"),
+        web.static('/icons', f"{utils.webpath}/icons"),
         web.static(f'/{upload_dir}', f"/{utils.app_user_dir}/{upload_dir}"),
         web.post('/', post_handler)]:
 
