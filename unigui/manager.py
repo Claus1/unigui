@@ -268,8 +268,8 @@ class User:
     def prepare_result(self, raw):
         if raw == UpdateScreen:
             raw = self.screen            
-            if getattr(raw,'prepare', False):
-                raw.prepare()
+            #if getattr(raw,'prepare', False):
+            #    raw.prepare()
         else:
             if type(raw) == dict and 'update' in raw:
                 if isinstance(raw['data'], (list,tuple)):
