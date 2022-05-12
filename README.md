@@ -77,7 +77,7 @@ clean_button = Button('Clean the table’, clean_table)
 
 If 'value' is not acceptable instead of returning an object possible to return Error or Warning or Info. That functions can update a list object after the message argument, and synchronize simultaneously.
 
-#### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Also it causes calling Screen function prepare() which used for syncronizing GUI elements one to another and with the program/system data. prepare() is also automatically called when the screen loaded. prepare() is optional.
+#### If a handler returns True or UpdateScreen constant the whole screen will be redrawn. Screen function prepare() syncronizes GUI elements one to another and with the program/system data. prepare() is called when the screen open/loaded. prepare() is optional.
 
 ```
 def changed_range(_, value):
