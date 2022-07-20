@@ -20,7 +20,7 @@ Unigui web version is included in this library. Unigui for Go is accessible in h
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
 
-Screen example tests/screens_hello/main.py
+Screen example tests/screens/main.py
 ```
 name = "Main" #name of screen to show
 icon = 'blur_linear' #MD icon of screen to show
@@ -156,12 +156,6 @@ calling the method
 def accept(self, value) 
 causes  a call changed handler if it defined, otherwise just save value to self.value
 
-#### It is possible immediately to change any Gui object paramaters and even its type, i.e. a gui element can mutate to any other type. ####
-Mutation is usefull when we want to keep actual reference from the others elements but change it to a new required type.
-After mutation the handler has to return containing Block or UpdateScreen for automatic recalculating the block or the screen geometry.
-```
-selector.mutate(edit_fld) #the selector keeps alive with a totally different gui element.
-```
 #### Button ####
 Normal button.
 ```
