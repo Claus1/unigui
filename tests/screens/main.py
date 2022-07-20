@@ -24,7 +24,7 @@ list_refs = Select('Detail ref list signals', type = 'list', options = ['Select 
 
 def block_dispatch(_, ref):
     list_refs.options = [f'#{i} {ref}' for i in range(10)]
-    return block
+    return list_refs
 
 @handle(selector,'changed')
 def selchanged(_, val):
@@ -32,12 +32,8 @@ def selchanged(_, val):
         return Error('Select can not be Based!',_)
     _.value = val    
 
-#image = Image('logo', fn2url('images/unigui.png'), lambda _,v: Info(f'{v} logo selected!'))
-
 def replace_image(_, iname):
-    print(iname)
-    #image.image = fn2url(f'images/{iname}')
-    #return image
+    print(iname)    
 
 block = Block('X Block',
     [           
