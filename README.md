@@ -211,7 +211,9 @@ Can contain optional autogrow property, which uses for multiline fileds.
 
 #### Radio button ####
 ```
-Switch('Radio button', value = True[,changed = ..]) #value has to be boolean, changed - optional
+Switch('Radio button', value = True[,changed = .., type = ...]) #value has to be boolean, changed, type - optional
+
+type can be 'check' for a status button or 'switch' for a switcher . 
 ```
 
 #### Select group. Contains options field. ####
