@@ -224,19 +224,22 @@ but the user can set type = 'list' then Unigui build it as vertical select list.
 #### Image. #### 
 width,changed and height are optional, changed is called if the user select/ or touch the image.
 ```
-Image("Image", True, image = "some url", changed = selecting_changed, width = .., height = ..)
-or short version
-Image("Image", "some url", show_image_info, width = .., height = ..)
+Image(image_url, header = 'description', changed = selecting_changed, width = .., height = ..)
+```
 
+#### Video. #### 
+width and height are optional.
+```
+Video(video_url, width = .., height = ..)
 ```
 
 #### Tree. The element for tree-like data. ####
 ```
-Tree(name, selected_item_key, changed_handler, [unique_elems = .., elems = ..])
+Tree(name, selected_item_name, changed_handler, options = {name1: parent1, name2 : None, .})
 ```
-unique_elems for the data without repeating names, it is dictionary {item_name:parent_name}. If 'unique_elems' defined then 'elems' is redundant.
-'elems' for data which can contain repeating names. it is array of arrays [item_name,item_key,parent_key].
-parent_name and parent_key are None for root items. changed_handler gets the tree object and item key as value which is the item name for unique items. 
+options for the data without repeating names, it is dictionary {item_name:parent_name}. 
+
+parent_name and parent_key are None for root items. changed_handler gets item key (name) as value. 
 
 ### Table. ###
 Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode parameter is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
