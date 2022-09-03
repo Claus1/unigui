@@ -33,8 +33,8 @@ def jsonString(obj):
     return toJson(obj, indent, pretty_print)
 
 async def static_serve(request):
-    if "Upgrade" in request.headers and request.headers["Upgrade"] == 'websocket':
-        return await websocket_handler(request)
+    #if "Upgrade" in request.headers and request.headers["Upgrade"] == 'websocket':
+    #    return await websocket_handler(request)
     file_path = request.path
     if upload_dir not in  request.path:
         file_path = f"{utils.webpath}{file_path}"  # rebase into static dir
@@ -96,7 +96,7 @@ def start(appname, user_type = User, translate_path = None, http_handlers = []):
     else:
         User.fix_file = None
     
-    #http_handlers.insert(0, web.get('/ws', websocket_handler))
+    http_handlers.insert(0, web.get('/ws', websocket_handler))
         
     for h in [web.get('/', static_serve), 
         web.static('/js', f"{utils.webpath}/js"),

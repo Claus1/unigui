@@ -71,7 +71,7 @@ ld = {
     'Very small Tarsier': 'Small Tarsier'
 }
 
-tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), unique_elems = ld)
+tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), options = ld)
 
 txt = Text('Text about cats')
 

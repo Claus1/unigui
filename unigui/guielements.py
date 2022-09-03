@@ -106,51 +106,9 @@ class Select(Gui):
 class Tree(Select):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)         
-        self.type = 'tree' #for GUI
-        if hasattr(self,'unique_elems'):
-            self.set_unique_strings(self.unique_elems) #unique_elems has to be dict{item_name:parent_name}
-        elif hasattr(self,'elems'): #elems is list of (name, key, parent_key [,optional object reference])
-            self.set_elems(self.elems)        
-        
-    def getElem(self, elemId):                
-        return next((e for e in self.elems if elemId == e[1]), None)
-
-    def setvalue_byname(self, nokey):        
-        self.value = next((e[1] for e in self.elems if nokey == e[0]), None)
-
-    def get_name_value(self):
-        if self.value:
-            el = self.getElem(self.value)
-            if el:
-                return el[0]
-
-    def set_unique_strings(self, sdict):
-        elems = [[e[0],e[0],e[1]] for e in sdict.items()]
-        self.set_elems(elems)
-
-    def set_elems(self, elems):
-        self.elems = elems
-        options = []
-        def make4root(eparent, level):
-            options.append((eparent, level))
-            childs = [e for e in self.elems if e[2] == eparent[1]]
-            childs.sort(key= lambda e: e[0])
-            for c in childs:
-                make4root(c, level + 1)
-
-        elems = {e[1] for e in self.elems}
-        roots = [e for e in self.elems if not e[2] in elems]
-        roots.sort(key= lambda e: e[0])
-        for root in roots:
-            make4root(root, 0)
-        self.options = []
-        for el in options:
-            vlines = el[1] - 1
-            str = '|' * vlines if vlines > 0 else ''
-            if el[1]:
-                str += '\\'
-            str += el[0][0]
-            self.options.append([str, el[0][1]])        
+        self.type = 'tree' 
+        if hasattr(self,'options'):
+            self.options = {}        
 
 def accept_rowvalue( _, val):
     value, position = val
