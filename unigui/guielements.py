@@ -33,6 +33,8 @@ Line = Gui("Line", type = 'line')
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        
+        if 'type' not in kwargs:
+            self.type =  'autoedit' if 'complete' in kwargs else 'edit'
         self.check('value')
 
 class Text(Gui):
@@ -103,12 +105,14 @@ class Select(Gui):
         if not hasattr(self,'value'):
             self.value = None
 
-class Tree(Select):
+class Tree(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)         
         self.type = 'tree' 
-        if hasattr(self,'options'):
+        if not hasattr(self,'options'):
             self.options = {}        
+        if not hasattr(self,'value'):
+            self.value = None
 
 def accept_rowvalue( _, val):
     value, position = val
