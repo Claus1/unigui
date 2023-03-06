@@ -69,7 +69,7 @@ def UploadImageButton(name, handler,**kwargs):
     return UploadButton(name, handler, **kwargs)    
         
 class Image(Gui):
-    '''has to contain file,width,height parameters'''
+    '''has to contain file parameter as name'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type='image'
@@ -79,7 +79,7 @@ class Image(Gui):
             self.image = self.value if hasattr(self, 'value') else None
 
 class Video(Gui):
-    '''has to contain file,width,height parameters'''
+    '''has to contain src parameter'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type='video'
@@ -89,6 +89,17 @@ class Video(Gui):
             raise "No video src reference!"
         if not hasattr(self,'ratio'):
             self.ratio = "9/9"
+
+class Graph(Gui):
+    '''has to contain nodes, edges, see Readme'''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.type='graph'
+        if not hasattr(self,'width'):
+            self.width = 800.0              
+        if not hasattr(self,'height'):
+            self.height = 600.0              
+        self.check('nodes', 'edges')
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):

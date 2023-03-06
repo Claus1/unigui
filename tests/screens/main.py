@@ -45,13 +45,23 @@ def chtable(_, v):
     table.rows[1][0] = 'changed'
     table.value = 1
     return table
+
+graph = Graph('test graph', width = 400, height = 400, nodes = {
+    'node1': { 'name': "Node 1" },
+    'node2': { 'name': "Node 2" },
+    'node3': { 'name': "Node 3" },
+    'node4': { 'name': "Node 4" }
+  }, edges = {
+    'edge1': { 'source': "node1", 'target': "node2" },
+    'edge2': { 'source': "node2", 'target': "node3" },
+    'edge3': { 'source': "node3", 'target': "node4" },
+  })
     
 bottom_block = Block('Bottom block', 
     [        
         Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy')), Button('Change table', chtable)
     ],
-    Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 ), 
-     #image, 
-    dispatch = block_dispatch)
+    [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
+     dispatch = block_dispatch)
 
 blocks= [[block,bottom_block],config_area]
