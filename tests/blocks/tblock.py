@@ -13,7 +13,8 @@ def append(_,val):
     return new
 
 def updated(_, value):
-    return Warning(f'{_.name} is updated to {value}!')        
+    _.value = value  
+    return Info(f'{_.name} is updated to {value}!')        
 
 def complete(_, value):
     value = value[0]
@@ -51,8 +52,8 @@ def call_dialog(*_):
     return Dialog('Start a long process?', dialog_callback)
 
 table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
-rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
-append = append, complete = complete, update = table_update, view = 'i-1,2')
+    rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
+    append = append, complete = complete, update = table_update, view = 'i-1,2')
 
 ld = { 
     'Animals' : None,
@@ -85,9 +86,9 @@ eblock = Block('New block',
 def switch(_, val):
     return Info(f'Switched to {val}')
 
-treeblock = Block('Tree block',[Switch('My switch', True, switch)], tree, icon = 'account_tree')
+treeblock = Block('Tree block',[ Switch('My switch', True, switch)], tree, icon = 'account_tree')
 
-tableblock = Block('Table chart - push the chart button..', [], table, icon = 'insights')
+tableblock = Block('Table Y', [], table, icon = 'insights')
 
 config_area = [eblock, [treeblock, tableblock]]
 

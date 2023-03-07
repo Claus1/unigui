@@ -125,7 +125,7 @@ class Tree(Gui):
         if not hasattr(self,'value'):
             self.value = None
 
-def accept_rowvalue( _, val):
+def accept_cell_value( _, val):
     value, position = val
     _.rows[position[0]][position[1]] = value    
 
@@ -155,7 +155,7 @@ class Table(Gui):
         self.check('rows', 'headers','value')
         if not hasattr(self,'edit') or self.edit != False:
             if not hasattr(self,'modify'):
-                self.modify = accept_rowvalue 
+                self.modify = accept_cell_value 
             if not hasattr(self,'delete'):
                 self.delete = standart_table_delete 
 

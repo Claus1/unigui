@@ -244,7 +244,7 @@ options for the data without repeating names, it is dictionary {item_name:parent
 parent_name and parent_key are None for root items. changed_handler gets item key (name) as value. 
 
 ### Table. ###
-Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode parameter is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui will draw an appropriate action icon button in the table header automatically.
+Tables is common structure for presenting 2D data and charts. Can contain append, delete, update handlers, multimode parameter is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui draws and activates an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status'],  
   rows = [
@@ -253,14 +253,11 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
   ], 
   multimode = false, update = update)
 ```
-If 'headers' length is equal 'rows' length Unigui counts rows id as an index in rows array.
-If 'rows' length is 'headers' length + 1, Unigui counts rows id as the last row field.
-So it is possible to use some keys as row ids just by adding it to the row as the last element.
-If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
+Unigui counts rows id as an index in a rows array. If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
 value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 
-By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set 'tools = False' in the Table constructor.
+By default Table has toolbar with search field and icon action buttons. It is possible to hide it if set 'tools = False' at a Table constructor.
 
 Table shows a paginator if all rows can not be drawn on the screen. Otherwise a table paginator is redundant and omitted.
 
