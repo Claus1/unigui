@@ -56,16 +56,16 @@ def graph_selection(_, val):
         return Info(f"Edges {val['edges']}") 
     
 
-graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : []}, graph_selection, width = 400, height = 400, nodes = {
-    'node1': { 'name': "Node 1" },
-    'node2': { 'name': "Node 2" },
-    'node3': { 'name': "Node 3" },
-    'node4': { 'name': "Node 4" }
-  }, edges = {
-    'edge1': { 'source': "node1", 'target': "node2" , 'label': 'link 1', 'type': 'arrow'},
-    'edge2': { 'source': "node2", 'target': "node3" },
-    'edge3': { 'source': "node3", 'target': "node4" },
-  })
+graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : []}, graph_selection, width = 400, height = 400, nodes = [
+     { 'id' : 'node1', 'label': "Node 1" },
+     { 'id' : 'node2', 'label': "Node 2" },
+     { 'id' : 'node3', 'label': "Node 3" },
+     { 'id' : 'node4', 'label': "Node 4" }
+  ], edges = [
+     { 'id' : 'edge1', 'source': "node1", 'target': "node2", 'label' : 'extending' },
+     { 'id' :'edge2' , 'source': "node2", 'target': "node3" },
+     { 'id' : 'edge3', 'source': "node3", 'target': "node4" },
+  ])
     
 bottom_block = Block('Graph block', 
     [        

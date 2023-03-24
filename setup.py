@@ -11,5 +11,5 @@ setup(name='unigui',
       long_description_content_type="text/markdown",
       url="https://github.com/Claus1/unigui" ,      
       include_package_data=True,
-      setup_requires=['websockets','jsonpickle'],
+      setup_requires=['websockets','jsonpickle', 'aiohttp'],
       zip_safe=False)
