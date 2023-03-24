@@ -72,21 +72,30 @@ ld = {
     'Very small Tarsier': 'Small Tarsier'
 }
 
-tree = Tree('Inheritance','Animals', lambda _,v: Info(f'{v} selected!'), options = ld)
+tree = Tree('Inheritance','Animals', options = ld)
 
 txt = Text('Text about cats')
 
+simple_enter = Edit('Simple Enter update', 'cherokke', update = updated)
+
 eblock = Block('New block',                        
-        [Button('Dialog for a process', call_dialog), Edit('Simple Enter update', 'cherokke', update = updated)],
+        [Button('Dialog for a process', call_dialog)],
         txt,
         Edit('Read only', 'Try to change me!', edit = False),
         Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)
 )
 
-def switch(_, val):
-    return Info(f'Switched to {val}')
+def add_tree_elem(_, val):
+    txt = simple_enter.value
+    if not txt:
+        return Info('Enter text first to the field!')
+    
+    ld[txt] = tree.value if tree.value else None
+    tree.value = txt
+    return tree
 
-treeblock = Block('Tree block',[ Switch('My switch', True, switch)], tree, icon = 'account_tree')
+
+treeblock = Block('Tree block',[simple_enter, Button('Add to tree', add_tree_elem)], tree, icon = 'account_tree')
 
 tableblock = Block('Table Y', [], table, icon = 'insights')
 

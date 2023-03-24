@@ -43,9 +43,10 @@ block = Block('X Block',
 
 def add_node(_, v):
     for i in range(5, 10):
-        if f'node{i}' not in graph.nodes:
-            graph.nodes[f'node{i}'] = {'name' : f'Node {i}'}
-            graph.edges[f'edge{i}'] = { 'source': "node1", 'target': f'node{i}' }
+        name = f'node{i}'
+        if name not in graph.nodes:
+            graph.nodes.append({'id' : name, 'label' : name})
+            graph.edges.append({'id': f'edge{i}', 'source': "node1", 'target': f'node{i}' })
             return graph
 
 def graph_selection(_, val):
@@ -56,15 +57,16 @@ def graph_selection(_, val):
         return Info(f"Edges {val['edges']}") 
     
 
-graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : []}, graph_selection, width = 400, height = 400, nodes = [
+graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
+    width = 400, height = 400, nodes = [
      { 'id' : 'node1', 'label': "Node 1" },
      { 'id' : 'node2', 'label': "Node 2" },
      { 'id' : 'node3', 'label': "Node 3" },
      { 'id' : 'node4', 'label': "Node 4" }
   ], edges = [
      { 'id' : 'edge1', 'source': "node1", 'target': "node2", 'label' : 'extending' },
-     { 'id' :'edge2' , 'source': "node2", 'target': "node3" },
-     { 'id' : 'edge3', 'source': "node3", 'target': "node4" },
+     { 'id' :'edge2' , 'source': "node2", 'target': "node3" , 'label' : 'extending'},
+     { 'id' : 'edge3', 'source': "node3", 'target': "node4" , },
   ])
     
 bottom_block = Block('Graph block', 
