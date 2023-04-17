@@ -95,10 +95,10 @@ class Graph(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type='graph'
-        if not hasattr(self,'width'):
-            self.width = 800.0              
-        if not hasattr(self,'height'):
-            self.height = 600.0              
+        if not hasattr(self,'minwidth'):
+            self.minwidth = 600.0              
+        if not hasattr(self,'minheight'):
+            self.minheight = 600.0              
         self.check('nodes', 'edges')
 
 class Switch(Gui):
@@ -153,11 +153,13 @@ class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)             
         self.check('rows', 'headers','value')
-        if not hasattr(self,'edit') or self.edit != False:
+        if not hasattr(self,'edit') or self.edit:
             if not hasattr(self,'modify'):
                 self.modify = accept_cell_value 
             if not hasattr(self,'delete'):
                 self.delete = standart_table_delete 
+        if not hasattr(self,'rows'):
+            self.rows = []
 
     def selected_list(self):                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
