@@ -264,7 +264,7 @@ Tables is common structure for presenting 2D data and charts.
 Optional append, delete, update handlers are called for adding, deleting and updating rows.
 
 
- multimode parameter is True if allowed single and multi select mode. True by default. All of them are optional. When you add a handler for such action Unigui draws and activates an appropriate action icon button in the table header automatically.
+Assigning a handler for such action causes Unigui to draw and activate an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status'],  
   rows = [
@@ -279,16 +279,14 @@ value = [0] means 0 row is selected in multiselect mode (in array). multimode is
 | Table option parameter |	Description |
 | :---: | :---: | 
 | changed  | table handler accept the selected row number |
-| complete |  Autocomplete handler as with value parameters (string value, (row index, column index)) |
+| complete |  Autocomplete handler as with value type (string value, (row index, column index)) that returns a string list of possible complitions |
 | update | called when the user presses the Enter in a table cell |
 | modify | default = accept_rowvalue(table, value). called when the cell value is changed by the user |
-| editing | handler is called when the user switches the table edit mode. signature editing(table, edit_mode_now) where the second parameter says the table is being edited or not. |
 | edit   | default True. if true user can edit table, using standart or overloaded table methods |
 | tools  | default True, then  Table has toolbar with search field and icon action buttons. |
+| show   | default False, the table scrolls to (the first) selected row, if True and it is not visible |
+| multimode | default True, allows to select single or multi selection mode |
 
-
-
-If the selected row is not on the currently visible page then setting 'show = True' table parameter causes Unigui to switch to the page with the selected row. 
 
 ### Table handlers. ###
 complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
@@ -311,7 +309,7 @@ Chart is a table with additional Table constructor parameter 'view' which explai
 ### Graph ###
 Graph supports an interactive graph with optional draw methods.
 ```
-graph = Graph('X graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
+graph = Graph('X graph', graph_value, graph_selection, 
     nodes = [
      { 'id' : 'node1', 'label': "Node 1" },
      { 'id' : 'node2', 'label': "Node 2" },
@@ -321,6 +319,8 @@ graph = Graph('X graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selec
      { 'id' :'edge2' , 'source': "node2", 'target': "node3" , 'label' : 'extending'}     
   ])
 ```
+where graph_value is a dictionary like {'nodes' : ["node1"], 'edges' : ['edge3']}, where enumerations are selected nodes and edges.
+Constant graph_default_value == {'nodes' : [], 'edges' : []} i.e. nothing to select.
 
 'changed' method graph_selector called when user (de)selected nodes or edges:
 ```
@@ -332,7 +332,7 @@ def graph_selection(_, val):
         return Info(f"Edges {val['edges']}") 
 ```
 
-Can set optional draw method 'random', 'circle', 'breadthfirst', by default 'random'.
+Has optional draw 'method' with options 'random', 'circle', 'breadthfirst', by default 'random'.
 
 ### Signals ###
 Unigui supports a dedicated signal event handling mechanism. It is useful with shared blocks when a containing external blocks screen must respond to their elements without hard program linking. If a string in a table field started from @ then it considered as a signal. If the user interact with such GUI object Unigui generates a signal event, which comes to dispatch function of the screen. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.

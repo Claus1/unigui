@@ -90,11 +90,15 @@ class Video(Gui):
         if not hasattr(self,'ratio'):
             self.ratio = "9/9"
 
+graph_default_value = {'nodes' : [], 'edges' : []}
+
 class Graph(Gui):
     '''has to contain nodes, edges, see Readme'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.type='graph'
+        if not hasattr(self,'value'):
+            self.value = graph_default_value
         if not hasattr(self,'minwidth'):
             self.minwidth = 600.0              
         if not hasattr(self,'minheight'):
