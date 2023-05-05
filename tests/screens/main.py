@@ -42,9 +42,9 @@ block = Block('X Block',
     ], [table, list_refs], icon = 'api')
 
 def add_node(_, v):
-    for i in range(5, 10):
+    for i in range(1000):
         name = f'node{i}'
-        if name not in graph.nodes:
+        if not [n for n in  graph.nodes if n['id'] == name]:
             graph.nodes.append({'id' : name, 'label' : name})
             graph.edges.append({'id': f'edge{i}', 'source': "node1", 'target': f'node{i}' })
             return graph
