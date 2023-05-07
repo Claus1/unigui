@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
  
 setup(name='unigui',
-      version='1.4.1',      
+      version='1.4.2',      
       license='MIT',
       author='Georgii Dernovyi',
       author_email='g.dernovoy@gmail.com',
@@ -11,5 +11,7 @@ setup(name='unigui',
       long_description_content_type="text/markdown",
       url="https://github.com/Claus1/unigui" ,      
       include_package_data=True,
-      setup_requires=['websockets','jsonpickle', 'aiohttp'],
+      install_requires=[
+          'websockets','jsonpickle', 'aiohttp'
+      ],
       zip_safe=False)
