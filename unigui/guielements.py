@@ -129,29 +129,32 @@ class Tree(Gui):
         if not hasattr(self,'value'):
             self.value = None
 
-def accept_cell_value( _, val):
+def accept_cell_value( _, val):    
     value, position = val
+    try:
+        value = float(value)        
+    except ValueError:
+        pass
     _.rows[position[0]][position[1]] = value    
 
-def standart_table_delete(t, _):
-    if len(t.rows) == 0:
-        return
-    keyed = len(t.headers) < len(t.rows[0])
-    value = t.value    
-    if isinstance(value, list):        
-        if keyed:
-            t.rows = [row for row in t.rows if row[-1] not in value]
+def standart_table_delete(t, value):
+    if t.rows:        
+        keyed = len(t.headers) < len(t.rows[0])
+        t.value = value   
+        if isinstance(value, list):        
+            if keyed:
+                t.rows = [row for row in t.rows if row[-1] not in value]
+            else:
+                value.sort(reverse=True)
+                for v in value:            
+                    del t.rows[v]
+            t.value = []
         else:
-            value.sort(reverse=True)
-            for v in value:            
-                del t.rows[v]
-        t.value = []
-    else:
-        if keyed:            
-            t.rows = [row for row in t.rows if row[-1] != value]
-        else:
-            del t.rows[value]  
-        t.value = None    
+            if keyed:            
+                t.rows = [row for row in t.rows if row[-1] != value]
+            else:
+                del t.rows[value]  
+            t.value = None    
 
 class Table(Gui):
     def __init__(self, *args, **kwargs):
