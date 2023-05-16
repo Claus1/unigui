@@ -1,9 +1,7 @@
 from unigui import *
-import time
-import random
+import random, copy, time
 
 user = get_user()
-
 
 def append(_,val):
     ''' append has to return new row or error string'''
@@ -51,7 +49,7 @@ def dialog_callback(_,value):
 def call_dialog(*_):
     return Dialog('Start a long process?', dialog_callback)
 
-table = Table('Audios', 0, changed, headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
+table = Table('Audios', 0, changed, 'linechart', type = 'linechart', headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
     rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
     append = append, complete = complete, update = table_update, view = 'i-1,2')
 
@@ -94,8 +92,9 @@ def add_tree_elem(_, val):
     tree.value = txt
     return tree
 
+copy.copy
 
-treeblock = Block('Tree block',[simple_enter, Button('Add to tree', add_tree_elem)], tree, icon = 'account_tree')
+treeblock = Block('Table block',[simple_enter, Button('Add to tree', add_tree_elem)], tree, icon = 'account_tree')
 
 tableblock = Block('Table Y', [], table, icon = 'insights')
 

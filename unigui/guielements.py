@@ -160,6 +160,8 @@ class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)             
         self.check('rows', 'headers','value')
+        if not hasattr(self,'type'):
+            self.type = 'table'
         if not hasattr(self,'edit') or self.edit:
             if not hasattr(self,'modify'):
                 self.modify = accept_cell_value 
