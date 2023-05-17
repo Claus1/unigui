@@ -55,7 +55,7 @@ Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
 server port and ip config is in config.py file in the working directory
 
-![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
+![image](https://github.com/Claus1/unigui/assets/1247062/5afcf4ac-b388-4237-98ff-3a92e802d44a)
 
 ### Handling events ###
 All handlers are functions which have a signature
@@ -147,7 +147,7 @@ If the blocks are simply listed Unigui draws them from left to right or from top
 blocks = [ [b1,b2], [b3, [b4, b5]]]
 #[b1,b2] - the first vertical area, [b3, [b4, b5]] - the second one.
 
-![alt text](https://github.com/Claus1/unigui/blob/main/tests/multiscreen.png?raw=true)
+![image](https://github.com/Claus1/unigui/assets/1247062/75d0f64c-d457-43c6-a909-0c97f4b4ab0f)
 
 ### Basic gui elements ###
 Normally they have type property which says unigui what data it contains and optionally how to draw the element. 
@@ -304,7 +304,7 @@ def table_updated(table_, tabval):
 
 ### Chart ###
 Chart is a table with additional Table constructor parameter 'view' which explaines unigui how to draw a chart. The format is '{x index}-{y index1},{y index2}[,..]'. '0-1,2,3' means that x axis values will be taken from 0 column, and y values from 1,2,3 columns of row data.
-'i-3,5' means that x axis values will be equal the row indexes in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'view' in addition to view parameter the table will be displayed as chart on start. In the chart mode pushing the icon button on the top right switches back to table row mode.
+'i-3,5' means that x axis values will be equal the row indexes in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'linechart' in addition to view parameter the table will be displayed as a chart on start. In the chart mode pushing the icon button on the top right switches back to table view mode.
 
 ### Graph ###
 Graph supports an interactive graph with optional draw methods.

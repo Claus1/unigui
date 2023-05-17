@@ -1,5 +1,5 @@
 from unigui import *
-from blocks.tblock import config_area
+from blocks.tblock import config_area, cloned_table_typed
 user = get_user()
 
 name = "Main"
@@ -37,9 +37,9 @@ def replace_image(_, iname):
 
 block = Block('X Block',
     [           
-        clean_button,
-        selector,
-    ], [table, list_refs], icon = 'api')
+        clean_button
+        
+    ], [table, cloned_table_typed], icon = 'api')
 
 def add_node(_, v):
     for i in range(1000):
@@ -71,7 +71,7 @@ graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_se
     
 bottom_block = Block('Graph block', 
     [        
-        Button('Happy signal', lambda _, v: Signal(_, 'make everyone happy')), Button('Add new node', add_node)
+        Button('Add new node', add_node)
     ],
     [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
      dispatch = block_dispatch)

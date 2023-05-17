@@ -53,6 +53,9 @@ table = Table('Audios', 0, changed, type = 'linechart', headers = ['Audio', 'Dur
     rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
     append = append, complete = complete, update = table_update, view = 'i-1,2')
 
+cloned_table_typed = copy.copy(table)
+cloned_table_typed.type = 'table'
+
 ld = { 
     'Animals' : None,
     'Brushtail Possum' : 'Animals',
