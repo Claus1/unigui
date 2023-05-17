@@ -49,7 +49,7 @@ def dialog_callback(_,value):
 def call_dialog(*_):
     return Dialog('Start a long process?', dialog_callback)
 
-table = Table('Audios', 0, changed, 'linechart', type = 'linechart', headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
+table = Table('Audios', 0, changed, type = 'linechart', headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
     rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
     append = append, complete = complete, update = table_update, view = 'i-1,2')
 
