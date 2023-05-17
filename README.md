@@ -55,7 +55,7 @@ Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
 server port and ip config is in config.py file in the working directory
 
-![alt text](https://github.com/Claus1/unigui/blob/main/tests/screen1.png?raw=true)
+![image](https://github.com/Claus1/unigui/assets/1247062/5afcf4ac-b388-4237-98ff-3a92e802d44a)
 
 ### Handling events ###
 All handlers are functions which have a signature
