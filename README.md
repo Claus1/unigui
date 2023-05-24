@@ -48,12 +48,11 @@ block = Block('X Block',
 tests/run_hello.py
 ```
 import unigui
-#app name, port for initial connection and upload_dir folder are optional
+#app name, the others server setting in config.py like port, upload_dir, ..
 unigui.start('Test app') 
 ```
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
-server port and ip config is in config.py file in the working directory
 
 ![image](https://github.com/Claus1/unigui/assets/1247062/5afcf4ac-b388-4237-98ff-3a92e802d44a)
 
@@ -83,6 +82,8 @@ clean_button = Button('Clean the table’, clean_table)
 | Error(...), Warning(...), Info(...) | Show to user info about a problem. |
 | UpdateScreen, True | Redraw whole screen |
 | Dialog(..) | Open a dialog with parameters |
+| user.set_screen(screen_name) | switch to another screen |
+| Signal(signal_name, ..) | causes indirect call screen.dispatch or/and user.dispatch handlers | 
 
 Unigui	synchronizes GUI state on frontend-end automatically after calling a handler.
 
@@ -93,8 +94,8 @@ If 'value' is not acceptable instead of returning an object possible to return E
 ```
 def changed_range(_, value):
    if value < 0.5 and value > 1.0:
-       #or Error(message, _) if we want to return the previous visible value to the field
-       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!') 
+       #or Error(message, _) if we want to return the previous visible value to the field, return gui object _ also.
+       return Error(f‘The value of {_.name} has to be > 0.5 and < 1.0!', _) 
     #accept value othewise
     _.value = value
 
@@ -240,6 +241,8 @@ if type = 'list' then Unigui build it as vertical select list.
 
 ### Image. ###
 width,changed,height,header are optional, changed is called if the user select or touch the image.
+When the user click the image, a check mark is appearing on the image, showning select status of the image.
+It is usefull for image list, gallery, e.t.c
 ```
 Image(image_url, header = 'description', changed = selecting_changed, width = .., height = ..)
 ```
@@ -256,7 +259,6 @@ Video(video_url, width = .., height = ..)
 Tree(name, selected_item_name, changed_handler, options = {name1: parent1, name2 : None, .})
 ```
 options is a tree structure, a dictionary {item_name:parent_name}. 
-
 parent_name is None for root items. changed_handler gets item key (name) as value. 
 
 ### Table. ###
@@ -401,12 +403,6 @@ user = get_user()
 print(isinstance(user, Hello_user))
 ```
 
-More info about User class methods you can find in manager.py in the root dir.
+More info about User class methods you can find in manager.py in the souce dir.
 
 Examples are in tests folder.
-
-The articles about Unigui and its protocol in details:
-
-in English https://docs.google.com/document/d/1G_9Ejt9ETDoXpTCD3YkR8CW508Idk9BaMlD72tlx8bc/edit?usp=sharing
-
-in Russian https://docs.google.com/document/d/1EleilkEX-m5XOZK5S9WytIGpImAzOhz7kW3EUaeow7Q/edit?usp=sharing
