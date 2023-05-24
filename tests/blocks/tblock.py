@@ -95,8 +95,6 @@ def add_tree_elem(_, val):
     tree.value = txt
     return tree
 
-copy.copy
-
 treeblock = Block('Table block',[simple_enter, Button('Add to tree', add_tree_elem)], tree, icon = 'account_tree')
 
 tableblock = Block('Table Y', [], table, icon = 'insights')
