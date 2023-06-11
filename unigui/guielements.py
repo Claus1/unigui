@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from . import utils
 
 class Gui:
@@ -129,47 +130,62 @@ class Tree(Gui):
         if not hasattr(self,'value'):
             self.value = None
 
-def accept_cell_value( _, val):    
+def accept_cell_value(table, val):    
     value, position = val
-    try:
-        value = float(value)        
-    except ValueError:
-        pass
-    _.rows[position[0]][position[1]] = value    
+    if not isinstance(value, Boolean):
+        try:
+            value = float(value)        
+        except ValueError:
+            pass
+        table.rows[position[0]][position[1]] = value    
 
-def standart_table_delete(t, value):
-    if t.rows:        
-        keyed = len(t.headers) < len(t.rows[0])
-        t.value = value   
+def delete_table_row(table, value):
+    if table.rows:        
+        keyed = len(table.headers) < len(table.rows[0])
+        table.value = value   
         if isinstance(value, list):        
             if keyed:
-                t.rows = [row for row in t.rows if row[-1] not in value]
+                table.rows = [row for row in table.rows if row[-1] not in value]
             else:
                 value.sort(reverse=True)
                 for v in value:            
-                    del t.rows[v]
-            t.value = []
+                    del table.rows[v]
+            table.value = []
         else:
             if keyed:            
-                t.rows = [row for row in t.rows if row[-1] != value]
+                table.rows = [row for row in table.rows if row[-1] != value]
             else:
-                del t.rows[value]  
-            t.value = None    
+                del table.rows[value]  
+            table.value = None    
+
+def append_table_row(table, value):
+    ''' append has to return new row or error string, val is search string in the table'''
+    new_id_row, search = value #new_id_row == rows count
+    new_row = [''] * len(table.headers)
+    if search:
+        new_row[0] = search
+    table.rows.append(new_row)
+    return new_row
 
 class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)             
-        self.check('rows', 'headers','value')
+        self.check('headers')
         if not hasattr(self,'type'):
             self.type = 'table'
-        if not hasattr(self,'edit') or self.edit:
-            if not hasattr(self,'modify'):
-                self.modify = accept_cell_value 
-            if not hasattr(self,'delete'):
-                self.delete = standart_table_delete 
         if not hasattr(self,'rows'):
             self.rows = []
+        if not hasattr(self,'value'):
+            self.value = None
 
+        if getattr(self,'edit', True):
+            edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
+            if not edit_setting:                             
+                self.delete = delete_table_row             
+                self.append = append_table_row 
+            if not hasattr(self,'modify'): 
+                self.modify = accept_cell_value             
+        
     def selected_list(self):                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
 

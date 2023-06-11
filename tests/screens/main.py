@@ -1,5 +1,5 @@
 from unigui import *
-from blocks.tblock import config_area, cloned_table_typed
+from blocks.tblock import append, config_area, cloned_table_typed
 user = get_user()
 
 name = "Main"
@@ -7,10 +7,16 @@ icon = 'blur_linear'
 order = 0
 header = 'Test app'
 
+def append_row(table, value):
+    row = [''] * 4
+    row[-1] = False
+    table.rows.append(row)
+    return row #new row
+
 table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'], rows = [
     ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1', True],
-    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]    
-])
+    ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]
+], append = append_row )
 
 def clean_table(_, value):
     table.rows = []
