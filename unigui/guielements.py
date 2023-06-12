@@ -31,6 +31,19 @@ class Gui:
 
 Line = Gui("Line", type = 'line')
 
+def smart_complete(lst, min_input_length = 2, max_output_length = 10):
+    di = {it: it.lower() for it in lst}
+    def complete(gui, ustr):
+        if len(ustr) < min_input_length:
+            return []
+        ustr = ustr.lower()
+        arr = [(itlow.find(ustr), it) for it, itlow in di.items() if itlow.find(ustr) != -1]
+        arr.sort(key=lambda e: e[0])
+        if len(arr) > max_output_length:
+            arr = arr[: max_output_length]
+        return [e[1] for e in arr]
+    return complete
+
 class Edit(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)        

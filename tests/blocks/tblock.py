@@ -20,9 +20,6 @@ def complete(_, value):
         return ['aaa', 'bbbb', 'cccccc']
     return []
 
-def complete_edit(_, value):    
-    return [v for v in ['value 21', 'sum 289', 'absolute 3'] if value in v]    
-
 def changed(_, value):
     _.value = value  
     return Warning(f'{_.name} changed to {value}!')
@@ -79,11 +76,14 @@ txt = Text('Text about cats')
 
 simple_enter = Edit('Simple Enter update', 'cherokke', update = updated)
 
+list_complete = ['value 21', 'Value 21', 'sum 289', 'absolute 3']
+
 eblock = Block('New block',                        
         [Button('Dialog for a process', call_dialog)],
         txt,
         Edit('Read only', 'Try to change me!', edit = False),
-        Edit('Complete enter update field', 'Enter something', changed, complete = complete_edit, update = updated)
+        Edit('Complete enter update field', 'Enter something', changed, 
+            complete = smart_complete(list_complete), update = updated)
 )
 
 def add_tree_elem(_, val):
