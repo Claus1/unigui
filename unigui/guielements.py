@@ -1,4 +1,3 @@
-from xmlrpc.client import Boolean
 from . import utils
 
 class Gui:
@@ -145,7 +144,7 @@ class Tree(Gui):
 
 def accept_cell_value(table, val):    
     value, position = val
-    if not isinstance(value, Boolean):
+    if not isinstance(value, bool):
         try:
             value = float(value)        
         except ValueError:
