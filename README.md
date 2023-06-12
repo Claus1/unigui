@@ -1,6 +1,5 @@
 # unigui #
-Universal GUI and App Browser
-    Python connector
+Universal GUI Framework and Protocol (Python)
 
 ### Purpose ###
 Provide a programming technology that does not require front-end programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning. 
