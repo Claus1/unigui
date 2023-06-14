@@ -43,7 +43,8 @@ def replace_image(_, iname):
 
 block = Block('X Block',
     [           
-        clean_button
+        clean_button,
+        Select('Select', value='All', options=['All','Based','Group'])
         
     ], [table, cloned_table_typed], icon = 'api')
 
