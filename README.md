@@ -26,8 +26,7 @@ icon = 'blur_linear' #MD icon of screen to show
 order = 0 #order in the program menu
 blocks = [block] #what to show on the screen
 ```
-
-The block example with a table and 2 selectors
+The block example with a table and a selector
 ```
 table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'],rows = [
     ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1', True],
