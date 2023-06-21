@@ -1,8 +1,6 @@
 from unigui import *
 import random, copy, time
 
-user = get_user()
-
 def append(_,val):
     ''' append has to return new row or error string'''
     id, search = val

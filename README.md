@@ -395,9 +395,8 @@ class Hello_user(unigui.User):
 
 unigui.start('Hello app', user_type = Hello_user)
 ```
-In screens and blocks sources we can access the user by call get_user()
+In screens and blocks sources we can access the user by 'user' variable
 ```
-user = get_user()
 print(isinstance(user, Hello_user))
 ```
 

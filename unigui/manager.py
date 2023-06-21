@@ -6,7 +6,6 @@ import itertools
 import time
 from .guielements import *
 import sys
-from . import userset
 import asyncio
 import requests
 from threading import Thread
@@ -157,8 +156,7 @@ class User:
             'save' : self.save_changes,
             'toolbar' : None
         }     
-
-        userset.user = self    
+         
         blocks_dir = 'blocks'        
         screens_dir =  'screens'
         modules = {}
@@ -178,7 +176,8 @@ class User:
                 spec.loader.exec_module(module)            
                 
                 screen = Screen(module.name)
-                module.screen = screen                
+                module.screen = screen 
+                module.user = self               
                 self.screens.append(module)
                 #set system vars
                 for var in screen_vars:                                            
@@ -204,7 +203,8 @@ class User:
             if file.endswith(".py") and file != '__init__.py':
                 name = f'{blocks_dir}.{file[0:-3]}'
                 if name in sys.modules:
-                    del sys.modules[name]       
+                    sys.modules[name].user = self
+                    del sys.modules[name]
                 
     @property
     def screen(self):        

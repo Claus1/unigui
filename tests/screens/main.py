@@ -1,6 +1,5 @@
 from unigui import *
 from blocks.tblock import append, config_area, cloned_table_typed
-user = get_user()
 
 name = "Main"
 icon = 'blur_linear'
