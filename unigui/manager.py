@@ -168,17 +168,18 @@ class User:
                 path = f'{screens_dir}/{file}'                
                 spec = importlib.util.spec_from_file_location(name,path)
                 module = importlib.util.module_from_spec(spec)
-                modules[name] = module, spec
-                #else:
-                #    module, spec = modules[name]
+                modules[name] = module, spec                
                 
-                utils.clean_handlers()
+                utils.clean_handlers()                                
+                
+                module.user = self                               
+                
                 spec.loader.exec_module(module)            
                 
-                screen = Screen(module.name)
-                module.screen = screen 
-                module.user = self               
+                screen = Screen(module.name)     
+                module.screen = screen            
                 self.screens.append(module)
+
                 #set system vars
                 for var in screen_vars:                                            
                     setattr(screen, var, getattr(module,var,screen_vars[var])) 

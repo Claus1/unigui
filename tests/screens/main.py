@@ -6,6 +6,8 @@ icon = 'blur_linear'
 order = 0
 header = 'Test app'
 
+print(user)
+
 def append_row(table, value):
     row = [''] * 4
     row[-1] = False
