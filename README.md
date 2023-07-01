@@ -48,8 +48,8 @@ block = Block('X Block',
 | toolbar | Optional | Gui elements to show in the screen toolbar |
 | order | Optional | order in the program menu |
 | icon  | Optional | MD icon of screen to show in screen menu |
-| dispatch | Optional | Screen handlers for catching gui signals. Has signature def dispatch(gui, signal) |
-| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing has a signature 'def prepare()' |
+| dispatch | Optional | Screen handler for catching gui signals. Has signature 'def dispatch(gui, signal)' |
+| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing. Has a signature 'def prepare()' |
 
 
 ### Server start ###
@@ -299,7 +299,7 @@ value = [0] means 0 row is selected in multiselect mode (in array). multimode is
 
 
 ### Table handlers. ###
-complete, modify and update have the same format as the others elements, but value is consisted from the cell value and its position in the table.
+complete, modify and update have the same format as the others handlers, but value is consisted from the cell value and its position in the table.
 
 
 ```
