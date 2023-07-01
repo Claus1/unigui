@@ -12,9 +12,9 @@ from threading import Thread
 
 users = {}
 
-sing2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
+sign2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
 
-#loop and thread for progress functionality
+#loop and thread is only for progress window functionality
 loop = asyncio.new_event_loop()
 def f(loop):
     asyncio.set_event_loop(loop)
@@ -175,7 +175,7 @@ class User:
                 module.user = self                               
                 
                 spec.loader.exec_module(module)            
-                
+
                 screen = Screen(module.name)     
                 module.screen = screen            
                 self.screens.append(module)
@@ -190,7 +190,6 @@ class User:
                         tooltip = 'Save to disk',changed = screen.save)]
                                 
                 screen.check()                         
-                #del sys.modules[name]       
         
         self.screens.sort(key=lambda s: s.order)
         main = self.screens[0]
@@ -306,7 +305,7 @@ class User:
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0
         sign = arr[-2]
-        smeth = sing2method.get(sign)
+        smeth = sign2method.get(sign)
         val = arr[-1]
         if smeth:
             handler = self.screen.handlers__.get((elem, smeth))
