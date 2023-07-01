@@ -22,9 +22,8 @@ The program directory has to contain a screens folder which contains all screens
 Screen example tests/screens/main.py
 ```
 name = "Main"
-icon = 'blur_linear' 
-order = 0 
 blocks = [block] 
+icon = 'blur_linear' 
 ```
 The block example with a table and a selector
 ```
