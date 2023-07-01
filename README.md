@@ -43,11 +43,11 @@ block = Block('X Block',
 | Screen global variables |	Status | Description |
 | :---: | :---: | :---: | 
 | name  | Has to be defined | Unique screen name |
-| order | Has to be defined | order in the program menu |
 | blocks | Has to be defined | which blocks to show on the screen |
 | user   | Always defined, read-only | Access to User(inherited) class which associated with a current user |
 | header | Optional | show it instead of app name |
 | toolbar | Optional | Gui elements to show in the screen toolbar |
+| order | Optional | order in the program menu |
 | icon  | Optional | MD icon of screen to show in screen menu |
 | dispatch | Optional | Screen handlers for catching gui signals. Has signature def dispatch(gui, signal) |
 | prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing has a signature 'def prepare()' |

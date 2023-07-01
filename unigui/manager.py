@@ -150,7 +150,8 @@ class User:
             'dispatch' : None,
             'blocks' : [],
             'header' : utils.appname,                        
-            'toolbar' : None
+            'toolbar' : None, 
+            'order' : 0
         }     
          
         blocks_dir = 'blocks'        
