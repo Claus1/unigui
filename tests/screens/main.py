@@ -2,11 +2,6 @@ from unigui import *
 from blocks.tblock import append, config_area, cloned_table_typed
 
 name = "Main"
-icon = 'blur_linear'
-order = 0
-header = 'Test app'
-
-print(user)
 
 def append_row(table, value):
     row = [''] * 4
@@ -64,7 +59,6 @@ def graph_selection(_, val):
     if 'edges' in val:
         return Info(f"Edges {val['edges']}") 
     
-
 graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
     width = 400, height = 400, nodes = [
      { 'id' : 'node1', 'label': "Node 1" },
@@ -85,3 +79,6 @@ bottom_block = Block('Graph block',
      dispatch = block_dispatch)
 
 blocks= [[block,bottom_block],config_area]
+
+toolbar = [Button('_Save', lambda _, x: Info('saved!'), icon = 'save', tooltip = 'Save info'),
+        Button('_Ignored', lambda _, x: Info('ignored!'), icon = 'delete_forever', tooltip = 'Ignore info!')]

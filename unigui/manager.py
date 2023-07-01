@@ -187,7 +187,7 @@ class User:
                                 
                 screen.check()                         
         
-        self.screens.sort(key=lambda s: s.order)
+        self.screens.sort(key=lambda s: s.screen.order)
         main = self.screens[0]
         if 'prepare' in dir(main):
             main.prepare()
