@@ -48,9 +48,9 @@ block = Block('X Block',
 | user   | Always defined, read-only | Access to User(inherited) class which associated with a current user |
 | header | Optional | show it instead of app name |
 | toolbar | Optional | Gui elements to show in the screen toolbar |
-| icon  | Optional | MD icon of screen to show |
+| icon  | Optional | MD icon of screen to show in screen menu |
 | dispatch | Optional | Screen handlers for catching gui signals. Has signature def dispatch(gui, signal) |
-| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing |
+| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing has a signature 'def prepare()' |
 
 
 ### Server start ###

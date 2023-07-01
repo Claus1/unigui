@@ -191,7 +191,7 @@ class User:
         if 'prepare' in dir(main):
             main.prepare()
         self.screen_module = main
-        self.menu = [[s.name,s.icon] for s in self.screens]        
+        self.menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
 
         #remove user modules from sys for repeating loading for new users
         for file in os.listdir(blocks_dir):
