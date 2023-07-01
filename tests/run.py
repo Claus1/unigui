@@ -4,10 +4,9 @@ from aiohttp import web
 
 #optional:  add 2 path if unigui is installed near (for deep testing or developing)
 wd = os.getcwd()
-unipath = wd[:wd.rindex('/')] + '/unigui'
-if os.path.exists(unipath):
-    print('added possible unipath', unipath)
-    sys.path.insert(0,unipath)
+print(wd[:wd.find('/unigui')] + '/unigui')
+sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
+
 #---
 
 import unigui

@@ -38,10 +38,7 @@ class User:
         self.time_last_change = time.time()
         self.max_oper_time = 0.1  
 
-        self.tool_buttons = [Button('_Back', icon='arrow_back',changed=self.go_back, tooltip = 'Go back'), 
-            Button('_Forward', icon='arrow_forward',changed=self.go_forward, tooltip = 'Go forward'),
-            Button('_Undo', icon='undo', tooltip = 'Undo last operation',changed = self.undo_last_operation),
-            Button('_Redo', icon='redo', tooltip = 'Redo last operation',changed = self.redo_last_operation)]
+        self.tool_buttons = []
 
     def append_change(self, change):
         self.change_buffer.append(change)
@@ -152,8 +149,7 @@ class User:
             'prepare' : None,
             'dispatch' : None,
             'blocks' : [],
-            'header' : utils.appname,            
-            'save' : self.save_changes,
+            'header' : utils.appname,                        
             'toolbar' : None
         }     
          
@@ -186,8 +182,7 @@ class User:
                 screen.handlers__ = utils.handlers__
                 
                 if not screen.toolbar:
-                    screen.toolbar = [*self.tool_buttons, Button('_Save model', icon='cloud_upload', 
-                        tooltip = 'Save to disk',changed = screen.save)]
+                    screen.toolbar = self.tool_buttons
                                 
                 screen.check()                         
         

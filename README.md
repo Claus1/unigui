@@ -21,10 +21,10 @@ The program directory has to contain a screens folder which contains all screens
 
 Screen example tests/screens/main.py
 ```
-name = "Main" #name of screen to show
-icon = 'blur_linear' #MD icon of screen to show
-order = 0 #order in the program menu
-blocks = [block] #what to show on the screen
+name = "Main"
+icon = 'blur_linear' 
+order = 0 
+blocks = [block] 
 ```
 The block example with a table and a selector
 ```
@@ -40,7 +40,18 @@ block = Block('X Block',
     ], table, icon = 'api')
 ```
 
-#### Screen function prepare() syncronizes GUI elements one to another and with the program/system data. prepare() is called when the screen open/loaded. prepare() is optional. ###
+| Screen global variables |	Status | Description |
+| :---: | :---: | :---: | 
+| name  | Has to be defined | Unique screen name |
+| order | Has to be defined | order in the program menu |
+| blocks | Has to be defined | which blocks to show on the screen |
+| user   | Always defined, read-only | Access to User(inherited) class which associated with a current user |
+| header | Optional | show it instead of app name |
+| toolbar | Optional | Gui elements to show in the screen toolbar |
+| icon  | Optional | MD icon of screen to show |
+| dispatch | Optional | Screen handlers for catching gui signals. Has signature def dispatch(gui, signal) |
+| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing |
+
 
 ### Server start ###
 tests/run_hello.py
