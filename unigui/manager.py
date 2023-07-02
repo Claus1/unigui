@@ -100,11 +100,7 @@ class User:
             d['update'] = None            
             d['data'] = updates         
         
-        asyncio.run_coroutine_threadsafe(self.send(d), loop)
-        """  loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop) # <----
-        #f  = asyncio.ensure_future(self.send(d))
-        loop.run_until_complete(self.send(d))    """     
+        asyncio.run_coroutine_threadsafe(self.send(d), loop)            
                           
     def undo_last_operation(self, *_):
         if self.undo_last_changes():            
@@ -126,21 +122,16 @@ class User:
         if self.change_buffer != []:
             oper = self.change_buffer[-1].oper
             redo_buffer_size = len(self.redo_buffer)            
-            return True        
-
-    def dispatch(self, elem, ref):        
-        return Warning(f'What to do with {ref}?')        
+            return True             
 
     def go_back(self, *_):        
         if self.history_pointer > 0:
-            self.history_pointer -= 1
-            return self.dispatch(self.history_switching[self.history_pointer])
+            self.history_pointer -= 1            
         return Info('No more back references!')
 
     def go_forward(self, *_):
         if self.history_pointer < len(self.history_switching) - 1:
-            self.history_pointer += 1
-            return self.dispatch(self.history_switching[self.history_pointer])
+            self.history_pointer += 1            
         return Info('No more forward references!')
 
     def load(self):   
@@ -288,15 +279,9 @@ class User:
                         s.screen.prepare()
                     return True            
             print(f'Unknown root command {s.name}')
-            return 
-        elem = self.find_element(arr)
-        #recursive for Signals
-        while True:
-            res = self.process_element(elem, arr)
-            if not isinstance(res, Signal):
-                return res
-            elem = res.elem
-            arr = res.arr                            
+        else:
+            elem = self.find_element(arr)                        
+            return self.process_element(elem, arr)        
         
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0
@@ -323,24 +308,6 @@ class User:
                 for param in val:
                     setattr(elem, param, val[param])                                        
                 return                
-
-        elif sign == '@': #reference
-            result = False            
-            if hasattr(elem, 'dispatch'):
-                result = elem.dispatch(elem, val)
-            else:
-                scr = self.screen
-                for bl in flatten(self.blocks):        
-                    if hasattr(bl, 'dispatch') and elem in flatten(bl.childs, bl.top_childs):
-                        result = bl.dispatch(elem, val) 
-                        break
-                else:
-                    if scr.dispatch:
-                        result = scr.dispatch(elem, val) 
-                    else:    
-                        result = self.dispatch(elem, val) 
-            if result is not None:
-                return result        
 
         if sign != '!': #editing can omit
             return Error(f'{elem} does not contain method for {sign} event type!')

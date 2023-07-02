@@ -99,9 +99,3 @@ def upload_path(fpath):
 
 UpdateScreen = True
 
-class Signal:
-    def __init__(self, elem, signal):
-        if not signal.startswith('@'):
-            signal = f'@{signal}'
-        self.arr = ('@', signal)
-        self.elem = elem

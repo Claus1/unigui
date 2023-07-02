@@ -48,7 +48,6 @@ block = Block('X Block',
 | toolbar | Optional | list | Gui elements to show in the screen toolbar |
 | order | Optional | int | order in the program menu |
 | icon  | Optional | str | MD icon of screen to show in screen menu |
-| dispatch | Optional | def dispatch(gui, signal) | Screen handler for catching gui signals. |
 | prepare | Optional | def prepare() | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing. |
 
 
@@ -91,7 +90,7 @@ clean_button = Button('Clean the table’, clean_table)
 | UpdateScreen, True | Redraw whole screen |
 | Dialog(..) | Open a dialog with parameters |
 | user.set_screen(screen_name) | switch to another screen |
-| Signal(signal_name, ..) | causes indirect call screen.dispatch or/and user.dispatch handlers | 
+
 
 Unigui	synchronizes GUI state on frontend-end automatically after calling a handler.
 
@@ -344,10 +343,6 @@ def graph_selection(_, val):
 
 Has optional draw 'method' with options 'random', 'circle', 'breadthfirst', by default 'random'.
 
-### Signals ###
-Unigui supports a dedicated signal event handling mechanism. It is useful with shared blocks when a containing external blocks screen must respond to their elements without hard program linking. If a string in a table field started from @ then it considered as a signal. If the user interact with such GUI object Unigui generates a signal event, which comes to dispatch function of the screen. First Unigui look at the element block, if not found than at the screen, if not found User.dispatch will be called, which can be redefined for such cases. Any handler can return Signal(element_that_generated_the_event, '@the_event_value') which will be processed.
-
-
 ### Dialog ###
 ```
 Dialog(name, text, callback, buttons, content = None)
@@ -397,11 +392,6 @@ class Hello_user(unigui.User):
     def __init__(self):
         super().__init__()
         print('New Hello user connected and created!')
-    def dispatch(self, elem, ref):
-        if http_link(ref[1:]):
-            open_inbrowser()
-        else:
-            return Warning(f'What to do with {ref}?') 
 
 unigui.start('Hello app', user_type = Hello_user)
 ```

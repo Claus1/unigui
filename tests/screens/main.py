@@ -22,12 +22,6 @@ clean_button = Button('Clean table', clean_table, icon='swipe')
 
 selector = Select('Select', 'All', options=['All','Based','Group'])
 
-list_refs = Select('Detail ref list signals', type = 'list', options = ['Select reference'])
-
-def block_dispatch(_, ref):
-    list_refs.options = [f'#{i} {ref}' for i in range(10)]
-    return list_refs
-
 @handle(selector,'changed')
 def selchanged(_, val):
     if val == 'Based':
@@ -76,7 +70,7 @@ bottom_block = Block('Graph block',
         Button('Add new node', add_node)
     ],
     [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
-     dispatch = block_dispatch)
+)
 
 blocks= [[block,bottom_block],config_area]
 

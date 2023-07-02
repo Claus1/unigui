@@ -92,6 +92,8 @@ def add_tree_elem(_, val):
     txt = simple_enter.value
     if not txt:
         return Info('Enter text first to the field!')
+    if txt in ld:
+        return Warning('Cannot add doubles!')
     
     ld[txt] = tree.value if tree.value else None
     tree.value = txt
