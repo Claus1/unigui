@@ -39,17 +39,17 @@ block = Block('X Block',
     ], table, icon = 'api')
 ```
 
-| Screen global variables |	Status | Description |
-| :---: | :---: | :---: | 
-| name  | Has to be defined | Unique screen name |
-| blocks | Has to be defined | which blocks to show on the screen |
-| user   | Always defined, read-only | Access to User(inherited) class which associated with a current user |
-| header | Optional | show it instead of app name |
-| toolbar | Optional | Gui elements to show in the screen toolbar |
-| order | Optional | order in the program menu |
-| icon  | Optional | MD icon of screen to show in screen menu |
-| dispatch | Optional | Screen handler for catching gui signals. Has signature 'def dispatch(gui, signal)' |
-| prepare | Optional | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing. Has a signature 'def prepare()' |
+| Screen global variables |	Status | Type | Description |
+| :---: | :---: | :---: | :---: | 
+| name  | Has to be defined | str | Unique screen name |
+| blocks | Has to be defined | list |which blocks to show on the screen |
+| user   | Always defined, read-only | User+ | Access to User(inherited) class which associated with a current user |
+| header | Optional | str | show it instead of app name |
+| toolbar | Optional | list | Gui elements to show in the screen toolbar |
+| order | Optional | int | order in the program menu |
+| icon  | Optional | str | MD icon of screen to show in screen menu |
+| dispatch | Optional | def dispatch(gui, signal) | Screen handler for catching gui signals. |
+| prepare | Optional | def prepare() | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing. |
 
 
 ### Server start ###
