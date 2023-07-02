@@ -33,7 +33,7 @@ def table_update(_, value):
 
 def dialog_callback(_,value):
     perstr = lambda per : 'Process executing {}%'.format(per)
-    if value:
+    if value == 'Ok':
         user.progress(perstr(0))
         for i in range(100):
             txt.value = i
