@@ -48,13 +48,11 @@ def add_node(_, v):
 
 def graph_selection(_, val):
     _.value = val
-    if 'nodes' in val:        
-        return Info(f'Nodes {val["nodes"]}') 
-    if 'edges' in val:
-        return Info(f"Edges {val['edges']}") 
+    
+    return Info(f'Nodes {val["nodes"]}, Edges {val["edges"]}') 
     
 graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
-    width = 400, height = 400, nodes = [
+    width = 400, height = 400, method = 'breadthfirst',  nodes = [
      { 'id' : 'node1', 'label': "Node 1" },
      { 'id' : 'node2', 'label': "Node 2" },
      { 'id' : 'node3', 'label': "Node 3" },
@@ -65,9 +63,9 @@ graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_se
      { 'id' : 'edge3', 'source': "node3", 'target': "node4" , },
   ])
     
-bottom_block = Block('Graph block', 
+bottom_block = Block('Graph, press Shift for multi (de)select', 
     [        
-        Button('Add new node', add_node)
+        Button('Add node', add_node)
     ],
     [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
 )

@@ -340,6 +340,7 @@ def graph_selection(_, val):
     if 'edges' in val:
         return Info(f"Edges {val['edges']}") 
 ```
+With pressed 'Shift' multi select works for nodes and edges.
 
 Has optional draw 'method' with options 'random', 'circle', 'breadthfirst', by default 'random'.
 
@@ -403,3 +404,5 @@ print(isinstance(user, Hello_user))
 More info about User class methods you can find in manager.py in the souce dir.
 
 Examples are in tests folder.
+
+Unigui protocol messages from/to server you can see in a browser console (F12).
