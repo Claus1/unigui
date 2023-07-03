@@ -1,5 +1,5 @@
 from unigui import *
-from blocks.tblock import append, config_area, cloned_table_typed
+from blocks.tblock import config_area, cloned_table_typed
 
 name = "Main"
 
@@ -34,8 +34,7 @@ def replace_image(_, iname):
 block = Block('X Block',
     [           
         clean_button,
-        Select('Select', value='All', options=['All','Based','Group'])
-        
+        Select('Select', value='All', options=['All','Based','Group'])        
     ], [table, cloned_table_typed], icon = 'api')
 
 def add_node(_, v):
@@ -47,8 +46,7 @@ def add_node(_, v):
             return graph
 
 def graph_selection(_, val):
-    _.value = val
-    
+    _.value = val    
     return Info(f'Nodes {val["nodes"]}, Edges {val["edges"]}') 
     
 graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
@@ -63,10 +61,7 @@ graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_se
      { 'id' : 'edge3', 'source': "node3", 'target': "node4" , },
   ])
     
-bottom_block = Block('Graph, press Shift for multi (de)select', 
-    [        
-        Button('Add node', add_node)
-    ],
+bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node', add_node),    
     [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
 )
 
