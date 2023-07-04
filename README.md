@@ -193,16 +193,14 @@ Special button provides file loading from user device or computer to the Unigui 
 ```
 UploadButton('Load', handler_when_loading_finish, icon='photo_library')
 ```
-handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is a file name in upload server folder. This folder name is optional upload_dir parameter in unigui.start.
+handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is a file name in upload server folder. This folder name is defined in config.py .
 
 ### Camera Button ###
 Special button provides to make a photo on the user mobile device. 
 ```
 CameraButton('Make a photo', handler_when_shooting_finish, icon='camera_alt')
 ```
-handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is the made photo name in the server folder. This folder name is an
-optional upload_dir parameter in unigui.start.
-
+handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is the made photo name in the server folder. This folder name is defined in config.py .
 
 ### Edit and Text field. ###
 ```
