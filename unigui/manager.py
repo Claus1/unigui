@@ -3,14 +3,11 @@ import importlib
 from .utils import *
 from . import utils
 import itertools
-import time
 from .guielements import *
 import sys
 import asyncio
 import requests
 from threading import Thread
-
-users = {}
 
 sign2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
 
@@ -27,9 +24,9 @@ class User:
     def __init__(self):          
         self.screens = []        
         self.active_dialog = None
-        self.screen_module = None        
-        
+        self.screen_module = None                
         self.tool_buttons = []
+        User.last_user = self
 
     def translate_path(self, path):        
         return utils.translate_path(path)
@@ -77,53 +74,55 @@ class User:
         d = {'progress': str}
         if updates:
             d['update'] = None            
-            d['data'] = updates         
-        
+            d['data'] = updates                 
         asyncio.run_coroutine_threadsafe(self.send(d), loop)            
-                              
-    def load(self):   
+
+    def load_module(self, file):
         screen_vars = {
-            'icon' : 'article',
+            'icon' : None,
             'prepare' : None,
             'dispatch' : None,
             'blocks' : [],
             'header' : utils.appname,                        
-            'toolbar' : None, 
+            'toolbar' : [], 
             'order' : 0
         }     
+        
+        name = file[0:-3]
+        screens_dir =  'screens'
+             
+        #if name not in modules:                    
+        path = f'{screens_dir}/{file}'                
+        spec = importlib.util.spec_from_file_location(name,path)
+        module = importlib.util.module_from_spec(spec)        
+        
+        utils.clean_handlers()                                        
+        module.user = self                               
+        
+        spec.loader.exec_module(module)            
+        screen = Screen(module.name)
+        #set system vars
+        for var in screen_vars:                                            
+            setattr(screen, var, getattr(module,var,screen_vars[var])) 
+        screen.handlers__ = utils.handlers__
+        
+        if not screen.toolbar:
+            screen.toolbar = self.tool_buttons
+                        
+        screen.check()                         
+        module.screen = screen
+
+        return module
+                              
+    def load(self):   
          
         blocks_dir = 'blocks'        
         screens_dir =  'screens'
-        modules = {}
+        
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
-                name = file[0:-3]
-
-                #if name not in modules:                    
-                path = f'{screens_dir}/{file}'                
-                spec = importlib.util.spec_from_file_location(name,path)
-                module = importlib.util.module_from_spec(spec)
-                modules[name] = module, spec                
-                
-                utils.clean_handlers()                                
-                
-                module.user = self                               
-                
-                spec.loader.exec_module(module)            
-
-                screen = Screen(module.name)     
-                module.screen = screen            
-                self.screens.append(module)
-
-                #set system vars
-                for var in screen_vars:                                            
-                    setattr(screen, var, getattr(module,var,screen_vars[var])) 
-                screen.handlers__ = utils.handlers__
-                
-                if not screen.toolbar:
-                    screen.toolbar = self.tool_buttons
-                                
-                screen.check()                         
+                module = self.load_module(file)                
+                self.screens.append(module)                
         
         self.screens.sort(key=lambda s: s.screen.order)
         main = self.screens[0]
