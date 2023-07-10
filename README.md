@@ -106,7 +106,7 @@ def changed_range(_, value):
     #accept value othewise
     _.value = value
 
-edit = Edit('Range of involving', 0.6, changed_range)
+edit = Edit('Range of involving', 0.6, changed_range, type = 'number')
 ```
 
 ### Block details ###
@@ -142,9 +142,9 @@ Interception handlers have the same in/out format as usual handlers.
 For example above interception of select_mode changed event will be:
 ```
 @handle(select_mode, 'changed')
-def do_not_select_mode_x(_, value):
-    if value == 'mode_x':
-        return Error('Do not select mode_x', _) # _ means update select_mode to the previous state
+def do_not_select_mode_x(selector, value):
+    if value == 'Mode X':
+        return Error('Do not select Mode X in this context', selector) # send old value for update select_mode to the previous state
     return _.accept(value) #otherwise accept the value
 ```
 
@@ -205,7 +205,7 @@ handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_f
 ### Edit and Text field. ###
 ```
 Edit('Some field', '') #for string value
-Edit('Number field', 0.9) #for numbers
+Edit('Number field', 0.9, type = 'number') #changed haandler will get a number
 ```
 If set edit = false it will be readonly field or text label.
 ```
@@ -219,7 +219,7 @@ complete handler is optional function which accepts the current edit value and r
 def get_complete_list(gui_element, current_value):
     return [s for s in vocab if current_value in s]    
 
-Edit('Edit me', value = '', complete = get_complete_list) #value has to be string or number
+Edit('Edit me', 'value', complete = get_complete_list) #value has to be string or number
 ```
 
 Optional 'update' handler is called when the user press Enter in the field.

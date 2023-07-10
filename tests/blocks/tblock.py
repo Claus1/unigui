@@ -83,7 +83,7 @@ list_complete = ['value 21', 'Value 21', 'sum 289', 'absolute 3']
 eblock = Block('New block',                        
         [Button('Dialog for a process', call_dialog)],
         txt,
-        Edit('Read only', 'Try to change me!', edit = False),
+        Edit('Number only', 2.5, type = 'number'),
         Edit('Complete enter update field', 'Enter something', changed, 
             complete = smart_complete(list_complete), update = updated)
 )
