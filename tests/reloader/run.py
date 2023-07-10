@@ -29,6 +29,8 @@ def free():
     global busy
     if request_file:
         reload(request_file)
+    else:
+        busy = False
 
 busy = False        
 
@@ -39,13 +41,13 @@ def reload(sname):
     user = User.last_user
     try:
         module = user.load_module(sname)
-    except:
+    except Exception as e:
+        busy = False
+        print(str(e))
         return
     user.screens[0] = module
     user.set_screen(module.name)
-    asyncio.run_coroutine_threadsafe(user.send(True), loop)     
-
-    time.sleep(3)
+    asyncio.run_coroutine_threadsafe(user.send(True), loop)         
     free()    
 
 class ScreenEventHandler(PatternMatchingEventHandler):    
