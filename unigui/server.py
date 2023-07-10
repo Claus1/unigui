@@ -21,8 +21,7 @@ async def post_handler(request):
             size += len(chunk)
             f.write(chunk)
 
-    return web.Response(text='{} sized of {} successfully stored'
-                             ''.format(filename, size))
+    return web.Response(text=f'{filename} sized of {size} successfully stored')
 
 from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
 from pathlib import Path
@@ -80,13 +79,11 @@ async def websocket_handler(request):
     return ws       
 
 def start(appname, user_type = User, translate_path = None, http_handlers = []):
-    wd = os.getcwd()
-    import sys
-    sys.path.insert(0,wd) #load from working directory
     
-    sys.path.pop(0) #delete work path
-
     set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip, socket_port)    
+    
+    if upload_dir and not os.path.exists(upload_dir):
+        os.makedirs(upload_dir)
 
     User.UserType = user_type
 

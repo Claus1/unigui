@@ -24,33 +24,12 @@ t = Thread(target=f, args=(loop,))
 t.start()  
 
 class User:      
-    def __init__(self):   
-        self.change_buffer = []
-        self.redo_buffer = []      
-       
+    def __init__(self):          
         self.screens = []        
         self.active_dialog = None
-        self.screen_module = None
-        self.history_switching = []
-        self.history_pointer = 0        
-
-        self.oper_count = 0
-        self.time_last_change = time.time()
-        self.max_oper_time = 0.1  
-
+        self.screen_module = None        
+        
         self.tool_buttons = []
-
-    def append_change(self, change):
-        self.change_buffer.append(change)
-        curr_time = time.time()
-        if curr_time - self.time_last_change > self.max_oper_time:
-            self.oper_count += 1
-            self.redo_buffer = [] #clean redo if new operation
-        change.oper = self.oper_count
-        self.time_last_change = curr_time        
-
-    def save_changes(self,*_):
-        pass
 
     def translate_path(self, path):        
         return utils.translate_path(path)
@@ -101,39 +80,7 @@ class User:
             d['data'] = updates         
         
         asyncio.run_coroutine_threadsafe(self.send(d), loop)            
-                          
-    def undo_last_operation(self, *_):
-        if self.undo_last_changes():            
-            return True  
-        return Error("Nothing to undo!")
-        
-    def redo_last_operation(self, *_):    
-        if self.redo_last_changes():            
-            return True     
-        return Error("Nothing to redo!")
-
-    def redo_last_changes(self):
-        if self.redo_buffer != []:
-            oper = self.redo_buffer[-1].oper                
-            undo_buffer_size = len(self.change_buffer)            
-            return True
-
-    def undo_last_changes(self):
-        if self.change_buffer != []:
-            oper = self.change_buffer[-1].oper
-            redo_buffer_size = len(self.redo_buffer)            
-            return True             
-
-    def go_back(self, *_):        
-        if self.history_pointer > 0:
-            self.history_pointer -= 1            
-        return Info('No more back references!')
-
-    def go_forward(self, *_):
-        if self.history_pointer < len(self.history_switching) - 1:
-            self.history_pointer += 1            
-        return Info('No more forward references!')
-
+                              
     def load(self):   
         screen_vars = {
             'icon' : 'article',
@@ -254,9 +201,7 @@ class User:
 
     def prepare_result(self, raw):
         if raw == UpdateScreen:
-            raw = self.screen            
-            #if getattr(raw,'prepare', False):
-            #    raw.prepare()
+            raw = self.screen                        
         else:
             if type(raw) == dict and 'update' in raw:
                 if isinstance(raw['data'], (list,tuple)):

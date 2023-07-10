@@ -7,8 +7,6 @@ wd = os.getcwd()
 print(wd[:wd.find('/unigui')] + '/unigui')
 sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
 
-#---
-
 import unigui
 
 async def handle_get(request):

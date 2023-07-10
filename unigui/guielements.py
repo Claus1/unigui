@@ -185,6 +185,8 @@ class Table(Gui):
         self.check('headers')
         if not hasattr(self,'type'):
             self.type = 'table'
+        if not hasattr(self,'value'):
+            self.value = None
         if not hasattr(self,'rows'):
             self.rows = []
         if not hasattr(self,'value'):

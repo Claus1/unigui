@@ -10,11 +10,10 @@ pip install unigui
 ```
 
 ### How it works inside ###
-The exchange protocol for the solution is JSON as the most universally accessible, comprehensible, readable, and popular format compatible with all programming languages.  The server sends JSON data to Unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for user data. No markup, drawing instructions and the other dull job are required. Just the simplest description what you want. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
+The exchange protocol for the solution is JSON as the most universally accessible, readable, and popular format for Web. The server sends JSON data to the front-end unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that.
-Unigui web version is included in this library. Unigui for Go is accessible in https://github.com/Claus1/unigui-go
+Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that. Unigui web version is included in this library. Unigui for Go is accessible in https://github.com/Claus1/unigui-go
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
@@ -205,7 +204,7 @@ handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_f
 ### Edit and Text field. ###
 ```
 Edit('Some field', '') #for string value
-Edit('Number field', 0.9, type = 'number') #changed haandler will get a number
+Edit('Number field', 0.9, type = 'number') #changed handler will get a number
 ```
 If set edit = false it will be readonly field or text label.
 ```
