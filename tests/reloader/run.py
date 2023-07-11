@@ -13,6 +13,7 @@ import sys
 import logging
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
+import traceback
 
 busy = False        
 
@@ -30,13 +31,21 @@ def reload(sname):
     user = User.last_user
     try:
         module = user.load_module(sname)
-    except Exception as e:
+    except:
         busy = False
-        print(str(e))
+        traceback.print_exc()
+        #print(str(e))
         return
-    user.screens[0] = module
+
+    for i, s in enumerate(user.screens):
+        if s.name == module.name:
+            user.screens[i] = module
+            break
+
     user.set_screen(module.name)
-    user.sync_send(True)#asyncio.run_coroutine_threadsafe(user.send(True), loop)         
+    user.update_menu()
+    user.clean_sys4next_user() 
+    user.sync_send(True)
     free()    
 
 class ScreenEventHandler(PatternMatchingEventHandler):    

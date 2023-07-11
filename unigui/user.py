@@ -100,7 +100,16 @@ class User:
         screen.check()                         
         module.screen = screen
         return module
-                              
+
+    def clean_sys4next_user(self):
+        #remove user modules from sys for repeating loading for new users
+        if os.path.exists(blocks_dir):
+            for file in os.listdir(blocks_dir):
+                if file.endswith(".py") and file != '__init__.py':
+                    name = f'{blocks_dir}.{file[0:-3]}'
+                    if name in sys.modules:
+                        sys.modules[name].user = self
+                        del sys.modules[name]                          
     def load(self):            
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
@@ -112,16 +121,14 @@ class User:
         if 'prepare' in dir(main):
             main.prepare()
         self.screen_module = main
-        self.menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
+        self.update_menu()
+        self.clean_sys4next_user()                        
 
-        #remove user modules from sys for repeating loading for new users
-        if not os.path.exists(blocks_dir):
-            for file in os.listdir(blocks_dir):
-                if file.endswith(".py") and file != '__init__.py':
-                    name = f'{blocks_dir}.{file[0:-3]}'
-                    if name in sys.modules:
-                        sys.modules[name].user = self
-                        del sys.modules[name]                    
+    def update_menu(self):
+        menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
+        for s in self.screens:
+            s.screen.menu = menu
+
     @property
     def screen(self):        
         return  self.screen_module.screen 

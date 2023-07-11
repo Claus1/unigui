@@ -44,7 +44,7 @@ async def websocket_handler(request):
     user.send = send 
     user.load()
     
-    await ws.send_str(jsonString([user.menu,user.screen])) 
+    await ws.send_str(jsonString(user.screen)) 
 
     async for msg in ws:
         if msg.type == WSMsgType.TEXT:
