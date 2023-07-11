@@ -1,6 +1,6 @@
 from .utils import *
 from .guielements import *
-from .manager import User
+from .user import User
 from .server import start
 
 

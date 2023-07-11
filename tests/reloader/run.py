@@ -10,20 +10,11 @@ import unigui
 from unigui import User
 
 import sys
-import time
 import logging
-import asyncio
 from watchdog.observers import Observer
 from watchdog.events import PatternMatchingEventHandler
-from threading import Thread
 
-loop = asyncio.new_event_loop()
-def f(loop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever() 
-
-t = Thread(target=f, args=(loop,))
-t.start()  
+busy = False        
 
 def free():
     global busy
@@ -31,8 +22,6 @@ def free():
         reload(request_file)
     else:
         busy = False
-
-busy = False        
 
 def reload(sname):
     global busy, request_file
@@ -47,7 +36,7 @@ def reload(sname):
         return
     user.screens[0] = module
     user.set_screen(module.name)
-    asyncio.run_coroutine_threadsafe(user.send(True), loop)         
+    user.sync_send(True)#asyncio.run_coroutine_threadsafe(user.send(True), loop)         
     free()    
 
 class ScreenEventHandler(PatternMatchingEventHandler):    

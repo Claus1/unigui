@@ -1,7 +1,5 @@
-import os
 import importlib
 from .utils import *
-from . import utils
 import itertools
 from .guielements import *
 import sys
@@ -10,15 +8,6 @@ import requests
 from threading import Thread
 
 sign2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
-
-#loop and thread is only for progress window functionality
-loop = asyncio.new_event_loop()
-def f(loop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever() 
-
-t = Thread(target=f, args=(loop,))
-t.start()  
 
 class User:      
     def __init__(self):          
@@ -69,13 +58,16 @@ class User:
                     print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
                     break
 
+    def sync_send(self, obj):
+        asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
+
     def progress(self, str, *updates):
         """open or update progress window if str != null else close it  """     
         d = {'progress': str}
         if updates:
             d['update'] = None            
-            d['data'] = updates                 
-        asyncio.run_coroutine_threadsafe(self.send(d), loop)            
+            d['data'] = updates          
+        self.sync_send(d)               
 
     def load_module(self, file):
         screen_vars = {
@@ -86,11 +78,9 @@ class User:
             'header' : utils.appname,                        
             'toolbar' : [], 
             'order' : 0
-        }     
-        
+        }             
         name = file[0:-3]
-        screens_dir =  'screens'
-             
+        screens_dir =  'screens'             
         #if name not in modules:                    
         path = f'{screens_dir}/{file}'                
         spec = importlib.util.spec_from_file_location(name,path)
@@ -111,11 +101,9 @@ class User:
                         
         screen.check()                         
         module.screen = screen
-
         return module
                               
-    def load(self):   
-         
+    def load(self):            
         blocks_dir = 'blocks'        
         screens_dir =  'screens'
         
@@ -132,13 +120,14 @@ class User:
         self.menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
 
         #remove user modules from sys for repeating loading for new users
-        for file in os.listdir(blocks_dir):
-            if file.endswith(".py") and file != '__init__.py':
-                name = f'{blocks_dir}.{file[0:-3]}'
-                if name in sys.modules:
-                    sys.modules[name].user = self
-                    del sys.modules[name]
-                
+        if os.path.exists(blocks_dir):
+            for file in os.listdir(blocks_dir):
+                if file.endswith(".py") and file != '__init__.py':
+                    name = f'{blocks_dir}.{file[0:-3]}'
+                    if name in sys.modules:
+                        sys.modules[name].user = self
+                        del sys.modules[name]
+                    
     @property
     def screen(self):        
         return  self.screen_module.screen 
@@ -256,5 +245,15 @@ class User:
         if sign != '!': #editing can omit
             return Error(f'{elem} does not contain method for {sign} event type!')
 
+#loop and thread is for progress window and async interactions
+loop = asyncio.new_event_loop()
+def f(loop):
+    asyncio.set_event_loop(loop)
+    loop.run_forever() 
+
+async_thread = Thread(target=f, args=(loop,))
+async_thread.start()  
+
+User.extra_loop = loop
     
 

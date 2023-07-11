@@ -1,8 +1,7 @@
 from aiohttp import web, WSMsgType
-from . import utils
-
-import os
-from .manager import * 
+from .user import *
+from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
+from pathlib import Path
 
 async def post_handler(request):
 
@@ -23,39 +22,28 @@ async def post_handler(request):
 
     return web.Response(text=f'{filename} sized of {size} successfully stored')
 
-from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
-from pathlib import Path
-
-indent = 2 if pretty_print else 0
-
 def jsonString(obj):
-    return toJson(obj, indent, pretty_print)
+    return toJson(obj, 2 if pretty_print else 0, pretty_print)
 
-async def static_serve(request):
-    #if "Upgrade" in request.headers and request.headers["Upgrade"] == 'websocket':
-    #    return await websocket_handler(request)
+async def static_serve(request):    
     file_path = request.path
     if upload_dir not in  request.path:
-        file_path = f"{utils.webpath}{file_path}"  # rebase into static dir
+        file_path = f"{webpath}{file_path}"  # rebase into static dir
     file_path  = Path(file_path)
     
     if request.path == '/':
         file_path /= 'index.html'
         
-    if not file_path.exists():
-        return web.HTTPNotFound()
-     
-    return web.FileResponse(file_path) if request.path != User.fix_file else web.Response(text = User.fixed_main) 
+    return web.HTTPNotFound() if not file_path.exists() else (web.FileResponse(file_path)     
+         if request.path != User.fix_file else web.Response(text = User.fixed_main)) 
 
 async def websocket_handler(request):
-
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    
     user = User.UserType()
+
     async def send(res):
-        await ws.send_str(jsonString(user.prepare_result(res)))
-        
+        await ws.send_str(jsonString(user.prepare_result(res)))        
     user.send = send 
     user.load()
     
@@ -75,7 +63,6 @@ async def websocket_handler(request):
                 ws.exception())
 
     print('websocket connection closed')
-
     return ws       
 
 def start(appname, user_type = User, translate_path = None, http_handlers = []):
@@ -87,7 +74,7 @@ def start(appname, user_type = User, translate_path = None, http_handlers = []):
 
     User.UserType = user_type
 
-    if utils.socket_ip != 'localhost' or utils.resource_port != 8000 or utils.socket_port != 1234:
+    if socket_ip != 'localhost' or resource_port != 8000 or socket_port != 1234:
         User.create_fixed_js()     
         http_handlers.append(web.get(User.fix_file, static_serve))
     else:
@@ -96,20 +83,17 @@ def start(appname, user_type = User, translate_path = None, http_handlers = []):
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
     for h in [web.get('/', static_serve), 
-        web.static('/js', f"{utils.webpath}/js"),
-        web.static('/fonts', f"{utils.webpath}/fonts"),
-        web.static('/css', f"{utils.webpath}/css"),
-        web.static('/icons', f"{utils.webpath}/icons"),
-        web.static(f'/{upload_dir}', f"/{utils.app_user_dir}/{upload_dir}"),
+        web.static('/js', f"{webpath}/js"),
+        web.static('/fonts', f"{webpath}/fonts"),
+        web.static('/css', f"{webpath}/css"),
+        web.static('/icons', f"{webpath}/icons"),
+        web.static(f'/{upload_dir}', f"/{app_user_dir}/{upload_dir}"),
         web.post('/', post_handler)]:
 
         http_handlers.append(h)
 
     print(f'Start {appname} server on {port} port..')    
-
     app = web.Application()
-    
-    app.add_routes(http_handlers)
-    
+    app.add_routes(http_handlers)    
     web.run_app(app,  port=port)
     

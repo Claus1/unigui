@@ -398,7 +398,7 @@ In screens and blocks sources we can access the user by 'user' variable
 print(isinstance(user, Hello_user))
 ```
 
-More info about User class methods you can find in manager.py in the souce dir.
+More info about User class methods you can find in user.py in the souce dir.
 
 Examples are in tests folder.
 
