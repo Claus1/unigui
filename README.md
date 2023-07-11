@@ -22,7 +22,6 @@ Screen example tests/screens/main.py
 ```
 name = "Main"
 blocks = [block] 
-icon = 'blur_linear' 
 ```
 The block example with a table and a selector
 ```
@@ -54,13 +53,12 @@ block = Block('X Block',
 tests/run_hello.py
 ```
 import unigui
-#app name, the others server setting in config.py like port, upload_dir, ..
 unigui.start('Test app') 
 ```
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
 
-![image](https://github.com/Claus1/unigui/assets/1247062/62caca12-86fc-4dcd-99b4-26845963b5cf)
+![image](https://github.com/Claus1/unigui/assets/1247062/aca4db13-df32-4c16-8fff-e6a1a74bf640)
 
 ### Handling events ###
 All handlers are functions which have a signature
