@@ -7,8 +7,6 @@ import asyncio
 import requests
 from threading import Thread
 
-sign2method = {'=':'changed', '->':'update','?':'complete','+':'append', '-':'delete', '!':'editing', '#':'modify'}    
-
 class User:      
     def __init__(self):          
         self.screens = []        
@@ -219,32 +217,26 @@ class User:
         
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0
-        sign = arr[-2]
-        smeth = sign2method.get(sign)
+        smeth = arr[-2]        
         val = arr[-1]
-        if smeth:
-            handler = self.screen.handlers__.get((elem, smeth))
-            if handler:
-                result = handler(elem, val)                
-                return result
-            
-            handler = getattr(elem, smeth, False)                                
-            if handler:                
-                res = handler(elem, val)  
-                if id:                        
-                    res = Answer(res, None, id)                
-                return res
-            elif sign == '=':
-                if hasattr(elem,'value'): #exlude Buttons and others without 'value'
-                    elem.value = val                                        
-                return                
-            elif sign == '$': #update element params
-                for param in val:
-                    setattr(elem, param, val[param])                                        
-                return                
+        
+        handler = self.screen.handlers__.get((elem, smeth))
+        if handler:
+            result = handler(elem, val)                
+            return result
+        
+        handler = getattr(elem, smeth, False)                                
+        if handler:                
+            res = handler(elem, val)  
+            if id:                        
+                res = Answer(res, None, id)                
+            return res
+        elif smeth == 'changed':
+            if hasattr(elem,'value'): #exlude Buttons and others without 'value'
+                elem.value = val                                        
+            return                        
 
-        if sign != '!': #editing can omit
-            return Error(f'{elem} does not contain method for {sign} event type!')
+        return Error(f'{elem} does not contain method for {smeth} event type!')
 
 #loop and thread is for progress window and async interactions
 loop = asyncio.new_event_loop()

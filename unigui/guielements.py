@@ -64,9 +64,9 @@ class Button(Gui):
         for key in kwargs.keys():            
             self.add(key, kwargs[key])
 
-def CameraButton(name, handler,**kwargs):
+def CameraButton(name, *args,**kwargs):
     kwargs['type'] = 'camera'
-    return Button(name, handler, **kwargs)
+    return Button(name, *args, **kwargs)
 
 def UploadButton(name, handler,**kwargs):
     if 'type' not in kwargs:
