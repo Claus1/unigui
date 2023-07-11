@@ -8,6 +8,8 @@ app_user_dir = os.getcwd()
 upload_dir = 'upload'
 socket_ip = ''
 socket_port = 1234
+blocks_dir = 'blocks'        
+screens_dir =  'screens'        
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
@@ -37,7 +39,7 @@ def translate_http_path(path):
 
 translate_path = translate_http_path
 
-def set_utils(appname_,user_dir_,port_,upload_dir_, translate_path_, socket_ip_, socket_port_):
+def set_utils(appname_,port_,upload_dir_, translate_path_, socket_ip_, socket_port_):
     global appname, resource_port, upload_dir, translate_path, socket_ip, socket_port
     appname = appname_
     resource_port = port_

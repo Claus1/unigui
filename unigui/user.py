@@ -79,9 +79,7 @@ class User:
             'toolbar' : [], 
             'order' : 0
         }             
-        name = file[0:-3]
-        screens_dir =  'screens'             
-        #if name not in modules:                    
+        name = file[0:-3]        
         path = f'{screens_dir}/{file}'                
         spec = importlib.util.spec_from_file_location(name,path)
         module = importlib.util.module_from_spec(spec)        
@@ -104,9 +102,6 @@ class User:
         return module
                               
     def load(self):            
-        blocks_dir = 'blocks'        
-        screens_dir =  'screens'
-        
         for file in os.listdir(screens_dir):
             if file.endswith(".py") and file != '__init__.py':
                 module = self.load_module(file)                
@@ -120,14 +115,13 @@ class User:
         self.menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
 
         #remove user modules from sys for repeating loading for new users
-        if os.path.exists(blocks_dir):
+        if not os.path.exists(blocks_dir):
             for file in os.listdir(blocks_dir):
                 if file.endswith(".py") and file != '__init__.py':
                     name = f'{blocks_dir}.{file[0:-3]}'
                     if name in sys.modules:
                         sys.modules[name].user = self
-                        del sys.modules[name]
-                    
+                        del sys.modules[name]                    
     @property
     def screen(self):        
         return  self.screen_module.screen 

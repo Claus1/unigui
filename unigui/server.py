@@ -1,14 +1,11 @@
 from aiohttp import web, WSMsgType
 from .user import *
-from config import port, user_dir, pretty_print, socket_ip, socket_port, upload_dir
+from config import port, pretty_print, socket_ip, socket_port, upload_dir
 from pathlib import Path
 
 async def post_handler(request):
-
     reader = await request.multipart()
-
     field = await reader.next()   
-    
     filename = upload_path(field.filename)  
     # You cannot rely on Content-Length if transfer is chunked.
     size = 0
@@ -67,7 +64,7 @@ async def websocket_handler(request):
 
 def start(appname, user_type = User, translate_path = None, http_handlers = []):
     
-    set_utils(appname,user_dir, port, upload_dir, translate_path, socket_ip, socket_port)    
+    set_utils(appname, port, upload_dir, translate_path, socket_ip, socket_port)    
     
     if upload_dir and not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
