@@ -39,6 +39,8 @@ class User:
     @staticmethod
     def create_fixed_js():
         dir = f"{utils.webpath}/js"        
+        def replace(b, what, tothat):
+            return b.replace(bytes(what,encoding='utf8'), bytes(str(tothat),encoding='utf8'))  
         for file in os.listdir(dir):
             fn = f'{dir}/{file}'
             if file[0].isdigit() and file.endswith(".js") and os.path.getsize(fn) > 25000:
@@ -46,11 +48,11 @@ class User:
                 with open(fn, 'rb') as main:
                     b = main.read()
                     if utils.socket_ip != 'localhost':
-                        b = b.replace(bytes('localhost',encoding='utf8'), bytes(str(utils.socket_ip),encoding='utf8'))                
+                        b = replace(b,'localhost', utils.socket_ip)
                     if utils.resource_port != 8000:
-                        b = b.replace(bytes('8000',encoding='utf8'), bytes(str(utils.resource_port),encoding='utf8'))                
+                        b = replace(b,'8000',utils.resource_port)
                     if utils.socket_port != 1234:
-                        b = b.replace(bytes('1234',encoding='utf8'), bytes(str(utils.socket_port),encoding='utf8'))                
+                        b = replace(b,'1234', utils.socket_port)                
                     User.fixed_main = b.decode("utf-8") 
                     print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
                     break
@@ -69,8 +71,7 @@ class User:
     def load_module(self, file):
         screen_vars = {
             'icon' : None,
-            'prepare' : None,
-            'dispatch' : None,
+            'prepare' : None,            
             'blocks' : [],
             'header' : utils.appname,                        
             'toolbar' : [], 
@@ -89,7 +90,7 @@ class User:
         #set system vars
         for var in screen_vars:                                            
             setattr(screen, var, getattr(module,var,screen_vars[var])) 
-        screen.handlers__ = utils.handlers__
+        module.handlers__ = utils.handlers__
         
         if not screen.toolbar:
             screen.toolbar = self.tool_buttons
@@ -98,8 +99,8 @@ class User:
         module.screen = screen
         return module
 
-    def clean_sys4next_user(self):
-        #remove user modules from sys for repeating loading for new users
+    def set_clean(self):
+        #remove user modules from sys 
         if os.path.exists(blocks_dir):
             for file in os.listdir(blocks_dir):
                 if file.endswith(".py") and file != '__init__.py':
@@ -119,7 +120,7 @@ class User:
             main.prepare()
         self.screen_module = main
         self.update_menu()
-        self.clean_sys4next_user()                        
+        self.set_clean()                        
 
     def update_menu(self):
         menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
@@ -216,28 +217,28 @@ class User:
         
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0
-        smeth = arr[-2]        
+        action = arr[-2]        
         val = arr[-1]
         
-        handler = self.screen.handlers__.get((elem, smeth))
+        handler = self.screen_module.handlers__.get((elem, action))
         if handler:
             result = handler(elem, val)                
             return result
         
-        handler = getattr(elem, smeth, False)                                
+        handler = getattr(elem, action, False)                                
         if handler:                
             res = handler(elem, val)  
             if id:                        
                 res = Answer(res, None, id)                
             return res
-        elif smeth == 'changed':
+        elif action == 'changed':
             if hasattr(elem,'value'): #exlude Buttons and others without 'value'
                 elem.value = val                                        
             return                        
 
-        return Error(f'{elem} does not contain method for {smeth} event type!')
+        return Error(f'{elem} does not contain method for {action} event type!')
 
-#loop and thread is for progress window and async interactions
+#loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
 def f(loop):
     asyncio.set_event_loop(loop)

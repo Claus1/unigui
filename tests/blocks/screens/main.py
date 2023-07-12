@@ -34,7 +34,7 @@ def replace_image(_, iname):
 block = Block('X Block',
     [           
         clean_button,
-        Select('Select', value='All', options=['All','Based','Group'])        
+        selector
     ], [table, cloned_table_typed], icon = 'api')
 
 def add_node(_, v):
