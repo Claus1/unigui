@@ -45,12 +45,12 @@ block = Block('X Block',
 | header | Optional | str | show it instead of app name |
 | toolbar | Optional | list | Gui elements to show in the screen toolbar |
 | order | Optional | int | order in the program menu |
-| icon  | Optional | str | MD icon of screen to show in screen menu |
+| icon  | Optional | str | MD icon of screen to show in the screen menu |
 | prepare | Optional | def prepare() | Syncronizes GUI elements one to another and with the program/system data. If defined then is called before screen appearing. |
 
 
 ### Server start ###
-tests/run_hello.py
+tests/template/run.py
 ```
 import unigui
 unigui.start('Test app') 

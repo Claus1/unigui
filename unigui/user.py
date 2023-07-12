@@ -1,6 +1,5 @@
 import importlib
 from .utils import *
-import itertools
 from .guielements import *
 import sys
 import asyncio
@@ -166,8 +165,8 @@ class User:
                     return e
         for bl in flatten(self.blocks):
             if bl.name == path[0]:
-                for c in itertools.chain(bl.top_childs, bl.childs):
-                    if type(c) == list:
+                for c in bl.value:
+                    if isinstance(c, list):
                         for sub in c:
                             if sub.name == path[1]:
                                 return sub
@@ -178,8 +177,8 @@ class User:
         for bl in flatten(self.blocks):        
             if bl == elem:
                 return [bl.name]
-            for c in itertools.chain(bl.top_childs, bl.childs):
-                if type(c) == list:
+            for c in bl.value:
+                if isinstance(c, list):
                     for sub in c:
                         if sub == elem:
                             return [bl.name, sub.name]

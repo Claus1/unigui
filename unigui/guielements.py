@@ -209,28 +209,20 @@ class Table(Gui):
         return self
         
 class Block(Gui):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):        
         self.name = args[0]        
         self.type = 'block'
+        self.value = list(args[1:])
         for key in kwargs.keys():            
-            self.add(key, kwargs[key])
-        la = len(args) 
-        self.top_childs = (args[1] if isinstance(args[1], list) else [args[1]]) if la > 1 else []                    
-        self.childs = list(args[2:]) if la > 2 else []
+            self.add(key, kwargs[key])        
         self.check()
 
     def check(self):
         ch_names = set()        
-        for child in self.childs:
-            if isinstance(child, list) or isinstance(child, tuple):
-                for sub in child:                                        
-                    if sub.name in ch_names:                        
-                        raise Exception(f'Error: the block {self.name} contains a duplicated name {sub.name}!')                        
-                    ch_names.add(sub.name)
-            else:
-                if child.name in ch_names:
-                    raise Exception(f'Error: the block {self.name} contains a duplicated name {child.name}!')                    
-                ch_names.add(child.name)
+        for child in utils.flatten(self.value):            
+            if child.name in ch_names:                        
+                raise Exception(f'Error: the block {self.name} contains a duplicated name {child.name}!')                        
+            ch_names.add(child.name)            
 
 class Dialog:  
     def __init__(self, name, callback, *content, buttons = ['Ok', 'Cancel'], icon = 'not_listed_location'):
