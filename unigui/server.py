@@ -2,6 +2,7 @@ from aiohttp import web, WSMsgType
 from .user import *
 from config import port, pretty_print, socket_ip, socket_port, upload_dir
 from pathlib import Path
+from .reloader import hot_reload #just importing
 
 async def post_handler(request):
     reader = await request.multipart()
