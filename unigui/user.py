@@ -109,18 +109,21 @@ class User:
                         sys.modules[name].user = self
                         del sys.modules[name]                          
     def load(self):            
-        for file in os.listdir(screens_dir):
-            if file.endswith(".py") and file != '__init__.py':
-                module = self.load_module(file)                
-                self.screens.append(module)                
-        
-        self.screens.sort(key=lambda s: s.screen.order)
-        main = self.screens[0]
-        if 'prepare' in dir(main):
-            main.prepare()
-        self.screen_module = main
-        self.update_menu()
-        self.set_clean()                        
+        if os.path.exists(screens_dir):
+            for file in os.listdir(screens_dir):
+                if file.endswith(".py") and file != '__init__.py':
+                    module = self.load_module(file)                
+                    self.screens.append(module)                
+            
+        if self.screens:
+            self.screens.sort(key=lambda s: s.screen.order)            
+            main = self.screens[0]
+            if 'prepare' in dir(main):
+                main.prepare()
+            self.screen_module = main
+            self.update_menu()
+            self.set_clean()       
+            return True                 
 
     def update_menu(self):
         menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        

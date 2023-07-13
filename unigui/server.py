@@ -2,7 +2,7 @@ from aiohttp import web, WSMsgType
 from .user import *
 from config import port, pretty_print, socket_ip, socket_port, upload_dir
 from pathlib import Path
-from .reloader import hot_reload #just importing
+from .reloader import empty_app 
 
 async def post_handler(request):
     reader = await request.multipart()
@@ -43,9 +43,10 @@ async def websocket_handler(request):
     async def send(res):
         await ws.send_str(jsonString(user.prepare_result(res)))        
     user.send = send 
-    user.load()
     
-    await ws.send_str(jsonString(user.screen)) 
+    ok = user.load()
+    
+    await ws.send_str(jsonString(user.screen if ok else empty_app)) 
 
     async for msg in ws:
         if msg.type == WSMsgType.TEXT:
