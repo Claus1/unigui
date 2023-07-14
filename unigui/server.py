@@ -81,7 +81,11 @@ def start(appname, user_type = User, http_handlers = []):
     
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
-    for h in [web.get('/', static_serve),         
+    for h in [web.get('/', static_serve),        
+        web.static('/js', f"{webpath}/js"),
+        web.static('/fonts', f"{webpath}/fonts"),
+        web.static('/css', f"{webpath}/css"),
+        web.static('/icons', f"{webpath}/icons"), 
         web.static(f'/{upload_dir}', f"/{app_user_dir}/{upload_dir}"),
           web.post('/', post_handler)]:
             http_handlers.append(h)
