@@ -64,9 +64,9 @@ async def websocket_handler(request):
     print('websocket connection closed')
     return ws       
 
-def start(appname, user_type = User, translate_path = None, http_handlers = []):
+def start(appname, user_type = User, http_handlers = []):
     
-    set_utils(appname, port, upload_dir, translate_path, socket_ip)    
+    set_utils(appname, port, upload_dir, socket_ip)    
     
     if upload_dir and not os.path.exists(upload_dir):
         os.makedirs(upload_dir)

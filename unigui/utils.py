@@ -50,18 +50,13 @@ def translate_http_path(path):
         return f'{app_user_dir}{path}'.replace('%20',' ')     
     return f'{webpath}{path}'.replace('%20',' ') 
 
-translate_path = translate_http_path
-
-def set_utils(appname_,port_,upload_dir_, translate_path_, socket_ip_):
-    global appname, resource_port, upload_dir, translate_path, socket_ip, socket_port
+def set_utils(appname_,port_,upload_dir_, socket_ip_):
+    global appname, resource_port, upload_dir, socket_ip, socket_port
     appname = appname_
     resource_port = port_
     upload_dir = upload_dir_
     socket_ip = socket_ip_
-    socket_port = port_
-
-    if translate_path_:
-        translate_path = translate_path_
+    socket_port = port_    
 
 def flatten(*arr):
     for a in arr:

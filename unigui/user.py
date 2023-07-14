@@ -14,9 +14,6 @@ class User:
         self.tool_buttons = []
         User.last_user = self
 
-    def translate_path(self, path):        
-        return utils.translate_path(path)
-
     @staticmethod
     def cache_name(url):    
         name = url.split('/')[-1]
@@ -54,7 +51,7 @@ class User:
                     if utils.socket_port != 1234:
                         b = replace(b,'1234', utils.socket_port)                
                     User.fixed_main = b.decode("utf-8") 
-                    print(f"Fixed {file} created on ip {utils.socket_ip}, http port {utils.resource_port}, socket port {utils.socket_port}.")
+                    print(f"Configuring for socket ip {utils.socket_ip}, http port {utils.resource_port}")
                     break
 
     def sync_send(self, obj):
