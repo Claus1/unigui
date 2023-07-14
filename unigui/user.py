@@ -35,8 +35,9 @@ class User:
 
     @staticmethod
     def create_fixed_js():
-        dir = f"{utils.webpath}/js"        
-        def replace(b, what, tothat):
+        dir = f"{utils.webpath}/js"
+        b = None        
+        def replace(what, tothat):
             return b.replace(bytes(what,encoding='utf8'), bytes(str(tothat),encoding='utf8'))  
         for file in os.listdir(dir):
             fn = f'{dir}/{file}'
@@ -45,26 +46,20 @@ class User:
                 with open(fn, 'rb') as main:
                     b = main.read()
                     if utils.socket_ip != 'localhost':
-                        b = replace(b,'localhost', utils.socket_ip)
+                        b = replace('localhost', utils.socket_ip)
                     if utils.resource_port != 8000:
-                        b = replace(b,'8000',utils.resource_port)
-                    if utils.socket_port != 1234:
-                        b = replace(b,'1234', utils.socket_port)                
+                        b = replace('8000',utils.resource_port)                    
                     User.fixed_main = b.decode("utf-8") 
-                    print(f"Configuring for socket ip {utils.socket_ip}, http port {utils.resource_port}")
+                    print(f"Configuring for http port {utils.resource_port}, socket ip is {utils.socket_ip}.")
                     break
 
     def sync_send(self, obj):
         asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
 
     def progress(self, str, *updates):
-        """open or update progress window if str != null else close it  """     
-        d = {'progress': str}
-        if updates:
-            d['update'] = None            
-            d['data'] = updates          
-        self.sync_send(d)               
-
+        """open or update progress window if str != null else close it  """             
+        return self.sync_send(TextMessage('progress', str, *updates, user = self))
+                       
     def load_module(self, file):
         screen_vars = {
             'icon' : None,
@@ -140,7 +135,8 @@ class User:
         if dialog:            
             if len(data) == 2: #button pressed
                 self.active_dialog = None
-                result = dialog.callback(dialog, data[1]) #data[1] == returned value                                
+                #data[1] is returned value                                
+                result = dialog.callback(dialog, data[1]) 
             else:
                 el = self.find_element(data)
                 if el:
@@ -149,7 +145,6 @@ class User:
             return    
         else:
             result = self.process(data)           
-
         if result and isinstance(result, Dialog):
             self.active_dialog = result
         return result
@@ -190,16 +185,12 @@ class User:
         if raw == UpdateScreen:
             raw = self.screen                        
         else:
-            if type(raw) == dict and 'update' in raw:
-                if isinstance(raw['data'], (list,tuple)):
-                    raw['multi'] = True
-                    raw['update'] = [self.find_path(e) for e in raw['data']]
-                else:
-                    raw['update'] = self.find_path(raw['data'])
+            if isinstance(raw, Message):
+                raw.fill_paths4(self)                
             elif isinstance(raw,Gui):
-                 raw = {'update': self.find_path(raw), 'data': raw}
+                raw = Message(raw, user = self)                 
             elif isinstance(raw, (list, tuple)) and all(isinstance(e,Gui) for e in raw):
-                raw = {'update': [self.find_path(e) for e in raw],'multi': True, 'data': raw}
+                raw = Message(*raw, user = self)
         return raw
 
     def process(self,arr):
@@ -210,7 +201,7 @@ class User:
                     if getattr(s.screen,'prepare', False):
                         s.screen.prepare()
                     return True            
-            print(f'Unknown root command {s.name}')
+            print(f'Unknown screen name: {s.name}')
         else:
             elem = self.find_element(arr)                        
             return self.process_element(elem, arr)        
@@ -240,13 +231,13 @@ class User:
 
 #loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
+User.extra_loop = loop
+
 def f(loop):
     asyncio.set_event_loop(loop)
     loop.run_forever() 
-
+    
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
-
-User.extra_loop = loop
     
 

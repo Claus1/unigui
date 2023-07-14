@@ -10,6 +10,7 @@ socket_ip = ''
 socket_port = 1234
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
+UpdateScreen = True
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
@@ -19,7 +20,7 @@ try:
 except:
     with open('config.py', 'w') as f:        
         f.write("""port = 8000 
-#for remote server socket_ip is remote server ip 
+#for remote server socket_ip is its ip 
 socket_ip = 'localhost' 
 upload_dir = 'web'
 pretty_print = True
@@ -34,14 +35,16 @@ def toJson(obj, indent, pretty_print):
 def fn2url(fn):   
     if fn[0] == '/':
         fn = fn[len(app_user_dir):]   
-    s =  fn #f":{resource_port}/{fn}"
-    return s.replace(' ','%20')
+    return fn.replace(' ','%20')
 
 def url2fn(url):
     return url[url.find('/') + 1:].replace('%20',' ')
 
 def upload_fn(fn):
     return f'{upload_dir}/{fn}'     
+
+def upload_path(fpath):
+    return f'{os.getcwd()}/{upload_dir}/{fpath}'
     
 def translate_http_path(path):
     if '?' in path:
@@ -77,35 +80,34 @@ def handle(elem, event):
         handlers__[elem, event] = fn
     return h
 
-def Answer(data, param, id):
-    return {'answer': data,'param': param, 'id' : id}
+class Message:
+    def __init__(self, *gui_objects, user = None):
+        if gui_objects:
+            self.updates = [{'data': gui} for gui in gui_objects]
+            if user:
+                self.fill_paths4(user)
 
-def Error(message, *data):
-    d = {'error':message}
-    if data:
-        d['data'] = data
-        d['update'] = None
-    return d
+    def fill_paths4(self, user):
+        if hasattr(self, 'updates'):
+            for update in self.updates:
+                update['path'] = user.find_path(update['data'])
 
-def Info(message, *data):
-    d = {'info':message}
-    if data:
-        d['data'] = data
-        d['update'] = None
-    return d
+def TextMessage(type, text, *data, user = None):
+    message = Message(*data, user=user)
+    message.type = type
+    message.value = text    
+    return message    
+
+def Warning(text, *data):
+    return TextMessage('warning', text, *data)
+
+def Error(text, *data):
+    return TextMessage('error', text, *data)
     
-def Warning(message, *data):
-    d = {'warning':message}
-    if data:
-        d['data'] = data
-        d['update'] = None
-    return d    
+def Info(text, *data):
+    return TextMessage('info', text, *data)
 
-def Update(data):
-    return {'data': data,'update': None}
+def Answer(data, param, id):
+    return {'type' : 'answer', 'value': data,'param': param, 'id' : id}
 
-def upload_path(fpath):
-    return f'{os.getcwd()}/{upload_dir}/{fpath}'
-
-UpdateScreen = True
 
