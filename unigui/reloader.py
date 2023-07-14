@@ -11,7 +11,7 @@ empty_app = {
     "blocks": [],
     "header": "No screens",
     "icon": None,
-    "menu": [["",None]
+    "menu": [["You need to put at least 1 file in the 'screens' folder.",'exclamation']
     ],
     "name": "",
     "order": 0,
@@ -52,6 +52,8 @@ if hasattr(config, hot_reload) and config.hot_reload:
                     break
             else:
                 user.screens.append(module)
+                if len(user.screens) == 1:
+                    user.set_screen(module.name)                    
 
             user.update_menu()
             user.set_clean() 
@@ -73,9 +75,13 @@ if hasattr(config, hot_reload) and config.hot_reload:
                         request_file = f'{dir}/{name}' 
                     else:                    
                         fresh_module = reload(name) if dir == 'screens' else None                    
-                        current = User.last_user.screen_module.__file__
-                        if not fresh_module or current != fresh_module.__file__:
-                            reload(current.split('/')[-1]) 
+                        user = User.last_user
+                        module = user.screen_module
+                        if module:
+                            current = module.__file__
+                            if not fresh_module or current != fresh_module.__file__:
+                                reload(current.split('/')[-1]) 
+                                                    
         def on_deleted(self, event):            
             if not event.is_directory and hasattr(User,'last_user'):
                 user = User.last_user            
