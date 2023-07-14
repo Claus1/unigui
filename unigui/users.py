@@ -5,6 +5,7 @@ import sys
 import asyncio
 import requests
 from threading import Thread
+import logging
 
 class User:      
     def __init__(self):          
@@ -13,6 +14,14 @@ class User:
         self.screen_module = None                
         self.tool_buttons = []
         User.last_user = self
+
+    def log(self, str, type = 'error'):        
+        scr = self.screen.name if self.screens else 'omitted'
+        str = f"session: {self.session__}, screen: {scr}, message: {self.message__} \n  {str}"
+        if type == 'error':
+            logging.error(str)
+        else:
+            logging.warning(str)
 
     @staticmethod
     def cache_name(url):    
@@ -194,6 +203,7 @@ class User:
         return raw
 
     def process(self,arr):
+        self.message__ = arr
         if arr[0] == 'root':
             for s in self.screens:
                 if s.name == arr[1]:
@@ -239,5 +249,11 @@ def f(loop):
     
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
+
+p = {'level' : logging.WARNING}
+if hasattr(config, 'logfile'):
+    p['filename'] = config.logfile
+logging.basicConfig(format='%(asctime)s - %(message)s', **p)
+
     
 

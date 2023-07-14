@@ -1,11 +1,4 @@
-import logging, os, traceback
-from watchdog.observers import Observer
-from watchdog.events import PatternMatchingEventHandler
-from unigui import User
-
 import config
-
-hot_reload = 'hot_reload'
 
 empty_app = {
     "blocks": [],
@@ -18,7 +11,11 @@ empty_app = {
     "type": "screen"
 }
 
-if hasattr(config, hot_reload) and config.hot_reload:
+if hasattr(config, 'hot_reload') and config.hot_reload:
+    import logging, os, traceback
+    from watchdog.observers import Observer
+    from watchdog.events import PatternMatchingEventHandler
+    from unigui import User
     busy = False        
 
     def free():
@@ -67,8 +64,7 @@ if hasattr(config, hot_reload) and config.hot_reload:
                 arr = event.src_path.split('/') 
                 name = arr[-1]
                 dir = arr[-2]  
-                if name.endswith('.py') and dir in ['screens','blocks']:         
-                    super(ScreenEventHandler, self).on_modified(event)
+                if name.endswith('.py') and dir in ['screens','blocks']:                             
                     if busy:
                         global request_file            
                         request_file = f'{dir}/{name}' 

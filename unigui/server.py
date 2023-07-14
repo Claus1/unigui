@@ -1,5 +1,5 @@
 from aiohttp import web, WSMsgType
-from .user import *
+from .users import *
 from config import port, pretty_print, socket_ip, upload_dir
 from pathlib import Path
 from .reloader import empty_app 
@@ -42,25 +42,30 @@ async def websocket_handler(request):
 
     async def send(res):
         res = jsonString(user.prepare_result(res))
-        await ws.send_str(res)        
+        await ws.send_str(res)   
+
     user.send = send     
-    ok = user.load()
+    user.session__ = request.remote
+    ok = user.load()    
     await ws.send_str(jsonString(user.screen if ok else empty_app)) 
 
-    async for msg in ws:
-        if msg.type == WSMsgType.TEXT:
-            if msg.data == 'close':
-                await ws.close()
-            else:
-                data = json.loads(msg.data)            
-                result = user.result4message(data)
-                if result:                
-                    await ws.send_str(jsonString(user.prepare_result(result)))
-        elif msg.type == WSMsgType.ERROR:
-            print('ws connection closed with exception %s' %
-                ws.exception())
-
-    print('websocket connection closed')
+    try:
+        async for msg in ws:
+            if msg.type == WSMsgType.TEXT:
+                if msg.data == 'close':
+                    await ws.close()
+                else:
+                    data = json.loads(msg.data)            
+                    result = user.result4message(data)
+                    if result:                
+                        await ws.send_str(jsonString(user.prepare_result(result)))
+            elif msg.type == WSMsgType.ERROR:
+                print('ws connection closed with exception %s' %
+                    ws.exception())
+    except:
+        type, value, traceback = sys.exc_info()
+        user.log(f'{type}: {value} \n{traceback.format_exc()}\n')
+    
     return ws       
 
 def start(appname, user_type = User, http_handlers = []):
