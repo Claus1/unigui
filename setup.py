@@ -12,6 +12,6 @@ setup(name='unigui',
       url="https://github.com/Claus1/unigui" ,      
       include_package_data=True,
       install_requires=[
-          'websockets','jsonpickle', 'aiohttp'
+          'websockets','jsonpickle', 'aiohttp', 'watchdog'
       ],
       zip_safe=False)
