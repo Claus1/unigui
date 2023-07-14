@@ -14,6 +14,20 @@ screens_dir =  'screens'
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
 
+try:
+    import config
+except:
+    with open('config.py', 'w') as f:        
+        f.write("""port = 8000 
+socket_ip = 'localhost' 
+socket_port = 8000
+upload_dir = 'web'
+pretty_print = True
+hot_reload = True
+""")
+        print("Config with default parameters created!")
+
+
 def toJson(obj, indent, pretty_print):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
         indent = indent, sort_keys = pretty_print)

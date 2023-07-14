@@ -11,8 +11,7 @@ empty_app = {
     "blocks": [],
     "header": "No screens",
     "icon": None,
-    "menu": [["You need to put at least 1 file in the 'screens' folder.",'exclamation']
-    ],
+    "menu": [["You need to put at least 1 file in the 'screens' folder.",'exclamation']],
     "name": "",
     "order": 0,
     "toolbar": [],
