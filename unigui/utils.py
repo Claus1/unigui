@@ -19,14 +19,13 @@ try:
 except:
     with open('config.py', 'w') as f:        
         f.write("""port = 8000 
+#for remote server socket_ip is remote server ip 
 socket_ip = 'localhost' 
-socket_port = 8000
 upload_dir = 'web'
 pretty_print = True
 hot_reload = True
 """)
-        print("Config with default parameters created!")
-
+        print("Config with default parameters is created!")
 
 def toJson(obj, indent, pretty_print):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
@@ -53,13 +52,13 @@ def translate_http_path(path):
 
 translate_path = translate_http_path
 
-def set_utils(appname_,port_,upload_dir_, translate_path_, socket_ip_, socket_port_):
+def set_utils(appname_,port_,upload_dir_, translate_path_, socket_ip_):
     global appname, resource_port, upload_dir, translate_path, socket_ip, socket_port
     appname = appname_
     resource_port = port_
     upload_dir = upload_dir_
     socket_ip = socket_ip_
-    socket_port = socket_port_
+    socket_port = port_
 
     if translate_path_:
         translate_path = translate_path_

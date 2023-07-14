@@ -1,6 +1,6 @@
 from aiohttp import web, WSMsgType
 from .user import *
-from config import port, pretty_print, socket_ip, socket_port, upload_dir
+from config import port, pretty_print, socket_ip, upload_dir
 from pathlib import Path
 from .reloader import empty_app 
 
@@ -66,18 +66,14 @@ async def websocket_handler(request):
 
 def start(appname, user_type = User, translate_path = None, http_handlers = []):
     
-    set_utils(appname, port, upload_dir, translate_path, socket_ip, socket_port)    
+    set_utils(appname, port, upload_dir, translate_path, socket_ip)    
     
     if upload_dir and not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
 
-    User.UserType = user_type
-
-    if socket_ip != 'localhost' or resource_port != 8000 or socket_port != 1234:
-        User.create_fixed_js()     
-        http_handlers.append(web.get(User.fix_file, static_serve))
-    else:
-        User.fix_file = None
+    User.UserType = user_type    
+    User.create_fixed_js()     
+    http_handlers.append(web.get(User.fix_file, static_serve))
     
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
