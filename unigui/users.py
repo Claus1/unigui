@@ -13,7 +13,7 @@ class User:
         self.active_dialog = None
         self.screen_module = None                
         self.tool_buttons = []
-        User.last_user = self
+        User.last_user = self        
 
     def log(self, str, type = 'error'):        
         scr = self.screen.name if self.screens else 'omitted'
@@ -109,7 +109,7 @@ class User:
                     if name in sys.modules:
                         sys.modules[name].user = self
                         del sys.modules[name]                          
-    def load(self):            
+    def load(self):              
         if os.path.exists(screens_dir):
             for file in os.listdir(screens_dir):
                 if file.endswith(".py") and file != '__init__.py':
@@ -203,7 +203,7 @@ class User:
         return raw
 
     def process(self,arr):
-        self.message__ = arr
+        self.message__ = arr        
         if arr[0] == 'root':
             for s in self.screens:
                 if s.name == arr[1]:
@@ -250,10 +250,10 @@ def f(loop):
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
 
-p = {'level' : logging.WARNING}
-if hasattr(config, 'logfile'):
-    p['filename'] = config.logfile
-logging.basicConfig(format='%(asctime)s - %(message)s', **p)
+#Logging 
+format = "%(asctime)s - %(levelname)s - %(message)s"
+handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if hasattr(config,'logfile') else []
+logging.basicConfig(level = logging.WARNING, format = format, handlers = handlers)
 
-    
+
 
