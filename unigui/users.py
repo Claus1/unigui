@@ -190,6 +190,9 @@ class User:
                             return [bl.name, sub.name]
                 elif c == elem:
                     return [bl.name, c.name]
+        for e in self.screen.toolbar:
+            if e == elem:                
+                return ['toolbar', e.name]
 
     def prepare_result(self, raw):
         if raw == UpdateScreen:
