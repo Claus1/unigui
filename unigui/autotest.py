@@ -68,7 +68,8 @@ if autotest:
 
     def ask_create_test(_, bname):
         if bname == 'Ok':            
-            return create_test(test_name.value) if test_name.value else Warning('Test file name is not defined!')
+            return create_test(test_name.value) if test_name.value else\
+                Warning('Test file name is not defined!')
 
     button = Button('_Add test', button_clicked, 
             icon='data_saver_on', tooltip='Create autotest')

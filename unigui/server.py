@@ -33,8 +33,10 @@ async def static_serve(request):
     if request.path == '/':
         file_path /= 'index.html'
         
-    return web.HTTPNotFound() if not file_path.exists() else (web.FileResponse(file_path)     
+    answer = web.HTTPNotFound() if not file_path.exists() else (web.FileResponse(file_path)     
          if request.path != User.fix_file else web.Response(text = User.fixed_main)) 
+
+    return answer
 
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
@@ -62,10 +64,9 @@ async def websocket_handler(request):
                         result = jsonString(user.prepare_result(result))    
                         await ws.send_str(result)
                     recorder(msg.data, result)
-                    
+
             elif msg.type == WSMsgType.ERROR:
-                print('ws connection closed with exception %s' %
-                    ws.exception())
+                print('ws connection closed with exception %s' % ws.exception())
     except:
         type, value, traceback = sys.exc_info()
         user.log(f'{type}: {value} \n{traceback.format_exc()}\n')
@@ -80,19 +81,11 @@ def start(appname, user_type = User, http_handlers = []):
         os.makedirs(upload_dir)
 
     User.UserType = user_type    
-    User.create_fixed_js()     
-    http_handlers.append(web.get(User.fix_file, static_serve))
-    
+    User.create_fixed_js()      
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
-    for h in [web.get('/', static_serve),        
-        web.static('/js', f"{webpath}/js"),
-        web.static('/fonts', f"{webpath}/fonts"),
-        web.static('/css', f"{webpath}/css"),
-        web.static('/icons', f"{webpath}/icons"), 
-        web.static(f'/{upload_dir}', f"/{app_user_dir}/{upload_dir}"),
-          web.post('/', post_handler)]:
-            http_handlers.append(h)
+    for h in [web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
+        http_handlers.append(h)
 
     print(f'Start {appname} server on {port} port..')    
     app = web.Application()

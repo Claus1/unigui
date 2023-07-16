@@ -109,10 +109,11 @@ edit = Edit('Range of involving', 0.6, changed_range, type = 'number')
 ### Block details ###
 The width and height of blocks is calculated automatically depending on their children. It is possible to set the block width, or make it scrollable , for example for images list. Possible to add MD icon to the header, if required. width, scroll, height, icon are optional.
 ```
+#Block(name, *children, **options)
 block = Block(‘Pictures’,add_button, *images, width = 500, scroll = True,icon = 'api')
 ```
  
-The second parameter of the Block constructor is a widget(s) which are drawn in the block header just after its name.
+The first Block child is a widget(s) which are drawn in the block header just after its name.
 Blocks can be shared between the user screens with its states. Such a block has to be located in the 'blocks' folder .
 Examples of such block tests/blocks/tblock.py:
 ```
@@ -133,7 +134,7 @@ from blocks.tblock import concept_block
 blocks = [.., concept_block]
 ```
 
-#### Events interception of shared blocks ####
+#### Events interception of shared elements ####
 Interception handlers have the same in/out format as usual handlers.
 #### They are called before the inner element handler call. They cancel the call of inner element handler but you can call it as shown below.
 For example above interception of select_mode changed event will be:
