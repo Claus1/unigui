@@ -1,0 +1,2670 @@
+2023-07-16 08:05:23,026 - ERROR - session: ::1, screen: Main, message: ['toolbar', '_Add test', 'changed', None] 
+  ["Create autotest..","Ok"] 
+{
+"blocks": [
+[
+{
+"icon": "api",
+"name": "X Block",
+"type": "block",
+"value": [
+[
+{
+"changed": null,
+"icon": "swipe",
+"name": "Clean table"
+},
+{
+"name": "Select",
+"options": [
+"All",
+"Based",
+"Group"
+],
+"value": "Group"
+}
+],
+[
+{
+"append": null,
+"delete": null,
+"headers": [
+"Video",
+"Duration",
+"Links",
+"Mine"
+],
+"modify": null,
+"name": "Videos",
+"rows": [
+[
+"opt_sync1_3_0.mp4",
+"30 seconds",
+"@Refer to signal1",
+true
+],
+[
+"opt_sync1_3_0.mp4",
+"37 seconds",
+"@Refer to signal8",
+false
+]
+],
+"type": "table",
+"value": 0
+},
+{
+"append": null,
+"changed": null,
+"complete": null,
+"headers": [
+"Audio",
+"Duration,sec",
+"Stars"
+],
+"modify": null,
+"multimode": true,
+"name": "Audios",
+"rows": [
+[
+"sync0.mp3",
+73.82,
+14
+],
+[
+"sync1.mp3",
+87.87,
+22
+],
+[
+"sync2.mp3",
+104.86,
+8
+],
+[
+"sync3.mp3",
+51.0,
+7
+],
+[
+"sync4.mp3",
+6.14,
+25
+],
+[
+"sync5.mp3",
+112.94,
+46
+],
+[
+"sync6.mp3",
+121.41,
+50
+],
+[
+"sync7.mp3",
+62.37,
+13
+],
+[
+"sync8.mp3",
+31.81,
+23
+],
+[
+"sync9.mp3",
+43.68,
+14
+],
+[
+"sync10.mp3",
+100.89,
+7
+],
+[
+"sync11.mp3",
+112.94,
+9
+],
+[
+"sync12.mp3",
+70.46,
+29
+],
+[
+"sync13.mp3",
+125.89,
+21
+],
+[
+"sync14.mp3",
+126.7,
+34
+],
+[
+"sync15.mp3",
+97.21,
+7
+],
+[
+"sync16.mp3",
+13.05,
+41
+],
+[
+"sync17.mp3",
+48.97,
+15
+],
+[
+"sync18.mp3",
+136.65,
+49
+],
+[
+"sync19.mp3",
+35.34,
+29
+],
+[
+"sync20.mp3",
+94.3,
+20
+],
+[
+"sync21.mp3",
+40.46,
+41
+],
+[
+"sync22.mp3",
+60.85,
+42
+],
+[
+"sync23.mp3",
+124.2,
+5
+],
+[
+"sync24.mp3",
+142.58,
+42
+],
+[
+"sync25.mp3",
+91.19,
+15
+],
+[
+"sync26.mp3",
+2.14,
+7
+],
+[
+"sync27.mp3",
+144.03,
+10
+],
+[
+"sync28.mp3",
+143.09,
+17
+],
+[
+"sync29.mp3",
+105.96,
+32
+],
+[
+"sync30.mp3",
+122.38,
+45
+],
+[
+"sync31.mp3",
+39.7,
+10
+],
+[
+"sync32.mp3",
+125.84,
+50
+],
+[
+"sync33.mp3",
+92.1,
+17
+],
+[
+"sync34.mp3",
+140.49,
+33
+],
+[
+"sync35.mp3",
+85.21,
+9
+],
+[
+"sync36.mp3",
+135.84,
+6
+],
+[
+"sync37.mp3",
+144.77,
+37
+],
+[
+"sync38.mp3",
+147.19,
+28
+],
+[
+"sync39.mp3",
+132.26,
+50
+],
+[
+"sync40.mp3",
+133.33,
+32
+],
+[
+"sync41.mp3",
+81.62,
+9
+],
+[
+"sync42.mp3",
+72.54,
+10
+],
+[
+"sync43.mp3",
+128.42,
+26
+],
+[
+"sync44.mp3",
+103.7,
+11
+],
+[
+"sync45.mp3",
+9.96,
+12
+],
+[
+"sync46.mp3",
+123.97,
+23
+],
+[
+"sync47.mp3",
+7.94,
+1
+],
+[
+"sync48.mp3",
+105.12,
+26
+],
+[
+"sync49.mp3",
+130.4,
+16
+],
+[
+"sync50.mp3",
+81.09,
+49
+],
+[
+"sync51.mp3",
+132.44,
+14
+],
+[
+"sync52.mp3",
+145.01,
+25
+],
+[
+"sync53.mp3",
+64.0,
+45
+],
+[
+"sync54.mp3",
+84.08,
+25
+],
+[
+"sync55.mp3",
+116.01,
+31
+],
+[
+"sync56.mp3",
+76.41,
+37
+],
+[
+"sync57.mp3",
+14.35,
+26
+],
+[
+"sync58.mp3",
+92.57,
+17
+],
+[
+"sync59.mp3",
+128.14,
+19
+],
+[
+"sync60.mp3",
+134.65,
+9
+],
+[
+"sync61.mp3",
+93.15,
+39
+],
+[
+"sync62.mp3",
+40.49,
+36
+],
+[
+"sync63.mp3",
+26.29,
+38
+],
+[
+"sync64.mp3",
+8.9,
+33
+],
+[
+"sync65.mp3",
+126.95,
+46
+],
+[
+"sync66.mp3",
+29.81,
+5
+],
+[
+"sync67.mp3",
+16.42,
+37
+],
+[
+"sync68.mp3",
+79.41,
+40
+],
+[
+"sync69.mp3",
+44.14,
+28
+],
+[
+"sync70.mp3",
+148.43,
+48
+],
+[
+"sync71.mp3",
+101.43,
+10
+],
+[
+"sync72.mp3",
+81.31,
+25
+],
+[
+"sync73.mp3",
+73.11,
+41
+],
+[
+"sync74.mp3",
+44.17,
+24
+],
+[
+"sync75.mp3",
+31.85,
+18
+],
+[
+"sync76.mp3",
+130.27,
+35
+],
+[
+"sync77.mp3",
+36.46,
+39
+],
+[
+"sync78.mp3",
+119.4,
+3
+],
+[
+"sync79.mp3",
+74.56,
+15
+],
+[
+"sync80.mp3",
+61.61,
+37
+],
+[
+"sync81.mp3",
+78.31,
+20
+],
+[
+"sync82.mp3",
+41.25,
+17
+],
+[
+"sync83.mp3",
+117.26,
+11
+],
+[
+"sync84.mp3",
+119.7,
+35
+],
+[
+"sync85.mp3",
+54.35,
+20
+],
+[
+"sync86.mp3",
+142.92,
+2
+],
+[
+"sync87.mp3",
+6.93,
+26
+],
+[
+"sync88.mp3",
+60.51,
+23
+],
+[
+"sync89.mp3",
+111.96,
+37
+],
+[
+"sync90.mp3",
+115.56,
+41
+],
+[
+"sync91.mp3",
+121.58,
+43
+],
+[
+"sync92.mp3",
+97.74,
+21
+],
+[
+"sync93.mp3",
+80.85,
+34
+],
+[
+"sync94.mp3",
+116.5,
+36
+],
+[
+"sync95.mp3",
+44.07,
+33
+],
+[
+"sync96.mp3",
+15.5,
+24
+],
+[
+"sync97.mp3",
+21.38,
+39
+],
+[
+"sync98.mp3",
+120.27,
+30
+],
+[
+"sync99.mp3",
+103.45,
+5
+]
+],
+"type": "table",
+"update": null,
+"value": 0,
+"view": "i-1,2"
+}
+]
+]
+},
+{
+"name": "Graph, press Shift for multi (de)select",
+"type": "block",
+"value": [
+{
+"changed": null,
+"name": "Add node"
+},
+[
+{
+"changed": null,
+"edges": [
+{
+"id": "edge1",
+"label": "extending",
+"source": "node1",
+"target": "node2"
+},
+{
+"id": "edge2",
+"label": "extending",
+"source": "node2",
+"target": "node3"
+},
+{
+"id": "edge3",
+"source": "node3",
+"target": "node4"
+}
+],
+"height": 400,
+"method": "breadthfirst",
+"minheight": 600.0,
+"minwidth": 600.0,
+"name": "test graph",
+"nodes": [
+{
+"id": "node1",
+"label": "Node 1"
+},
+{
+"id": "node2",
+"label": "Node 2"
+},
+{
+"id": "node3",
+"label": "Node 3"
+},
+{
+"id": "node4",
+"label": "Node 4"
+}
+],
+"type": "graph",
+"value": {
+"edges": [
+"edge3"
+],
+"nodes": [
+"node1"
+]
+},
+"width": 400
+},
+{
+"height": 400,
+"name": "v1",
+"ratio": "9/9",
+"src": "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback",
+"type": "video",
+"width": 500.0
+}
+]
+]
+}
+],
+[
+{
+"name": "New block",
+"type": "block",
+"value": [
+[
+{
+"changed": null,
+"name": "Dialog for a process"
+}
+],
+{
+"edit": false,
+"name": "Text about cats",
+"value": ""
+},
+{
+"name": "Number only",
+"type": "number",
+"value": 2.5
+},
+{
+"changed": null,
+"complete": null,
+"name": "Complete enter update field",
+"type": "autoedit",
+"update": null,
+"value": "Enter something"
+}
+]
+},
+[
+{
+"icon": "account_tree",
+"name": "Tree block",
+"type": "block",
+"value": [
+[
+{
+"name": "Simple Enter update",
+"type": "edit",
+"update": null,
+"value": "cherokke"
+},
+{
+"changed": null,
+"name": "Add to tree"
+}
+],
+{
+"changed": null,
+"name": "Inheritance",
+"options": {
+"Animals": null,
+"Brushtail Possum": "Animals",
+"Fruit Bat": "Animals",
+"Genet": "Animals",
+"Greater Glider": "Animals",
+"Green Tree Python": "Animals",
+"Kinkajou": "Animals",
+"Silky Anteater": "Animals",
+"Small Tarsier": "Tarsier",
+"Sunda Flying Lemur": "Animals",
+"Tarsier": "Animals",
+"Tree Kangaroo": "Animals",
+"Tree Porcupines": "Animals",
+"Very small Tarsier": "Small Tarsier"
+},
+"type": "tree",
+"value": "Animals"
+}
+]
+},
+{
+"icon": "insights",
+"name": "Table block",
+"type": "block",
+"value": [
+[],
+{
+"append": null,
+"changed": null,
+"complete": null,
+"headers": [
+"Audio",
+"Duration,sec",
+"Stars"
+],
+"modify": null,
+"multimode": true,
+"name": "Audios",
+"rows": [
+[
+"sync0.mp3",
+73.82,
+14
+],
+[
+"sync1.mp3",
+87.87,
+22
+],
+[
+"sync2.mp3",
+104.86,
+8
+],
+[
+"sync3.mp3",
+51.0,
+7
+],
+[
+"sync4.mp3",
+6.14,
+25
+],
+[
+"sync5.mp3",
+112.94,
+46
+],
+[
+"sync6.mp3",
+121.41,
+50
+],
+[
+"sync7.mp3",
+62.37,
+13
+],
+[
+"sync8.mp3",
+31.81,
+23
+],
+[
+"sync9.mp3",
+43.68,
+14
+],
+[
+"sync10.mp3",
+100.89,
+7
+],
+[
+"sync11.mp3",
+112.94,
+9
+],
+[
+"sync12.mp3",
+70.46,
+29
+],
+[
+"sync13.mp3",
+125.89,
+21
+],
+[
+"sync14.mp3",
+126.7,
+34
+],
+[
+"sync15.mp3",
+97.21,
+7
+],
+[
+"sync16.mp3",
+13.05,
+41
+],
+[
+"sync17.mp3",
+48.97,
+15
+],
+[
+"sync18.mp3",
+136.65,
+49
+],
+[
+"sync19.mp3",
+35.34,
+29
+],
+[
+"sync20.mp3",
+94.3,
+20
+],
+[
+"sync21.mp3",
+40.46,
+41
+],
+[
+"sync22.mp3",
+60.85,
+42
+],
+[
+"sync23.mp3",
+124.2,
+5
+],
+[
+"sync24.mp3",
+142.58,
+42
+],
+[
+"sync25.mp3",
+91.19,
+15
+],
+[
+"sync26.mp3",
+2.14,
+7
+],
+[
+"sync27.mp3",
+144.03,
+10
+],
+[
+"sync28.mp3",
+143.09,
+17
+],
+[
+"sync29.mp3",
+105.96,
+32
+],
+[
+"sync30.mp3",
+122.38,
+45
+],
+[
+"sync31.mp3",
+39.7,
+10
+],
+[
+"sync32.mp3",
+125.84,
+50
+],
+[
+"sync33.mp3",
+92.1,
+17
+],
+[
+"sync34.mp3",
+140.49,
+33
+],
+[
+"sync35.mp3",
+85.21,
+9
+],
+[
+"sync36.mp3",
+135.84,
+6
+],
+[
+"sync37.mp3",
+144.77,
+37
+],
+[
+"sync38.mp3",
+147.19,
+28
+],
+[
+"sync39.mp3",
+132.26,
+50
+],
+[
+"sync40.mp3",
+133.33,
+32
+],
+[
+"sync41.mp3",
+81.62,
+9
+],
+[
+"sync42.mp3",
+72.54,
+10
+],
+[
+"sync43.mp3",
+128.42,
+26
+],
+[
+"sync44.mp3",
+103.7,
+11
+],
+[
+"sync45.mp3",
+9.96,
+12
+],
+[
+"sync46.mp3",
+123.97,
+23
+],
+[
+"sync47.mp3",
+7.94,
+1
+],
+[
+"sync48.mp3",
+105.12,
+26
+],
+[
+"sync49.mp3",
+130.4,
+16
+],
+[
+"sync50.mp3",
+81.09,
+49
+],
+[
+"sync51.mp3",
+132.44,
+14
+],
+[
+"sync52.mp3",
+145.01,
+25
+],
+[
+"sync53.mp3",
+64.0,
+45
+],
+[
+"sync54.mp3",
+84.08,
+25
+],
+[
+"sync55.mp3",
+116.01,
+31
+],
+[
+"sync56.mp3",
+76.41,
+37
+],
+[
+"sync57.mp3",
+14.35,
+26
+],
+[
+"sync58.mp3",
+92.57,
+17
+],
+[
+"sync59.mp3",
+128.14,
+19
+],
+[
+"sync60.mp3",
+134.65,
+9
+],
+[
+"sync61.mp3",
+93.15,
+39
+],
+[
+"sync62.mp3",
+40.49,
+36
+],
+[
+"sync63.mp3",
+26.29,
+38
+],
+[
+"sync64.mp3",
+8.9,
+33
+],
+[
+"sync65.mp3",
+126.95,
+46
+],
+[
+"sync66.mp3",
+29.81,
+5
+],
+[
+"sync67.mp3",
+16.42,
+37
+],
+[
+"sync68.mp3",
+79.41,
+40
+],
+[
+"sync69.mp3",
+44.14,
+28
+],
+[
+"sync70.mp3",
+148.43,
+48
+],
+[
+"sync71.mp3",
+101.43,
+10
+],
+[
+"sync72.mp3",
+81.31,
+25
+],
+[
+"sync73.mp3",
+73.11,
+41
+],
+[
+"sync74.mp3",
+44.17,
+24
+],
+[
+"sync75.mp3",
+31.85,
+18
+],
+[
+"sync76.mp3",
+130.27,
+35
+],
+[
+"sync77.mp3",
+36.46,
+39
+],
+[
+"sync78.mp3",
+119.4,
+3
+],
+[
+"sync79.mp3",
+74.56,
+15
+],
+[
+"sync80.mp3",
+61.61,
+37
+],
+[
+"sync81.mp3",
+78.31,
+20
+],
+[
+"sync82.mp3",
+41.25,
+17
+],
+[
+"sync83.mp3",
+117.26,
+11
+],
+[
+"sync84.mp3",
+119.7,
+35
+],
+[
+"sync85.mp3",
+54.35,
+20
+],
+[
+"sync86.mp3",
+142.92,
+2
+],
+[
+"sync87.mp3",
+6.93,
+26
+],
+[
+"sync88.mp3",
+60.51,
+23
+],
+[
+"sync89.mp3",
+111.96,
+37
+],
+[
+"sync90.mp3",
+115.56,
+41
+],
+[
+"sync91.mp3",
+121.58,
+43
+],
+[
+"sync92.mp3",
+97.74,
+21
+],
+[
+"sync93.mp3",
+80.85,
+34
+],
+[
+"sync94.mp3",
+116.5,
+36
+],
+[
+"sync95.mp3",
+44.07,
+33
+],
+[
+"sync96.mp3",
+15.5,
+24
+],
+[
+"sync97.mp3",
+21.38,
+39
+],
+[
+"sync98.mp3",
+120.27,
+30
+],
+[
+"sync99.mp3",
+103.45,
+5
+]
+],
+"type": "linechart",
+"update": null,
+"value": 0,
+"view": "i-1,2"
+}
+]
+}
+]
+]
+],
+"header": "Test app",
+"icon": null,
+"menu": [
+[
+"Main",
+null
+]
+],
+"name": "Main",
+"order": 0,
+"prepare": null,
+"toolbar": [
+{
+"changed": null,
+"icon": "save",
+"name": "_Save",
+"tooltip": "Save info"
+},
+{
+"icon": "delete_forever",
+"name": "_Ignored",
+"tooltip": "Ignore info!"
+},
+{
+"changed": null,
+"icon": "data_saver_on",
+"mode": "red",
+"name": "_Add test",
+"tooltip": "Stop recording test"
+}
+],
+"type": "screen"
+}
+2023-07-16 08:06:18,183 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node1', 'node2'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node1","node2"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node1', 'node2'], Edges []"
+}
+2023-07-16 08:06:23,061 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node1', 'node2', 'node4'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node1","node2","node4"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node1', 'node2', 'node4'], Edges []"
+}
+2023-07-16 08:06:24,645 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node1', 'node2', 'node4', 'node3'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node1","node2","node4","node3"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node1', 'node2', 'node4', 'node3'], Edges []"
+}
+2023-07-16 08:07:17,392 - ERROR - session: ::1, screen: Main, message: ['toolbar', '_Add test', 'changed', None] 
+  ["Create autotest..","Ok"] 
+{
+"blocks": [
+[
+{
+"icon": "api",
+"name": "X Block",
+"type": "block",
+"value": [
+[
+{
+"changed": null,
+"icon": "swipe",
+"name": "Clean table"
+},
+{
+"name": "Select",
+"options": [
+"All",
+"Based",
+"Group"
+],
+"value": "Group"
+}
+],
+[
+{
+"append": null,
+"delete": null,
+"headers": [
+"Video",
+"Duration",
+"Links",
+"Mine"
+],
+"modify": null,
+"name": "Videos",
+"rows": [
+[
+"opt_sync1_3_0.mp4",
+"30 seconds",
+"@Refer to signal1",
+true
+],
+[
+"opt_sync1_3_0.mp4",
+"37 seconds",
+"@Refer to signal8",
+false
+]
+],
+"type": "table",
+"value": 0
+},
+{
+"append": null,
+"changed": null,
+"complete": null,
+"headers": [
+"Audio",
+"Duration,sec",
+"Stars"
+],
+"modify": null,
+"multimode": true,
+"name": "Audios",
+"rows": [
+[
+"sync0.mp3",
+73.82,
+14
+],
+[
+"sync1.mp3",
+87.87,
+22
+],
+[
+"sync2.mp3",
+104.86,
+8
+],
+[
+"sync3.mp3",
+51.0,
+7
+],
+[
+"sync4.mp3",
+6.14,
+25
+],
+[
+"sync5.mp3",
+112.94,
+46
+],
+[
+"sync6.mp3",
+121.41,
+50
+],
+[
+"sync7.mp3",
+62.37,
+13
+],
+[
+"sync8.mp3",
+31.81,
+23
+],
+[
+"sync9.mp3",
+43.68,
+14
+],
+[
+"sync10.mp3",
+100.89,
+7
+],
+[
+"sync11.mp3",
+112.94,
+9
+],
+[
+"sync12.mp3",
+70.46,
+29
+],
+[
+"sync13.mp3",
+125.89,
+21
+],
+[
+"sync14.mp3",
+126.7,
+34
+],
+[
+"sync15.mp3",
+97.21,
+7
+],
+[
+"sync16.mp3",
+13.05,
+41
+],
+[
+"sync17.mp3",
+48.97,
+15
+],
+[
+"sync18.mp3",
+136.65,
+49
+],
+[
+"sync19.mp3",
+35.34,
+29
+],
+[
+"sync20.mp3",
+94.3,
+20
+],
+[
+"sync21.mp3",
+40.46,
+41
+],
+[
+"sync22.mp3",
+60.85,
+42
+],
+[
+"sync23.mp3",
+124.2,
+5
+],
+[
+"sync24.mp3",
+142.58,
+42
+],
+[
+"sync25.mp3",
+91.19,
+15
+],
+[
+"sync26.mp3",
+2.14,
+7
+],
+[
+"sync27.mp3",
+144.03,
+10
+],
+[
+"sync28.mp3",
+143.09,
+17
+],
+[
+"sync29.mp3",
+105.96,
+32
+],
+[
+"sync30.mp3",
+122.38,
+45
+],
+[
+"sync31.mp3",
+39.7,
+10
+],
+[
+"sync32.mp3",
+125.84,
+50
+],
+[
+"sync33.mp3",
+92.1,
+17
+],
+[
+"sync34.mp3",
+140.49,
+33
+],
+[
+"sync35.mp3",
+85.21,
+9
+],
+[
+"sync36.mp3",
+135.84,
+6
+],
+[
+"sync37.mp3",
+144.77,
+37
+],
+[
+"sync38.mp3",
+147.19,
+28
+],
+[
+"sync39.mp3",
+132.26,
+50
+],
+[
+"sync40.mp3",
+133.33,
+32
+],
+[
+"sync41.mp3",
+81.62,
+9
+],
+[
+"sync42.mp3",
+72.54,
+10
+],
+[
+"sync43.mp3",
+128.42,
+26
+],
+[
+"sync44.mp3",
+103.7,
+11
+],
+[
+"sync45.mp3",
+9.96,
+12
+],
+[
+"sync46.mp3",
+123.97,
+23
+],
+[
+"sync47.mp3",
+7.94,
+1
+],
+[
+"sync48.mp3",
+105.12,
+26
+],
+[
+"sync49.mp3",
+130.4,
+16
+],
+[
+"sync50.mp3",
+81.09,
+49
+],
+[
+"sync51.mp3",
+132.44,
+14
+],
+[
+"sync52.mp3",
+145.01,
+25
+],
+[
+"sync53.mp3",
+64.0,
+45
+],
+[
+"sync54.mp3",
+84.08,
+25
+],
+[
+"sync55.mp3",
+116.01,
+31
+],
+[
+"sync56.mp3",
+76.41,
+37
+],
+[
+"sync57.mp3",
+14.35,
+26
+],
+[
+"sync58.mp3",
+92.57,
+17
+],
+[
+"sync59.mp3",
+128.14,
+19
+],
+[
+"sync60.mp3",
+134.65,
+9
+],
+[
+"sync61.mp3",
+93.15,
+39
+],
+[
+"sync62.mp3",
+40.49,
+36
+],
+[
+"sync63.mp3",
+26.29,
+38
+],
+[
+"sync64.mp3",
+8.9,
+33
+],
+[
+"sync65.mp3",
+126.95,
+46
+],
+[
+"sync66.mp3",
+29.81,
+5
+],
+[
+"sync67.mp3",
+16.42,
+37
+],
+[
+"sync68.mp3",
+79.41,
+40
+],
+[
+"sync69.mp3",
+44.14,
+28
+],
+[
+"sync70.mp3",
+148.43,
+48
+],
+[
+"sync71.mp3",
+101.43,
+10
+],
+[
+"sync72.mp3",
+81.31,
+25
+],
+[
+"sync73.mp3",
+73.11,
+41
+],
+[
+"sync74.mp3",
+44.17,
+24
+],
+[
+"sync75.mp3",
+31.85,
+18
+],
+[
+"sync76.mp3",
+130.27,
+35
+],
+[
+"sync77.mp3",
+36.46,
+39
+],
+[
+"sync78.mp3",
+119.4,
+3
+],
+[
+"sync79.mp3",
+74.56,
+15
+],
+[
+"sync80.mp3",
+61.61,
+37
+],
+[
+"sync81.mp3",
+78.31,
+20
+],
+[
+"sync82.mp3",
+41.25,
+17
+],
+[
+"sync83.mp3",
+117.26,
+11
+],
+[
+"sync84.mp3",
+119.7,
+35
+],
+[
+"sync85.mp3",
+54.35,
+20
+],
+[
+"sync86.mp3",
+142.92,
+2
+],
+[
+"sync87.mp3",
+6.93,
+26
+],
+[
+"sync88.mp3",
+60.51,
+23
+],
+[
+"sync89.mp3",
+111.96,
+37
+],
+[
+"sync90.mp3",
+115.56,
+41
+],
+[
+"sync91.mp3",
+121.58,
+43
+],
+[
+"sync92.mp3",
+97.74,
+21
+],
+[
+"sync93.mp3",
+80.85,
+34
+],
+[
+"sync94.mp3",
+116.5,
+36
+],
+[
+"sync95.mp3",
+44.07,
+33
+],
+[
+"sync96.mp3",
+15.5,
+24
+],
+[
+"sync97.mp3",
+21.38,
+39
+],
+[
+"sync98.mp3",
+120.27,
+30
+],
+[
+"sync99.mp3",
+103.45,
+5
+]
+],
+"type": "table",
+"update": null,
+"value": 0,
+"view": "i-1,2"
+}
+]
+]
+},
+{
+"name": "Graph, press Shift for multi (de)select",
+"type": "block",
+"value": [
+{
+"changed": null,
+"name": "Add node"
+},
+[
+{
+"changed": null,
+"edges": [
+{
+"id": "edge1",
+"label": "extending",
+"source": "node1",
+"target": "node2"
+},
+{
+"id": "edge2",
+"label": "extending",
+"source": "node2",
+"target": "node3"
+},
+{
+"id": "edge3",
+"source": "node3",
+"target": "node4"
+}
+],
+"height": 400,
+"method": "breadthfirst",
+"minheight": 600.0,
+"minwidth": 600.0,
+"name": "test graph",
+"nodes": [
+{
+"id": "node1",
+"label": "Node 1"
+},
+{
+"id": "node2",
+"label": "Node 2"
+},
+{
+"id": "node3",
+"label": "Node 3"
+},
+{
+"id": "node4",
+"label": "Node 4"
+}
+],
+"type": "graph",
+"value": {
+"edges": [],
+"nodes": []
+},
+"width": 400
+},
+{
+"height": 400,
+"name": "v1",
+"ratio": "9/9",
+"src": "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback",
+"type": "video",
+"width": 500.0
+}
+]
+]
+}
+],
+[
+{
+"name": "New block",
+"type": "block",
+"value": [
+[
+{
+"changed": null,
+"name": "Dialog for a process"
+}
+],
+{
+"edit": false,
+"name": "Text about cats",
+"value": ""
+},
+{
+"name": "Number only",
+"type": "number",
+"value": 2.5
+},
+{
+"changed": null,
+"complete": null,
+"name": "Complete enter update field",
+"type": "autoedit",
+"update": null,
+"value": "Enter something"
+}
+]
+},
+[
+{
+"icon": "account_tree",
+"name": "Tree block",
+"type": "block",
+"value": [
+[
+{
+"name": "Simple Enter update",
+"type": "edit",
+"update": null,
+"value": "cherokke"
+},
+{
+"changed": null,
+"name": "Add to tree"
+}
+],
+{
+"changed": null,
+"name": "Inheritance",
+"options": {
+"Animals": null,
+"Brushtail Possum": "Animals",
+"Fruit Bat": "Animals",
+"Genet": "Animals",
+"Greater Glider": "Animals",
+"Green Tree Python": "Animals",
+"Kinkajou": "Animals",
+"Silky Anteater": "Animals",
+"Small Tarsier": "Tarsier",
+"Sunda Flying Lemur": "Animals",
+"Tarsier": "Animals",
+"Tree Kangaroo": "Animals",
+"Tree Porcupines": "Animals",
+"Very small Tarsier": "Small Tarsier"
+},
+"type": "tree",
+"value": "Animals"
+}
+]
+},
+{
+"icon": "insights",
+"name": "Table block",
+"type": "block",
+"value": [
+[],
+{
+"append": null,
+"changed": null,
+"complete": null,
+"headers": [
+"Audio",
+"Duration,sec",
+"Stars"
+],
+"modify": null,
+"multimode": true,
+"name": "Audios",
+"rows": [
+[
+"sync0.mp3",
+73.82,
+14
+],
+[
+"sync1.mp3",
+87.87,
+22
+],
+[
+"sync2.mp3",
+104.86,
+8
+],
+[
+"sync3.mp3",
+51.0,
+7
+],
+[
+"sync4.mp3",
+6.14,
+25
+],
+[
+"sync5.mp3",
+112.94,
+46
+],
+[
+"sync6.mp3",
+121.41,
+50
+],
+[
+"sync7.mp3",
+62.37,
+13
+],
+[
+"sync8.mp3",
+31.81,
+23
+],
+[
+"sync9.mp3",
+43.68,
+14
+],
+[
+"sync10.mp3",
+100.89,
+7
+],
+[
+"sync11.mp3",
+112.94,
+9
+],
+[
+"sync12.mp3",
+70.46,
+29
+],
+[
+"sync13.mp3",
+125.89,
+21
+],
+[
+"sync14.mp3",
+126.7,
+34
+],
+[
+"sync15.mp3",
+97.21,
+7
+],
+[
+"sync16.mp3",
+13.05,
+41
+],
+[
+"sync17.mp3",
+48.97,
+15
+],
+[
+"sync18.mp3",
+136.65,
+49
+],
+[
+"sync19.mp3",
+35.34,
+29
+],
+[
+"sync20.mp3",
+94.3,
+20
+],
+[
+"sync21.mp3",
+40.46,
+41
+],
+[
+"sync22.mp3",
+60.85,
+42
+],
+[
+"sync23.mp3",
+124.2,
+5
+],
+[
+"sync24.mp3",
+142.58,
+42
+],
+[
+"sync25.mp3",
+91.19,
+15
+],
+[
+"sync26.mp3",
+2.14,
+7
+],
+[
+"sync27.mp3",
+144.03,
+10
+],
+[
+"sync28.mp3",
+143.09,
+17
+],
+[
+"sync29.mp3",
+105.96,
+32
+],
+[
+"sync30.mp3",
+122.38,
+45
+],
+[
+"sync31.mp3",
+39.7,
+10
+],
+[
+"sync32.mp3",
+125.84,
+50
+],
+[
+"sync33.mp3",
+92.1,
+17
+],
+[
+"sync34.mp3",
+140.49,
+33
+],
+[
+"sync35.mp3",
+85.21,
+9
+],
+[
+"sync36.mp3",
+135.84,
+6
+],
+[
+"sync37.mp3",
+144.77,
+37
+],
+[
+"sync38.mp3",
+147.19,
+28
+],
+[
+"sync39.mp3",
+132.26,
+50
+],
+[
+"sync40.mp3",
+133.33,
+32
+],
+[
+"sync41.mp3",
+81.62,
+9
+],
+[
+"sync42.mp3",
+72.54,
+10
+],
+[
+"sync43.mp3",
+128.42,
+26
+],
+[
+"sync44.mp3",
+103.7,
+11
+],
+[
+"sync45.mp3",
+9.96,
+12
+],
+[
+"sync46.mp3",
+123.97,
+23
+],
+[
+"sync47.mp3",
+7.94,
+1
+],
+[
+"sync48.mp3",
+105.12,
+26
+],
+[
+"sync49.mp3",
+130.4,
+16
+],
+[
+"sync50.mp3",
+81.09,
+49
+],
+[
+"sync51.mp3",
+132.44,
+14
+],
+[
+"sync52.mp3",
+145.01,
+25
+],
+[
+"sync53.mp3",
+64.0,
+45
+],
+[
+"sync54.mp3",
+84.08,
+25
+],
+[
+"sync55.mp3",
+116.01,
+31
+],
+[
+"sync56.mp3",
+76.41,
+37
+],
+[
+"sync57.mp3",
+14.35,
+26
+],
+[
+"sync58.mp3",
+92.57,
+17
+],
+[
+"sync59.mp3",
+128.14,
+19
+],
+[
+"sync60.mp3",
+134.65,
+9
+],
+[
+"sync61.mp3",
+93.15,
+39
+],
+[
+"sync62.mp3",
+40.49,
+36
+],
+[
+"sync63.mp3",
+26.29,
+38
+],
+[
+"sync64.mp3",
+8.9,
+33
+],
+[
+"sync65.mp3",
+126.95,
+46
+],
+[
+"sync66.mp3",
+29.81,
+5
+],
+[
+"sync67.mp3",
+16.42,
+37
+],
+[
+"sync68.mp3",
+79.41,
+40
+],
+[
+"sync69.mp3",
+44.14,
+28
+],
+[
+"sync70.mp3",
+148.43,
+48
+],
+[
+"sync71.mp3",
+101.43,
+10
+],
+[
+"sync72.mp3",
+81.31,
+25
+],
+[
+"sync73.mp3",
+73.11,
+41
+],
+[
+"sync74.mp3",
+44.17,
+24
+],
+[
+"sync75.mp3",
+31.85,
+18
+],
+[
+"sync76.mp3",
+130.27,
+35
+],
+[
+"sync77.mp3",
+36.46,
+39
+],
+[
+"sync78.mp3",
+119.4,
+3
+],
+[
+"sync79.mp3",
+74.56,
+15
+],
+[
+"sync80.mp3",
+61.61,
+37
+],
+[
+"sync81.mp3",
+78.31,
+20
+],
+[
+"sync82.mp3",
+41.25,
+17
+],
+[
+"sync83.mp3",
+117.26,
+11
+],
+[
+"sync84.mp3",
+119.7,
+35
+],
+[
+"sync85.mp3",
+54.35,
+20
+],
+[
+"sync86.mp3",
+142.92,
+2
+],
+[
+"sync87.mp3",
+6.93,
+26
+],
+[
+"sync88.mp3",
+60.51,
+23
+],
+[
+"sync89.mp3",
+111.96,
+37
+],
+[
+"sync90.mp3",
+115.56,
+41
+],
+[
+"sync91.mp3",
+121.58,
+43
+],
+[
+"sync92.mp3",
+97.74,
+21
+],
+[
+"sync93.mp3",
+80.85,
+34
+],
+[
+"sync94.mp3",
+116.5,
+36
+],
+[
+"sync95.mp3",
+44.07,
+33
+],
+[
+"sync96.mp3",
+15.5,
+24
+],
+[
+"sync97.mp3",
+21.38,
+39
+],
+[
+"sync98.mp3",
+120.27,
+30
+],
+[
+"sync99.mp3",
+103.45,
+5
+]
+],
+"type": "linechart",
+"update": null,
+"value": 0,
+"view": "i-1,2"
+}
+]
+}
+]
+]
+],
+"header": "Test app",
+"icon": null,
+"menu": [
+[
+"Main",
+null
+]
+],
+"name": "Main",
+"order": 0,
+"prepare": null,
+"toolbar": [
+{
+"changed": null,
+"icon": "save",
+"name": "_Save",
+"tooltip": "Save info"
+},
+{
+"icon": "delete_forever",
+"name": "_Ignored",
+"tooltip": "Ignore info!"
+},
+{
+"changed": null,
+"icon": "data_saver_on",
+"mode": "red",
+"name": "_Add test",
+"tooltip": "Stop recording test"
+}
+],
+"type": "screen"
+}
+2023-07-16 08:19:07,546 - ERROR - Error handling request
+Traceback (most recent call last):
+  File "/home/george/Projects/unigui/unigui/server.py", line 64, in websocket_handler
+    recorder(msg.data, result)
+  File "/home/george/Projects/unigui/unigui/autotest.py", line 18, in recorder
+    if ignored_1message:
+UnboundLocalError: local variable 'ignored_1message' referenced before assignment
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/george/.local/lib/python3.6/site-packages/aiohttp/web_protocol.py", line 435, in _handle_request
+    resp = await request_handler(request)
+  File "/home/george/.local/lib/python3.6/site-packages/aiohttp/web_app.py", line 504, in _handle
+    resp = await handler(request)
+  File "/home/george/Projects/unigui/unigui/server.py", line 71, in websocket_handler
+    user.log(f'{type}: {value} \n{traceback.format_exc()}\n')
+AttributeError: 'traceback' object has no attribute 'format_exc'
+2023-07-16 08:21:01,417 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node1', 'node2', 'node1', 'node3'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node1","node2","node1","node3"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node1', 'node2', 'node1', 'node3'], Edges []"
+}
+2023-07-16 08:21:02,752 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node1', 'node2', 'node1', 'node3', 'node4'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node1","node2","node1","node3","node4"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node1', 'node2', 'node1', 'node3', 'node4'], Edges []"
+}
+2023-07-16 08:21:03,946 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': [], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":[],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes [], Edges []"
+}
+2023-07-16 08:21:05,673 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node2'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node2"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node2'], Edges []"
+}
+2023-07-16 08:21:06,832 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node2', 'node3'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node2","node3"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node2', 'node3'], Edges []"
+}
+2023-07-16 08:21:07,978 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node2', 'node3', 'node4'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node2","node3","node4"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node2', 'node3', 'node4'], Edges []"
+}
+2023-07-16 08:21:10,809 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node2', 'node3', 'node4'], 'edges': ['edge3']}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node2","node3","node4"],"edges":["edge3"]}] 
+{
+"type": "info",
+"value": "Nodes ['node2', 'node3', 'node4'], Edges ['edge3']"
+}
+2023-07-16 08:21:13,011 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': [], 'edges': ['edge3']}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":[],"edges":["edge3"]}] 
+{
+"type": "info",
+"value": "Nodes [], Edges ['edge3']"
+}
+2023-07-16 08:21:14,081 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node4'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node4"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node4'], Edges []"
+}
+2023-07-16 08:21:17,747 - ERROR - session: ::1, screen: Main, message: ['Graph, press Shift for multi (de)select', 'test graph', 'changed', {'nodes': ['node4', 'node1'], 'edges': []}] 
+  ["Graph, press Shift for multi (de)select","test graph","changed",{"nodes":["node4","node1"],"edges":[]}] 
+{
+"type": "info",
+"value": "Nodes ['node4', 'node1'], Edges []"
+}

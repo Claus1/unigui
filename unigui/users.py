@@ -11,8 +11,7 @@ class User:
     def __init__(self):          
         self.screens = []        
         self.active_dialog = None
-        self.screen_module = None                
-        self.tool_buttons = []
+        self.screen_module = None                        
         User.last_user = self        
 
     def log(self, str, type = 'error'):        
@@ -75,7 +74,7 @@ class User:
             'prepare' : None,            
             'blocks' : [],
             'header' : utils.appname,                        
-            'toolbar' : [], 
+            'toolbar' : User.toolbar, 
             'order' : 0
         }             
         name = file[0:-3]        
@@ -93,8 +92,10 @@ class User:
             setattr(screen, var, getattr(module,var,screen_vars[var])) 
         module.handlers__ = utils.handlers__
         
-        if not screen.toolbar:
-            screen.toolbar = self.tool_buttons
+        if screen.toolbar:
+            screen.toolbar += User.toolbar
+        else: 
+            screen.toolbar = User.toolbar  
                         
         screen.check()                         
         module.screen = screen
@@ -249,6 +250,8 @@ def f(loop):
     
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
+
+User.toolbar = []
 
 #Logging 
 format = "%(asctime)s - %(levelname)s - %(message)s"

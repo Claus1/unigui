@@ -3,6 +3,7 @@ from .users import *
 from config import port, pretty_print, socket_ip, upload_dir
 from pathlib import Path
 from .reloader import empty_app 
+from .autotest import recorder
 
 async def post_handler(request):
     reader = await request.multipart()
@@ -57,8 +58,11 @@ async def websocket_handler(request):
                 else:
                     data = json.loads(msg.data)            
                     result = user.result4message(data)
-                    if result:                
-                        await ws.send_str(jsonString(user.prepare_result(result)))
+                    if result:            
+                        result = jsonString(user.prepare_result(result))    
+                        await ws.send_str(result)
+                    recorder(msg.data, result)
+                    
             elif msg.type == WSMsgType.ERROR:
                 print('ws connection closed with exception %s' %
                     ws.exception())
