@@ -285,6 +285,8 @@ value = [0] means 0 row is selected in multiselect mode (in array). multimode is
 | :---: | :---: | 
 | changed  | table handler accept the selected row number |
 | complete |  Autocomplete handler as with value type (string value, (row index, column index)) that returns a string list of possible complitions |
+| append |  A handler gets new row index and return filled row with proposed values, has system append_table_row by default |
+| delete | A handler gets list or index of selected rows and remove them. system delete_table_row by default |
 | update | called when the user presses the Enter in a table cell |
 | modify | default = accept_rowvalue(table, value). called when the cell value is changed by the user |
 | edit   | default True. if true user can edit table, using standart or overloaded table methods |
