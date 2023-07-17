@@ -27,12 +27,13 @@ def jsonString(obj):
 async def static_serve(request):    
     file_path = request.path
     if upload_dir not in  request.path:
-        file_path = f"{webpath}{file_path}"  # rebase into static dir
+        file_path = f"{webpath}{file_path}"  # rebase into static dir   
+    
     file_path  = Path(file_path)
     
     if request.path == '/':
-        file_path /= 'index.html'
-        
+        file_path /= 'index.html' 
+    
     answer = web.HTTPNotFound() if not file_path.exists() else (web.FileResponse(file_path)     
          if request.path != User.fix_file else web.Response(text = User.configured_main)) 
 
@@ -84,7 +85,8 @@ def start(appname, user_type = User, http_handlers = []):
     User.create_fixed_js()      
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
-    for h in [web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
+    for h in [web.static(f'/{upload_dir}', f"/{app_user_dir}/{upload_dir}"), 
+        web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
         http_handlers.append(h)
 
     print(f'Start {appname} server on {port} port..')    
