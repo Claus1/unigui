@@ -4,7 +4,7 @@ from .users import User
 from .utils import *
 
 testdir = 'autotest'
-autotest = hasattr(config, testdir)
+autotest = getattr(config, testdir, False)
 record_file = None
 ignored_1message = False
 record_buffer = []
