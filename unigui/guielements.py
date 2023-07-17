@@ -30,7 +30,7 @@ class Gui:
 
 Line = Gui("Line", type = 'line')
 
-def smart_complete(lst, min_input_length = 2, max_output_length = 10):
+def smart_complete(lst, min_input_length = 1, max_output_length = 10):
     di = {it: it.lower() for it in lst}
     def complete(gui, ustr):
         if len(ustr) < min_input_length:

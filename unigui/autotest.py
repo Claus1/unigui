@@ -5,25 +5,24 @@ from .utils import *
 
 testdir = 'autotest'
 autotest = hasattr(config, testdir)
+record_file = None
+ignored_1message = False
+record_buffer = []
+
+def recorder(msg, response):
+    if record_file:
+        global ignored_1message, record_buffer
+        if ignored_1message:            
+            record_buffer.append(f'{msg},\n{"null" if response is None else response}\n')
+        else:
+            ignored_1message = True
 
 if autotest:
     if not os.path.exists(testdir):
         os.makedirs(testdir)
 
-    record_file = None
-    ignored_1message = False
-    record_buffer = []
-
     def test(file):
         pass
-
-    def recorder(msg, response):
-        if record_file:
-            global ignored_1message, record_buffer
-            if ignored_1message:            
-                record_buffer.append(f'{msg},\n{"null" if response is None else response}\n')
-            else:
-                ignored_1message = True
 
     def alltest():    
         files = config[testdir]

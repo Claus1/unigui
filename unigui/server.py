@@ -34,7 +34,7 @@ async def static_serve(request):
         file_path /= 'index.html'
         
     answer = web.HTTPNotFound() if not file_path.exists() else (web.FileResponse(file_path)     
-         if request.path != User.fix_file else web.Response(text = User.fixed_main)) 
+         if request.path != User.fix_file else web.Response(text = User.configured_main)) 
 
     return answer
 

@@ -57,7 +57,7 @@ class User:
                         b = replace('localhost', utils.socket_ip)
                     if utils.resource_port != 8000:
                         b = replace('8000',utils.resource_port)                    
-                    User.fixed_main = b.decode("utf-8") 
+                    User.configured_main = b.decode("utf-8") 
                     print(f"Configuring for http port {utils.resource_port}, socket ip is {utils.socket_ip}.")
                     break
 
