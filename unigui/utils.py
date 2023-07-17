@@ -34,12 +34,12 @@ def toJson(obj, indent, pretty_print):
     return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
         indent = indent, sort_keys = pretty_print)
 
-def fn2url(fn):   
+def filename2url(fn):   
     if fn[0] == '/':
         fn = fn[len(app_user_dir):]   
     return fn.replace(' ','%20')
 
-def url2fn(url):
+def url2filename(url):
     return url[url.find('/') + 1:].replace('%20',' ')
 
 def upload_fn(fn):
