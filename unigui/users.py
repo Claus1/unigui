@@ -45,20 +45,20 @@ class User:
     def create_fixed_js():
         dir = f"{utils.webpath}/js"
         b = None        
-        def replace(what, tothat):
-            return b.replace(bytes(what,encoding='utf8'), bytes(str(tothat),encoding='utf8'))  
+        """ def replace(what, tothat):
+            return b.replace(bytes(what,encoding='utf8'), bytes(str(tothat),encoding='utf8'))   """
         for file in os.listdir(dir):
             fn = f'{dir}/{file}'
             if file[0].isdigit() and file.endswith(".js") and os.path.getsize(fn) > 25000:
                 User.fix_file = f'/js/{file}'
                 with open(fn, 'rb') as main:
                     b = main.read()
-                    if utils.socket_ip != 'localhost':
+                    """ if utils.socket_ip != 'localhost':
                         b = replace('localhost', utils.socket_ip)
-                    if utils.resource_port != 8000:
-                        b = replace('8000',utils.resource_port)                    
+                    if config.port != 8000:
+                        b = replace('8000',utils.config.port)                   """
                     User.configured_main = b.decode("utf-8") 
-                    print(f"Configuring for http port {utils.resource_port}, socket ip is {utils.socket_ip}.")
+                    print(f"Configuring for http port {config.port}.")
                     break
 
     def sync_send(self, obj):
@@ -73,7 +73,7 @@ class User:
             'icon' : None,
             'prepare' : None,            
             'blocks' : [],
-            'header' : utils.appname,                        
+            'header' : config.appname,                        
             'toolbar' : User.toolbar, 
             'order' : 0
         }             
@@ -255,11 +255,5 @@ async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
 
 User.toolbar = []
-
-#Logging 
-format = "%(asctime)s - %(levelname)s - %(message)s"
-handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if config.logfile else []
-logging.basicConfig(level = logging.WARNING, format = format, handlers = handlers)
-
 
 

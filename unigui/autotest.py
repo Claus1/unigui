@@ -1,7 +1,7 @@
-import config, os
+import config, os, logging
+from .utils import *
 from .guielements import * 
 from .users import User
-from .utils import *
 
 #setting default config variables
 testdir = 'autotest'
@@ -10,13 +10,23 @@ if not hasattr(config, testdir):
 if not hasattr(config, 'port'):
     config.port = 8000
 if not hasattr(config, 'pretty_print'):
-    config.pretty_print = 8000
-if not hasattr(config, upload_dir):
+    config.pretty_print = False
+if not hasattr(config, 'upload_dir'):
     config.upload_dir = 'web'
 if not hasattr(config, 'logfile'):
     config.logfile = None
 if not hasattr(config, 'hot_reload'):
     config.hot_reload = False
+if not hasattr(config, 'appname'):
+    config.appname = 'Unigui'
+
+if not os.path.exists(config.upload_dir):
+    os.makedirs(config.upload_dir)
+
+#Logging 
+format = "%(asctime)s - %(levelname)s - %(message)s"
+handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if config.logfile else []
+logging.basicConfig(level = logging.WARNING, format = format, handlers = handlers)
 
 record_file = None
 ignored_1message = False

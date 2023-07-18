@@ -1,4 +1,4 @@
-import config
+from .autotest import config
 
 empty_app = {
     "blocks": [],
@@ -15,7 +15,7 @@ if config.hot_reload:
     import logging, os, traceback
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
-    from unigui import User
+    from .users import User
     busy = False        
 
     def free():

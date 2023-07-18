@@ -2,17 +2,13 @@ import os
 import jsonpickle
 import json
 
-resource_port = None
-appname = 'Unigui'
-app_user_dir = os.getcwd()
-upload_dir = 'upload'
-socket_ip = ''
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
 UpdateScreen = True
 
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
+app_dir = os.getcwd()
 
 try:
     import config
@@ -27,6 +23,7 @@ hot_reload   = True
 logfile  = 'log'
 autotest = '*'
 """)
+        import config
         print("Config with default parameters is created!")
 
 def toJson(obj, indent, pretty_print):
@@ -35,32 +32,22 @@ def toJson(obj, indent, pretty_print):
 
 def filename2url(fn):   
     if fn[0] == '/':
-        fn = fn[len(app_user_dir):]   
+        fn = fn[len(app_dir):]   
     return fn.replace(' ','%20')
 
 def url2filename(url):
-    return url[url.find('/') + 1:].replace('%20',' ')
-
-def upload_fn(fn):
-    return f'{upload_dir}/{fn}'     
+    return url[url.find('/') + 1:].replace('%20',' ')   
 
 def upload_path(fpath):
-    return f'{os.getcwd()}/{upload_dir}/{fpath}'
+    return f'{os.getcwd()}/{config.upload_dir}/{fpath}'
     
 def translate_http_path(path):
     if '?' in path:
         path = path.split('?')[0]
-    if path.startswith(f'/{upload_dir}/'):             
-        return f'{app_user_dir}{path}'.replace('%20',' ')     
+    if path.startswith(f'/{config.upload_dir}/'):             
+        return f'{app_dir}{path}'.replace('%20',' ')     
     return f'{webpath}{path}'.replace('%20',' ') 
 
-def set_utils(appname_,port_,upload_dir_, socket_ip_):
-    global appname, resource_port, upload_dir, socket_ip
-    appname = appname_
-    resource_port = port_
-    upload_dir = upload_dir_
-    socket_ip = socket_ip_
-    
 def flatten(*arr):
     for a in arr:
         if isinstance(a, list):

@@ -1,9 +1,10 @@
 from aiohttp import web, WSMsgType
 from .users import *
-from config import port, pretty_print, socket_ip, upload_dir
 from pathlib import Path
 from .reloader import empty_app 
 from .autotest import recorder
+from config import port, pretty_print, upload_dir
+from .utils import app_dir
 
 async def post_handler(request):
     reader = await request.multipart()
@@ -74,18 +75,15 @@ async def websocket_handler(request):
     
     return ws       
 
-def start(appname, user_type = User, http_handlers = []):
-    
-    set_utils(appname, port, upload_dir, socket_ip)    
-    
-    if upload_dir and not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
+def start(appname = '', user_type = User, http_handlers = []):
+    if appname:
+        config.appname = appname
 
     User.UserType = user_type    
     User.create_fixed_js()      
     http_handlers.insert(0, web.get('/ws', websocket_handler))
         
-    for h in [web.static(f'/{upload_dir}', f"/{app_user_dir}/{upload_dir}"), 
+    for h in [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
         web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
         http_handlers.append(h)
 
