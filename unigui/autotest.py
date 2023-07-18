@@ -3,8 +3,21 @@ from .guielements import *
 from .users import User
 from .utils import *
 
+#setting default config variables
 testdir = 'autotest'
-autotest = getattr(config, testdir, False)
+if not hasattr(config, testdir):
+    config.autotest = False
+if not hasattr(config, 'port'):
+    config.port = 8000
+if not hasattr(config, 'pretty_print'):
+    config.pretty_print = 8000
+if not hasattr(config, upload_dir):
+    config.upload_dir = 'web'
+if not hasattr(config, 'logfile'):
+    config.logfile = None
+if not hasattr(config, 'hot_reload'):
+    config.hot_reload = False
+
 record_file = None
 ignored_1message = False
 record_buffer = []
@@ -17,7 +30,7 @@ def recorder(msg, response):
         else:
             ignored_1message = True
 
-if autotest:
+if config.autotest:
     if not os.path.exists(testdir):
         os.makedirs(testdir)
 

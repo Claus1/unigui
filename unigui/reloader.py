@@ -11,7 +11,7 @@ empty_app = {
     "type": "screen"
 }
 
-if hasattr(config, 'hot_reload') and config.hot_reload:
+if config.hot_reload:
     import logging, os, traceback
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
@@ -30,8 +30,7 @@ if hasattr(config, 'hot_reload') and config.hot_reload:
         if user:
             global busy, request_file
             busy = True
-            request_file = None
-            
+            request_file = None            
             try:
                 module = user.load_module(sname)
             except:

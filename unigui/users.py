@@ -258,7 +258,7 @@ User.toolbar = []
 
 #Logging 
 format = "%(asctime)s - %(levelname)s - %(message)s"
-handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if hasattr(config,'logfile') else []
+handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if config.logfile else []
 logging.basicConfig(level = logging.WARNING, format = format, handlers = handlers)
 
 

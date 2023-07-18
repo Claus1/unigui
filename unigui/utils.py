@@ -7,7 +7,6 @@ appname = 'Unigui'
 app_user_dir = os.getcwd()
 upload_dir = 'upload'
 socket_ip = ''
-socket_port = 1234
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
 UpdateScreen = True
@@ -56,13 +55,12 @@ def translate_http_path(path):
     return f'{webpath}{path}'.replace('%20',' ') 
 
 def set_utils(appname_,port_,upload_dir_, socket_ip_):
-    global appname, resource_port, upload_dir, socket_ip, socket_port
+    global appname, resource_port, upload_dir, socket_ip
     appname = appname_
     resource_port = port_
     upload_dir = upload_dir_
     socket_ip = socket_ip_
-    socket_port = port_    
-
+    
 def flatten(*arr):
     for a in arr:
         if isinstance(a, list):
