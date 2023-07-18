@@ -5,6 +5,7 @@ from .reloader import empty_app
 from .autotest import recorder
 from config import port, pretty_print, upload_dir
 from .utils import app_dir
+import traceback
 
 async def post_handler(request):
     reader = await request.multipart()
@@ -20,7 +21,7 @@ async def post_handler(request):
             size += len(chunk)
             f.write(chunk)
 
-    return web.Response(text=f'{filename} sized of {size} successfully stored')
+    return web.Response(text=filename)
 
 def jsonString(obj):
     return toJson(obj, 2 if pretty_print else 0, pretty_print)
@@ -70,8 +71,11 @@ async def websocket_handler(request):
             elif msg.type == WSMsgType.ERROR:
                 print('ws connection closed with exception %s' % ws.exception())
     except:
-        type, value, traceback = sys.exc_info()
-        user.log(f'{type}: {value} \n{traceback.format_exc()}\n')
+        """ type, value, traceback = sys.exc_info()
+        stack = traceback. extract_
+        filename, line, procname, text = stack[-1]        
+        user.log(f'File: {filename}, line: {line}\n  {text}') """
+        user.log(traceback.format_exc())
     
     return ws       
 

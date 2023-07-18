@@ -23,7 +23,7 @@ if not hasattr(config, 'appname'):
 if not os.path.exists(config.upload_dir):
     os.makedirs(config.upload_dir)
 
-#Logging 
+#start logging 
 format = "%(asctime)s - %(levelname)s - %(message)s"
 handlers = [logging.FileHandler(config.logfile), logging.StreamHandler()] if config.logfile else []
 logging.basicConfig(level = logging.WARNING, format = format, handlers = handlers)
@@ -48,7 +48,7 @@ if config.autotest:
         pass
 
     def alltest():    
-        files = config[testdir]
+        files = config.autotest
         for file in os.listdir(testdir):
             if  files == '*' or file in files:
                 test(file)

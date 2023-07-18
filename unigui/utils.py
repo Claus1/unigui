@@ -39,7 +39,7 @@ def url2filename(url):
     return url[url.find('/') + 1:].replace('%20',' ')   
 
 def upload_path(fpath):
-    return f'{os.getcwd()}/{config.upload_dir}/{fpath}'
+    return f'{config.upload_dir}/{fpath}'
     
 def translate_http_path(path):
     if '?' in path:
