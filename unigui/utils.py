@@ -15,8 +15,6 @@ try:
 except:
     with open('config.py', 'w') as f:        
         f.write("""port = 8000 
-#for remote server socket_ip is its ip 
-socket_ip  = 'localhost' 
 upload_dir = 'web'
 pretty_print = True
 hot_reload   = True
