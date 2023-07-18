@@ -41,26 +41,6 @@ class User:
             file.close() 
         return cname
 
-    @staticmethod
-    def create_fixed_js():
-        dir = f"{utils.webpath}/js"
-        b = None        
-        """ def replace(what, tothat):
-            return b.replace(bytes(what,encoding='utf8'), bytes(str(tothat),encoding='utf8'))   """
-        for file in os.listdir(dir):
-            fn = f'{dir}/{file}'
-            if file[0].isdigit() and file.endswith(".js") and os.path.getsize(fn) > 25000:
-                User.fix_file = f'/js/{file}'
-                with open(fn, 'rb') as main:
-                    b = main.read()
-                    """ if utils.socket_ip != 'localhost':
-                        b = replace('localhost', utils.socket_ip)
-                    if config.port != 8000:
-                        b = replace('8000',utils.config.port)                   """
-                    User.configured_main = b.decode("utf-8") 
-                    print(f"Configuring for http port {config.port}.")
-                    break
-
     def sync_send(self, obj):
         asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
 
