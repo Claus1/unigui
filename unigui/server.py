@@ -10,12 +10,11 @@ import traceback
 async def post_handler(request):
     reader = await request.multipart()
     field = await reader.next()   
-    filename = upload_path(field.filename)  
-    # You cannot rely on Content-Length if transfer is chunked.
+    filename = upload_path(field.filename)      
     size = 0
     with open(filename, 'wb') as f:
         while True:
-            chunk = await field.read_chunk()  # 8192 bytes by default.
+            chunk = await field.read_chunk()  
             if not chunk:
                 break
             size += len(chunk)
@@ -64,11 +63,7 @@ async def websocket_handler(request):
 
             elif msg.type == WSMsgType.ERROR:
                 print('ws connection closed with exception %s' % ws.exception())
-    except:
-        """ type, value, traceback = sys.exc_info()
-        stack = traceback. extract_
-        filename, line, procname, text = stack[-1]        
-        user.log(f'File: {filename}, line: {line}\n  {text}') """
+    except:        
         user.log(traceback.format_exc())
     
     return ws       

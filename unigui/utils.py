@@ -38,13 +38,6 @@ def url2filename(url):
 
 def upload_path(fpath):
     return f'{config.upload_dir}/{fpath}'
-    
-def translate_http_path(path):
-    if '?' in path:
-        path = path.split('?')[0]
-    if path.startswith(f'/{config.upload_dir}/'):             
-        return f'{app_dir}{path}'.replace('%20',' ')     
-    return f'{webpath}{path}'.replace('%20',' ') 
 
 def flatten(*arr):
     for a in arr:

@@ -48,7 +48,8 @@ class Edit(Gui):
         super().__init__(*args, **kwargs)        
         if 'type' not in kwargs:
             self.type =  'autoedit' if 'complete' in kwargs else 'edit'
-        self.check('value')
+        if not hasattr(self,'value'):
+            self.value = '' if self.type != 'number' else 0
 
 class Text(Gui):
     def __init__(self, *args, **kwargs):
@@ -64,23 +65,19 @@ class Button(Gui):
         for key in kwargs.keys():            
             self.add(key, kwargs[key])
 
-def CameraButton(name, *args,**kwargs):
-    kwargs['type'] = 'camera'
-    return Button(name, *args, **kwargs)
-
-def UploadButton(name, handler,**kwargs):
-    if 'type' not in kwargs:
-        kwargs['type'] = 'gallery'
+def CameraButton(name, *args):    
+    return Button(name, *args, type = 'camera')
+        
+def UploadImageButton(name, handler,**kwargs):    
+    kwargs['type'] = 'image_uploader'
     if 'width' not in kwargs:
         kwargs['width'] = 250.0              
     if 'height' not in kwargs:
-        kwargs['height'] = 300.0                  
+        kwargs['height'] = 300.0         
     return Button(name, handler, **kwargs)
 
-def UploadImageButton(name, handler,**kwargs):
-    kwargs['type'] = 'gimages'
-    return UploadButton(name, handler, **kwargs)    
-        
+UploadButton = UploadImageButton
+
 class Image(Gui):
     '''has to contain file parameter as name'''
     def __init__(self, *args, **kwargs):
@@ -196,8 +193,7 @@ class Table(Gui):
             edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
             if not edit_setting:                             
                 self.delete = delete_table_row             
-                self.append = append_table_row 
-            if not hasattr(self,'modify'): 
+                self.append = append_table_row             
                 self.modify = accept_cell_value             
         
     def selected_list(self):                            
