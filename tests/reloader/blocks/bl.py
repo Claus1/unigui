@@ -1,2 +1,2 @@
 from unigui import Text
-ed = Text('adfdfd')
+ed = Text('dfdfd')

@@ -47,8 +47,8 @@ class User:
     def progress(self, str, *updates):
         """open or update progress window if str != null else close it  """             
         return self.sync_send(TextMessage('progress', str, *updates, user = self))
-                       
-    def load_module(self, file):
+                   
+    def load_screen(self, file):
         screen_vars = {
             'icon' : None,
             'prepare' : None,            
@@ -57,7 +57,7 @@ class User:
             'toolbar' : User.toolbar, 
             'order' : 0
         }             
-        name = file[0:-3]        
+        name = file[:-3]        
         path = f'{screens_dir}/{file}'                
         spec = importlib.util.spec_from_file_location(name,path)
         module = importlib.util.module_from_spec(spec)        
@@ -94,7 +94,7 @@ class User:
         if os.path.exists(screens_dir):
             for file in os.listdir(screens_dir):
                 if file.endswith(".py") and file != '__init__.py':
-                    module = self.load_module(file)                
+                    module = self.load_screen(file)                
                     self.screens.append(module)                
             
         if self.screens:
@@ -220,7 +220,6 @@ class User:
             if hasattr(elem,'value'): #exlude Buttons and others without 'value'
                 elem.value = val                                        
             return                        
-
         return Error(f'{elem} does not contain method for {action} event type!')
 
 #loop and thread is for progress window and sync interactions

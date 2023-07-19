@@ -12,11 +12,14 @@ empty_app = {
 }
 
 if config.hot_reload:
-    import logging, os, traceback
+    import os, sys, traceback
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
     from .users import User
-    busy = False        
+    import re
+    
+    busy = False      
+    cwd = os.getcwd()  
 
     def free():
         global busy
@@ -32,7 +35,7 @@ if config.hot_reload:
             busy = True
             request_file = None            
             try:
-                module = user.load_module(sname)
+                module = user.load_screen(sname)
             except:
                 busy = False
                 traceback.print_exc()        
@@ -59,22 +62,38 @@ if config.hot_reload:
 
     class ScreenEventHandler(PatternMatchingEventHandler):    
         def on_modified(self, event):
-            if not event.is_directory and hasattr(User,'last_user'):            
-                arr = event.src_path.split('/') 
+            if not event.is_directory and hasattr(User,'last_user'):                            
+                short_path = event.src_path[len(cwd) + 1:]
+                arr = short_path.split('/') 
                 name = arr[-1]
-                dir = arr[-2]  
-                if name.endswith('.py') and dir in ['screens','blocks']:                             
-                    if busy:
-                        global request_file            
-                        request_file = f'{dir}/{name}' 
-                    else:                    
-                        fresh_module = reload(name) if dir == 'screens' else None                    
-                        user = User.last_user
-                        module = user.screen_module
-                        if module:
-                            current = module.__file__
-                            if not fresh_module or current != fresh_module.__file__:
-                                reload(current.split('/')[-1]) 
+                dir = arr[0] if len(arr) > 1 else '' 
+                                
+                if name.endswith('.py'):
+                    user = User.last_user
+                    
+                    if dir not in ['screens','blocks']: #analyze if dependency exist
+                        file = open(user.screen_module.__file__, "r") 
+                        arr[-1] = arr[-1][:-3]
+                        module_name = '.'.join(arr) 
+                        module_pattern = '\.'.join(arr)                        
+                        
+                        if re.search(f"((import|from)[ \t]*{module_pattern}[ \t\n]*)",file.read()):
+                            if module_name in sys.modules:
+                                del sys.modules[module_name]                            
+                            short_path = user.screen_module.__file__
+                            dir, name = short_path.split('/')                            
+
+                    if dir in ['screens','blocks']:                             
+                        if busy:
+                            global request_file            
+                            request_file = short_path 
+                        else:                    
+                            fresh_module = reload(name) if dir == 'screens' else None                                            
+                            module = user.screen_module
+                            if module:
+                                current = module.__file__
+                                if not fresh_module or current != fresh_module.__file__:
+                                    reload(current.split('/')[-1]) 
                                                     
         def on_deleted(self, event):            
             if not event.is_directory and hasattr(User,'last_user'):
@@ -101,8 +120,7 @@ if config.hot_reload:
                                 user.update_menu()
                                 user.sync_send(True)                                                        
                             break
-
-    logging.basicConfig(level=logging.INFO)
+    
     event_handler = ScreenEventHandler()
     observer = Observer()
     path = os.getcwd()
