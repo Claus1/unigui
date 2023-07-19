@@ -16,6 +16,7 @@ if config.hot_reload:
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
     from .users import User
+    from .utils import divpath
     import re
     
     busy = False      
@@ -64,7 +65,7 @@ if config.hot_reload:
         def on_modified(self, event):
             if not event.is_directory and hasattr(User,'last_user'):                            
                 short_path = event.src_path[len(cwd) + 1:]
-                arr = short_path.split('/') 
+                arr = short_path.split(divpath) 
                 name = arr[-1]
                 dir = arr[0] if len(arr) > 1 else '' 
                                 
@@ -81,7 +82,7 @@ if config.hot_reload:
                             if module_name in sys.modules:
                                 del sys.modules[module_name]                            
                             short_path = user.screen_module.__file__
-                            dir, name = short_path.split('/')                            
+                            dir, name = short_path.split(divpath)                            
 
                     if dir in ['screens','blocks']:                             
                         if busy:
@@ -93,12 +94,12 @@ if config.hot_reload:
                             if module:
                                 current = module.__file__
                                 if not fresh_module or current != fresh_module.__file__:
-                                    reload(current.split('/')[-1]) 
+                                    reload(current.split(divpath)[-1]) 
                                                     
         def on_deleted(self, event):            
             if not event.is_directory and hasattr(User,'last_user'):
                 user = User.last_user            
-                arr = event.src_path.split('/') 
+                arr = event.src_path.split(divpath) 
                 name = arr[-1]
                 dir = arr[-2]  
                 if name.endswith('.py') and dir == 'screens':
@@ -108,7 +109,7 @@ if config.hot_reload:
                             user.screens.remove(s)
                             if user.screen_module is s:
                                 if user.screens:                                                                        
-                                    fname = user.screens[0].__file__.split('/')[-1]
+                                    fname = user.screens[0].__file__.split(divpath)[-1]
                                     module = reload(fname)
                                     user.set_screen(module.name)
                                     user.update_menu()                                
@@ -116,7 +117,7 @@ if config.hot_reload:
                                 else:                                                      
                                     user.sync_send(empty_app)                                                        
                             else:
-                                reload(user.screen_module.__file__.split('/')[-1])
+                                reload(user.screen_module.__file__.split(divpath)[-1])
                                 user.update_menu()
                                 user.sync_send(True)                                                        
                             break

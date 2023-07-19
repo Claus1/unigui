@@ -1,6 +1,4 @@
-import os 
-import jsonpickle
-import json
+import os, jsonpickle, json, platform
 
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
@@ -9,6 +7,7 @@ UpdateScreen = True
 libpath = os.path.dirname(os.path.realpath(__file__))
 webpath = libpath + '/web' 
 app_dir = os.getcwd()
+divpath = '\\' if platform.system() == 'Windows' else '/'
 
 try:
     import config
