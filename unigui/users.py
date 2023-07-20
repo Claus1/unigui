@@ -54,7 +54,7 @@ class User:
             'prepare' : None,            
             'blocks' : [],
             'header' : config.appname,                        
-            'toolbar' : User.toolbar, 
+            'toolbar' : [], 
             'order' : 0
         }             
         name = file[:-3]        
