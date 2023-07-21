@@ -1,4 +1,4 @@
-import os, jsonpickle, json, platform
+import os, jsonpickle, json, platform, requests
 
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
@@ -36,7 +36,7 @@ def url2filename(url):
     return url[url.find('/') + 1:].replace('%20',' ')   
 
 def upload_path(fpath):
-    return f'{config.upload_dir}/{fpath}'
+    return f'{config.upload_dir}{divpath}{fpath}'
 
 def flatten(*arr):
     for a in arr:
@@ -44,6 +44,18 @@ def flatten(*arr):
             yield from flatten(*a)
         else:
             yield a
+    
+def cache_url(url):
+    "returns cached name of url image"
+    fname = url2filename(url)
+    
+    response = requests.get(url)
+    if response.status_code != 200:
+        return None
+    file = open(fname, "wb")
+    file.write(response.content)
+    file.close() 
+    return fname
             
 #for registering screen handlers of outer blocks
 handlers__ = {}

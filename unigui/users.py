@@ -3,7 +3,6 @@ from .utils import *
 from .guielements import *
 import sys
 import asyncio
-import requests
 from threading import Thread
 import logging
 
@@ -21,25 +20,6 @@ class User:
             logging.error(str)
         else:
             logging.warning(str)
-
-    @staticmethod
-    def cache_name(url):    
-        name = url.split('/')[-1]
-        name = utils.upload_path(name)
-        return name
-        
-    @staticmethod
-    def cache_url(url):
-        "returns cached name of url image"
-        cname = User.cache_name(url)
-        if not os.path.exists(cname):
-            response = requests.get(url)
-            if response.status_code != 200:
-                return None
-            file = open(cname, "wb")
-            file.write(response.content)
-            file.close() 
-        return cname
 
     def sync_send(self, obj):
         asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
@@ -144,11 +124,7 @@ class User:
         return [self.active_dialog.content] if self.active_dialog and \
             self.active_dialog.content else self.screen.blocks
 
-    def find_element(self, path):       
-        if path[0] == 'toolbar':
-            for e in self.screen.toolbar:
-                if e.name == path[1]:                
-                    return e
+    def find_element(self, path):               
         for bl in flatten(self.blocks):
             if bl.name == path[0]:
                 for c in bl.value:
@@ -158,6 +134,10 @@ class User:
                                 return sub
                     elif c.name == path[1]:
                         return c
+        if path[0] == 'toolbar':
+            for e in self.screen.toolbar:
+                if e.name == path[1]:                
+                    return e
 
     def find_path(self, elem):        
         for bl in flatten(self.blocks):        
@@ -195,7 +175,7 @@ class User:
                     if getattr(s.screen,'prepare', False):
                         s.screen.prepare()
                     return True            
-            print(f'Unknown screen name: {s.name}')
+            self.log(f'Unknown screen name: {s.name}')
         else:
             elem = self.find_element(arr)                        
             return self.process_element(elem, arr)        
@@ -219,8 +199,9 @@ class User:
         elif action == 'changed':
             if hasattr(elem,'value'): #exlude Buttons and others without 'value'
                 elem.value = val                                        
-            return                        
-        return Error(f'{elem} does not contain method for {action} event type!')
+            return   
+        self.log(f'{elem} does not contain method for {action} event type!')                     
+        return Error('Internal server error.')
 
 #loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
@@ -229,10 +210,8 @@ User.extra_loop = loop
 def f(loop):
     asyncio.set_event_loop(loop)
     loop.run_forever() 
-    
+
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()  
 
 User.toolbar = []
-
-

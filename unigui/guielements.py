@@ -137,7 +137,7 @@ class Tree(Gui):
         if not hasattr(self,'options'):
             self.options = {}        
         if not hasattr(self,'value'):
-            self.value = None
+            self.value = None        
 
 def accept_cell_value(table, val):    
     value, position = val
@@ -188,6 +188,8 @@ class Table(Gui):
             self.rows = []
         if not hasattr(self,'value'):
             self.value = None
+        if not hasattr(self,'dense'):
+            self.dense = True
 
         if getattr(self,'edit', True):
             edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
