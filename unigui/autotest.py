@@ -72,7 +72,10 @@ if config.autotest:
             else:
                 diff = comparator.check(obj2pyjson(response), message)
                 if diff != NO_DIFF:
-                    print(f"Test {filename} is failed on message {user_message}.\n {diff['_message']}")
+                    err = diff.get('_message')
+                    if not err:
+                        err = diff['type']['_message']
+                    print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
                     return False
         return True
 

@@ -23,9 +23,9 @@ autotest = '*'
         import config
         print("Config with default parameters is created!")
 
-def toJson(obj, indent, pretty_print):
-    return json.dumps(json.loads(jsonpickle.encode(obj,unpicklable=False)), 
-        indent = indent, sort_keys = pretty_print)
+def toJson(obj, indent, pretty):
+    js = jsonpickle.encode(obj,unpicklable=False)
+    return json.dumps(json.loads(js), indent=indent, sort_keys=pretty) if pretty else js
 
 def filename2url(fn):   
     if fn[0] == '/' or fn[1] == ':': #if full path
