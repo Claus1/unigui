@@ -28,12 +28,15 @@ def toJson(obj, indent, pretty_print):
         indent = indent, sort_keys = pretty_print)
 
 def filename2url(fn):   
-    if fn[0] == '/':
+    if fn[0] == '/' or fn[1] == ':': #if full path
         fn = fn[len(app_dir):]   
     return fn.replace(' ','%20')
 
-def url2filename(url):
+def url2filepath(url):
     return url[url.find('/') + 1:].replace('%20',' ')   
+
+def url2filename(url):
+    return url[url.rfind('/') + 1:].replace('%20',' ')   
 
 def upload_path(fpath):
     return f'{config.upload_dir}{divpath}{fpath}'
@@ -46,9 +49,9 @@ def flatten(*arr):
             yield a
     
 def cache_url(url):
-    "returns cached name of url image"
-    fname = url2filename(url)
-    
+    "cache url file in upload_dir snd returns local file"""
+    fname = url2filename(url)   
+    fname = upload_path(fname)
     response = requests.get(url)
     if response.status_code != 200:
         return None
