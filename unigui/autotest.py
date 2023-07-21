@@ -119,6 +119,11 @@ button = Button('_Add test', button_clicked,
 def run_tests():
     user = User.UserType()
     user.load()
+
+    for module in user.screens:
+        teststr = module.screen.check()
+        if teststr:
+            print(f'Detected error in screen {module.__file__}:\n{teststr}')
     files = config.autotest
     ok = True
     process = False

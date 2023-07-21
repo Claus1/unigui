@@ -14,11 +14,6 @@ class Gui:
     def add(self, attr, value):
         setattr(self, attr, value) 
 
-    def check(self,*attr_names):
-        for name in attr_names:
-            if not hasattr(self,name):
-                raise AttributeError(name, self)
-
     def mutate(self, obj):
         self.__dict__ = obj.__dict__    
 
@@ -113,12 +108,16 @@ class Graph(Gui):
             self.minwidth = 600.0              
         if not hasattr(self,'minheight'):
             self.minheight = 600.0              
-        self.check('nodes', 'edges')
+        if not hasattr(self, 'nodes'):
+            self.nodes = []
+        if not hasattr(self, 'edges'):
+            self.edges = []
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.check('value')        
+        if not hasattr(self,'value'):
+            self.value = False
 
 list_types = ['toggles','list','dropdown']
 
@@ -179,7 +178,8 @@ def append_table_row(table, value):
 class Table(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)             
-        self.check('headers')
+        if not hasattr(self,'headers'):
+            self.headers = []
         if not hasattr(self,'type'):
             self.type = 'table'
         if not hasattr(self,'value'):
@@ -213,14 +213,13 @@ class Block(Gui):
         self.value = list(args[1:])
         for key in kwargs.keys():            
             self.add(key, kwargs[key])        
-        self.check()
 
     def check(self):
         ch_names = set()        
         for child in utils.flatten(self.value):            
             if child.name in ch_names:                        
-                raise Exception(f'Error: the block {self.name} contains a duplicated name {child.name}!')                        
-            ch_names.add(child.name)            
+                return f'The block {self.name} contains a duplicated element name "{child.name}"!'                        
+            ch_names.add(child.name)                
 
 class Dialog:  
     def __init__(self, name, callback, *content, buttons = ['Ok', 'Cancel'], icon = 'not_listed_location'):
@@ -247,6 +246,8 @@ class Screen(Gui):
         bl_names = set()        
         for bl in utils.flatten(self.blocks):                                    
             if bl.name in bl_names:
-                raise Exception(f'Error: the screen {self.name} contains a duplicated name {bl.name}!')                
+                return (f'The screen {self.name} contains a duplicated block name {bl.name}!')                
             bl_names.add(bl.name)
-            bl.check()    
+            errstr = bl.check()    
+            if errstr:
+                return errstr
