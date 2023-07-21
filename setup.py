@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
  
 setup(name='unigui',
-      version='1.8.5',      
+      version='1.9.0',      
       license='MIT',
       author='Georgii Dernovyi',
       author_email='g.dernovoy@gmail.com',
