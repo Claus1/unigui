@@ -10,7 +10,8 @@ class User:
     def __init__(self):          
         self.screens = []        
         self.active_dialog = None
-        self.screen_module = None                        
+        self.screen_module = None    
+        self.__handlers__ = {}                    
         User.last_user = self        
 
     def log(self, str, type = 'error'):        
@@ -41,16 +42,14 @@ class User:
         path = f'{screens_dir}/{file}'                
         spec = importlib.util.spec_from_file_location(name,path)
         module = importlib.util.module_from_spec(spec)        
-        
-        utils.clean_handlers()                                        
+                
         module.user = self                               
         
         spec.loader.exec_module(module)            
         screen = Screen(module.name)
         #set system vars
         for var in screen_vars:                                            
-            setattr(screen, var, getattr(module,var,screen_vars[var])) 
-        module.handlers__ = utils.handlers__
+            setattr(screen, var, getattr(module,var,screen_vars[var]))         
         
         if screen.toolbar:
             screen.toolbar += User.toolbar
@@ -185,7 +184,7 @@ class User:
         action = arr[-2]        
         val = arr[-1]
         
-        handler = self.screen_module.handlers__.get((elem, action))
+        handler = self.__handlers__.get((elem, action), None)
         if handler:
             result = handler(elem, val)                
             return result
@@ -212,6 +211,11 @@ def f(loop):
     loop.run_forever() 
 
 async_thread = Thread(target=f, args=(loop,))
-async_thread.start()  
+async_thread.start()
+
+def handle(elem, event):
+    def h(fn):
+        User.last_user.__handlers__[elem, event] = fn
+    return h
 
 User.toolbar = []

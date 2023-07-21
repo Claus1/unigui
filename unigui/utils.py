@@ -59,18 +59,6 @@ def cache_url(url):
     file.write(response.content)
     file.close() 
     return fname
-            
-#for registering screen handlers of outer blocks
-handlers__ = {}
-
-def clean_handlers():
-    global handlers__
-    handlers__ = {}
-
-def handle(elem, event):
-    def h(fn):
-        handlers__[elem, event] = fn
-    return h
 
 class Message:
     def __init__(self, *gui_objects, user = None):

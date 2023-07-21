@@ -3,14 +3,14 @@ from .utils import *
 from .guielements import * 
 from .users import User
 
-#setting default config variables
+#setting config variables
 testdir = 'autotest'
 if not hasattr(config, testdir):
     config.autotest = False
 if not hasattr(config, 'port'):
     config.port = 8000
 if not hasattr(config, 'pretty_print'):
-    config.pretty_print = False
+    config.pretty_print = config.autotest
 if not hasattr(config, 'upload_dir'):
     config.upload_dir = 'web'
 if not hasattr(config, 'logfile'):
@@ -18,7 +18,9 @@ if not hasattr(config, 'logfile'):
 if not hasattr(config, 'hot_reload'):
     config.hot_reload = False
 if not hasattr(config, 'appname'):
-    config.appname = 'Unigui'
+    config.appname = 'Unigui app'
+if not hasattr(config, 'mirror'):
+    config.mirror = False
 
 if not os.path.exists(config.upload_dir):
     os.makedirs(config.upload_dir)
@@ -38,19 +40,27 @@ def recorder(msg, response):
         if ignored_1message:            
             record_buffer.append(f'{msg},\n{"null" if response is None else response}\n')
         else:
+            record_buffer.append(['root', User.last_user.screen_module.name])# where to start
             ignored_1message = True
 
 if config.autotest:
     if not os.path.exists(testdir):
         os.makedirs(testdir)
+    user = User()
+    user.load()
 
-    def test(file):
-        pass
+    def test(filename):
+        file = open(filename, "r") 
+        data = json.loads(file.read())
+        for message in data:
+            if isinstance(message, list):
+                respponse = user.process(message)
+                
 
     def alltest():    
         files = config.autotest
         for file in os.listdir(testdir):
-            if  files == '*' or file in files:
+            if not os.path.isdir(file) and (files == '*' or file in files):
                 test(file)
 
     test_name = Edit('Name test file', '')
@@ -77,8 +87,8 @@ if config.autotest:
         if os.path.exists(fname) and not rewrite.value:
             return Warning(f'Test file {fname} already exists!')
         user = User.last_user
-        if user.screen_module is not user.screens[0]:
-            return Warning('Test has to started from the first screen!') 
+        if not user.screen_module:
+            return Warning('Test has to started on some screen!') 
         global record_file, ignored_1message, record_buffer
         record_file = fname
         button.mode = 'red'   

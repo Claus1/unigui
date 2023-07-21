@@ -26,7 +26,7 @@ selector = Select('Select', 'All', options=['All','Based','Group'])
 def selchanged(_, val):
     if val == 'Based':
         return Error('Select can not be Based!',_)
-    _.value = val    
+    _.accept(val)    
 
 def replace_image(_, iname):
     print(iname)    
