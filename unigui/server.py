@@ -2,7 +2,7 @@ from aiohttp import web, WSMsgType
 from .users import *
 from pathlib import Path
 from .reloader import empty_app 
-from .autotest import recorder, jsonString
+from .autotest import recorder, jsonString, run_tests
 from config import port, upload_dir
 from .utils import app_dir
 import traceback
@@ -69,8 +69,11 @@ def start(appname = '', user_type = User, http_handlers = []):
         config.appname = appname
 
     User.UserType = user_type    
-    http_handlers.insert(0, web.get('/ws', websocket_handler))
-        
+
+    if config.autotest:
+        run_tests()
+
+    http_handlers.insert(0, web.get('/ws', websocket_handler))        
     for h in [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
         web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
         http_handlers.append(h)
