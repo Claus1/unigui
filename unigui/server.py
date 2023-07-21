@@ -2,8 +2,8 @@ from aiohttp import web, WSMsgType
 from .users import *
 from pathlib import Path
 from .reloader import empty_app 
-from .autotest import recorder
-from config import port, pretty_print, upload_dir
+from .autotest import recorder, jsonString
+from config import port, upload_dir
 from .utils import app_dir
 import traceback
 
@@ -21,9 +21,6 @@ async def post_handler(request):
             f.write(chunk)
 
     return web.Response(text=filename)
-
-def jsonString(obj):
-    return toJson(obj, 2 if pretty_print else 0, pretty_print)
 
 async def static_serve(request):    
     file_path = request.path    
@@ -57,15 +54,14 @@ async def websocket_handler(request):
                     data = json.loads(msg.data)            
                     result = user.result4message(data)
                     if result:            
-                        result = jsonString(user.prepare_result(result))    
-                        await ws.send_str(result)
-                    recorder(msg.data, result)
+                        result = user.prepare_result(result)
+                        await ws.send_str(jsonString(result))
+                    recorder(data, result)
 
             elif msg.type == WSMsgType.ERROR:
                 print('ws connection closed with exception %s' % ws.exception())
     except:        
         user.log(traceback.format_exc())
-    
     return ws       
 
 def start(appname = '', user_type = User, http_handlers = []):

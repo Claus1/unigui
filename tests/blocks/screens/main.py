@@ -67,9 +67,8 @@ bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node
 
 blocks= [[block,bottom_block],config_area]
 
-def log(x,y):
-    #user.log(";ldkal;   akdl;akda;")
-    raise "GGGG"
+def log(x,y):    
+    return Info('Saved!')
 
 toolbar = [Button('_Save', log, icon = 'save', tooltip = 'Save info'),
         Button('_Ignored', lambda _, x: Info('ignored!'), icon = 'delete_forever', tooltip = 'Ignore info!')]

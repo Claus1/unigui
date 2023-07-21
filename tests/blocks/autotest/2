@@ -1,0 +1,32 @@
+[
+[
+  "root",
+  "Main"
+],
+[
+  "X Block",
+  "Videos",
+  "changed",
+  1
+],                
+1
+,
+[
+  "X Block",
+  "Videos",
+  "changed",
+  0
+],                
+null
+,
+[
+  "Tree block",
+  "Inheritance",
+  "changed",
+  "Kinkajou"
+],                
+{
+  "type": "info",
+  "value": "Kinkajou selected in the tree."
+}
+]
