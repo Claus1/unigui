@@ -1,5 +1,3 @@
-from . import utils
-
 class Gui:
     def __init__(self, *args, **kwargs):
         self.name = args[0]
@@ -7,12 +5,12 @@ class Gui:
         if la > 1:
             self.value = args[1]
         if la > 2:
-            self.changed = args[2]
-        for key in kwargs.keys():            
-            self.add(key, kwargs[key]) 
+            self.changed = args[2]                    
+        self.add(kwargs) 
         
-    def add(self, attr, value):
-        setattr(self, attr, value) 
+    def add(self, kwargs):              
+        for key, value in kwargs.items():
+            setattr(self, key, value) 
 
     def mutate(self, obj):
         self.__dict__ = obj.__dict__    
@@ -25,7 +23,7 @@ class Gui:
 
 Line = Gui("Line", type = 'line')
 
-def smart_complete(lst, min_input_length = 1, max_output_length = 10):
+def smart_complete(lst, min_input_length = 0, max_output_length = 10):
     di = {it: it.lower() for it in lst}
     def complete(gui, ustr):
         if len(ustr) < min_input_length:
@@ -57,8 +55,8 @@ class Button(Gui):
         self.name = args[0]
         if len(args) > 1:
             self.changed = args[1]        
-        for key in kwargs.keys():            
-            self.add(key, kwargs[key])
+        self.add(kwargs)
+            
 
 def CameraButton(name, *args):    
     return Button(name, *args, type = 'camera')
@@ -210,24 +208,15 @@ class Block(Gui):
     def __init__(self, *args, **kwargs):        
         self.name = args[0]        
         self.type = 'block'
-        self.value = list(args[1:])
-        for key in kwargs.keys():            
-            self.add(key, kwargs[key])        
-
-    def check(self):
-        ch_names = set()        
-        for child in utils.flatten(self.value):            
-            if child.name in ch_names:                        
-                return f'The block {self.name} contains a duplicated element name "{child.name}"!'                        
-            ch_names.add(child.name)                
+        self.value = list(args[1:])        
+        self.add(kwargs)        
 
 class Dialog:  
     def __init__(self, name, callback, *content, buttons = ['Ok', 'Cancel'], icon = 'not_listed_location'):
         self.name = name
         self.callback = callback  
         self.type = 'dialog'         
-        self.buttons = buttons
-        
+        self.buttons = buttons        
         self.content = Block(name,[], *content, dialog = True, icon = icon) 
 
 class TextViewer(Gui):
@@ -237,17 +226,6 @@ class TextViewer(Gui):
                      
 class Screen(Gui):
     def __init__(self, *args, **kwargs):
-        self.name = args[0]        
-        for key in kwargs.keys():            
-            self.add(key, kwargs[key])   
+        self.name = args[0]                
+        self.add(kwargs)   
         self.type = 'screen'
-
-    def check(self):
-        bl_names = set()        
-        for bl in utils.flatten(self.blocks):                                    
-            if bl.name in bl_names:
-                return (f'The screen {self.name} contains a duplicated block name {bl.name}!')                
-            bl_names.add(bl.name)
-            errstr = bl.check()    
-            if errstr:
-                return errstr

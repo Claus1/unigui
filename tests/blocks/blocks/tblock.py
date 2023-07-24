@@ -99,7 +99,7 @@ def add_tree_elem(_, val):
     tree.value = txt
     return tree
 
-treeblock = Block('Tree block',[simple_enter, Button('Add to tree', add_tree_elem)], tree, icon = 'account_tree')
+treeblock = Block('Tree block',[simple_enter, Button('_Add to tree', add_tree_elem, icon='add_circle')], tree, icon = 'account_tree')
 
 tableblock = Block('Table block', [], table, icon = 'insights')
 

@@ -12,15 +12,7 @@ class User:
         self.active_dialog = None
         self.screen_module = None    
         self.__handlers__ = {}                    
-        User.last_user = self        
-
-    def log(self, str, type = 'error'):        
-        scr = self.screen.name if self.screens else 'omitted'
-        str = f"session: {self.session__}, screen: {scr}, message: {self.message__} \n  {str}"
-        if type == 'error':
-            logging.error(str)
-        else:
-            logging.warning(str)
+        User.last_user = self     
 
     def sync_send(self, obj):
         asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
@@ -55,9 +47,8 @@ class User:
             screen.toolbar += User.toolbar
         else: 
             screen.toolbar = User.toolbar  
-                        
-        screen.check()                         
-        module.screen = screen
+                                
+        module.screen = screen        
         return module
 
     def set_clean(self):
@@ -160,13 +151,13 @@ class User:
             if isinstance(raw, Message):
                 raw.fill_paths4(self)                
             elif isinstance(raw,Gui):
-                raw = Message(raw, user = self)                 
+                raw = Message(raw, self)                 
             elif isinstance(raw, (list, tuple)) and all(isinstance(e,Gui) for e in raw):
-                raw = Message(*raw, user = self)
+                raw = Message(*raw, self)
         return raw
 
     def process(self,arr):
-        self.message__ = arr        
+        self.last_input = arr        
         if arr[0] == 'root':
             for s in self.screens:
                 if s.name == arr[1]:
@@ -202,9 +193,25 @@ class User:
         self.log(f'{elem} does not contain method for {action} event type!')                     
         return Error('Internal server error.')
 
+    def reflect(self):        
+        user = User.UserType()
+        user.screens = self.screens
+        if self.screens:
+            user.screen_module = self.screens[0]     
+        user.__handlers__ =  self.__handlers__
+        User.reflections.append(user)
+        return user
+
+    def log(self, str, type = 'error'):        
+        scr = self.screen.name if self.screens else 'omitted'
+        str = f"session: {self.session}, screen: {scr}, message: {self.last_input} \n  {str}"
+        if type == 'error':
+            logging.error(str)
+        else:
+            logging.warning(str)
+
 #loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
-User.extra_loop = loop
 
 def f(loop):
     asyncio.set_event_loop(loop)
@@ -218,4 +225,7 @@ def handle(elem, event):
         User.last_user.__handlers__[elem, event] = fn
     return h
 
+User.extra_loop = loop
+User.UserType = User
 User.toolbar = []
+User.reflections = []

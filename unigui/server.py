@@ -31,20 +31,29 @@ async def static_serve(request):
     answer = web.HTTPNotFound() if not file_path.exists() else web.FileResponse(file_path)          
     return answer
 
+async def broadcast(message, message_user):
+    screen = message_user.screen_moule
+    for user in User.reflections:
+        if user is not message_user and screen is user.screen_module:
+            await user.send(message)
+
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    user = User.UserType()
+    if config.mirror and User.last_user:
+        user = User.last_user.reflect()
+        ok = user.screens
+    else:
+        user = User.UserType()
+        ok = user.load() 
 
     async def send(res):
         res = jsonString(user.prepare_result(res))
         await ws.send_str(res)   
 
     user.send = send     
-    user.session__ = request.remote
-    ok = user.load()    
+    user.session = request.remote    
     await ws.send_str(jsonString(user.screen if ok else empty_app)) 
-
     try:
         async for msg in ws:
             if msg.type == WSMsgType.TEXT:
@@ -56,10 +65,17 @@ async def websocket_handler(request):
                     if result:            
                         result = user.prepare_result(result)
                         await ws.send_str(jsonString(result))
-                    recorder(data, result)
-
+                    if recorder.record_file:
+                        recorder.accept(data, result)
+                    if config.mirror:
+                        if response:
+                            await broadcast(response, user)
+                        msg_object = user.self.find_element(msg) 
+                        if not isinstance(msg_object, Button):
+                            response = user.prepare_result(msg_object)
+                            await broadcast(jsonString(response), user)
             elif msg.type == WSMsgType.ERROR:
-                print('ws connection closed with exception %s' % ws.exception())
+                user.log('ws connection closed with exception %s' % ws.exception())
     except:        
         user.log(traceback.format_exc())
     return ws       
