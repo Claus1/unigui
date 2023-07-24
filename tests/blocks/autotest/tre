@@ -1,0 +1,17 @@
+[
+["root", "Main"],
+["X Block", "Videos", "changed", 1],                
+null
+,
+["X Block", "Audios", "changed", 4],                
+{"type": "warning", "value": "Audios changed to 4!"}
+,
+["X Block", "Audios", "changed", 6],                
+{"type": "warning", "value": "Audios changed to 6!"}
+,
+["Tree block", "Inheritance", "changed", "Kinkajou"],                
+{"type": "info", "value": "Kinkajou selected in the tree."}
+,
+["Tree block", "Inheritance", "changed", "Small Tarsier"],                
+{"type": "info", "value": "Small Tarsier selected in the tree."}
+]

@@ -212,7 +212,7 @@ class Block(Gui):
         self.add(kwargs)        
 
 class Dialog:  
-    def __init__(self, name, callback, *content, buttons = ['Ok', 'Cancel'], icon = 'not_listed_location'):
+    def __init__(self,name,callback,*content,buttons=['Ok','Cancel'],icon='not_listed_location'):
         self.name = name
         self.callback = callback  
         self.type = 'dialog'         
@@ -226,6 +226,6 @@ class TextViewer(Gui):
                      
 class Screen(Gui):
     def __init__(self, *args, **kwargs):
-        self.name = args[0]                
+        self.name = args[0] if args else ''               
         self.add(kwargs)   
         self.type = 'screen'

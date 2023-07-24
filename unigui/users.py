@@ -151,9 +151,9 @@ class User:
             if isinstance(raw, Message):
                 raw.fill_paths4(self)                
             elif isinstance(raw,Gui):
-                raw = Message(raw, self)                 
+                raw = Message(raw, user = self)                 
             elif isinstance(raw, (list, tuple)) and all(isinstance(e,Gui) for e in raw):
-                raw = Message(*raw, self)
+                raw = Message(*raw, user = self)
         return raw
 
     def process(self,arr):
@@ -198,8 +198,7 @@ class User:
         user.screens = self.screens
         if self.screens:
             user.screen_module = self.screens[0]     
-        user.__handlers__ =  self.__handlers__
-        User.reflections.append(user)
+        user.__handlers__ =  self.__handlers__        
         return user
 
     def log(self, str, type = 'error'):        
@@ -208,7 +207,18 @@ class User:
         if type == 'error':
             logging.error(str)
         else:
-            logging.warning(str)
+            logging.warning(str)    
+
+def make_user():
+    if config.mirror and User.last_user:
+        user = User.last_user.reflect()
+        ok = user.screens
+    else:
+        user = User.UserType()
+        ok = user.load()
+    if config.mirror:
+        User.reflections.append(user)         
+    return user, ok
 
 #loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
@@ -227,5 +237,6 @@ def handle(elem, event):
 
 User.extra_loop = loop
 User.UserType = User
+User.last_user = None
 User.toolbar = []
 User.reflections = []

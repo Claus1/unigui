@@ -75,6 +75,7 @@ def test(filename, user):
     filepath = f'{testdir}{divpath}{filename}'
     file = open(filepath, "r") 
     data = json.loads(file.read())
+    error = False
     for message in data:
         if isinstance(message, list):
             result = user.result4message(message)
@@ -85,10 +86,10 @@ def test(filename, user):
             if diff != NO_DIFF:
                 err = diff.get('_message')
                 if not err:
-                    err = diff['type']['_message']
-                print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
-                return False
-    return True
+                    for value in diff.values():
+                        err = value['_message']
+                        print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
+    return not error
 
 test_name = Edit('Name test file', '', focus = True)
 rewrite = Switch('Overwrite existing', False, type = 'check')

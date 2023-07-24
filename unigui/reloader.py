@@ -63,7 +63,7 @@ if config.hot_reload:
 
     class ScreenEventHandler(PatternMatchingEventHandler):    
         def on_modified(self, event):
-            if not event.is_directory and hasattr(User,'last_user'):                            
+            if not event.is_directory and User.last_user:                            
                 short_path = event.src_path[len(cwd) + 1:]
                 arr = short_path.split(divpath) 
                 name = arr[-1]
@@ -97,7 +97,7 @@ if config.hot_reload:
                                     reload(current.split(divpath)[-1]) 
                                                     
         def on_deleted(self, event):            
-            if not event.is_directory and hasattr(User,'last_user'):
+            if not event.is_directory and User.last_user:
                 user = User.last_user            
                 arr = event.src_path.split(divpath) 
                 name = arr[-1]

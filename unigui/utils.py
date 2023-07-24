@@ -61,16 +61,20 @@ def cache_url(url):
     return fname
 
 class Message:
-    def __init__(self, *gui_objects, user = None):
-        if gui_objects:
-            self.updates = [{'data': gui} for gui in gui_objects]
-            if user:
-                self.fill_paths4(user)
+    def __init__(self, *gui_objects, user = None):        
+        self.updates = [{'data': gui} for gui in gui_objects] if gui_objects else []
+        if user:
+            self.fill_paths4(user)
 
     def fill_paths4(self, user):
         if hasattr(self, 'updates'):
             for update in self.updates:
                 update['path'] = user.find_path(update['data'])
+
+    def contains(self, guiobj):
+        for update in self.updates:
+            if guiobj is update['data']:
+                return True
 
 def TextMessage(type, text, *data, user = None):
     message = Message(*data, user=user)

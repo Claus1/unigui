@@ -31,21 +31,19 @@ async def static_serve(request):
     answer = web.HTTPNotFound() if not file_path.exists() else web.FileResponse(file_path)          
     return answer
 
-async def broadcast(message, message_user):
-    screen = message_user.screen_moule
+def broadcast(message, message_user):
+    screen = message_user.screen_module
     for user in User.reflections:
         if user is not message_user and screen is user.screen_module:
-            await user.send(message)
+            user.sync_send(message)
+
+def screen_switch_message(message):
+    return len(message) == 2 and message[0] == 'root'
 
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
-    if config.mirror and User.last_user:
-        user = User.last_user.reflect()
-        ok = user.screens
-    else:
-        user = User.UserType()
-        ok = user.load() 
+    user, ok = make_user()
 
     async def send(res):
         res = jsonString(user.prepare_result(res))
@@ -60,24 +58,26 @@ async def websocket_handler(request):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    data = json.loads(msg.data)            
-                    result = user.result4message(data)
+                    input = json.loads(msg.data)            
+                    result = user.result4message(input)
                     if result:            
                         result = user.prepare_result(result)
                         await ws.send_str(jsonString(result))
                     if recorder.record_file:
-                        recorder.accept(data, result)
-                    if config.mirror:
-                        if response:
-                            await broadcast(response, user)
-                        msg_object = user.self.find_element(msg) 
-                        if not isinstance(msg_object, Button):
-                            response = user.prepare_result(msg_object)
-                            await broadcast(jsonString(response), user)
+                        recorder.accept(input, result)
+                    if config.mirror and not screen_switch_message(input):                        
+                        if result:
+                            broadcast(result, user)                            
+                        msg_object = user.find_element(input)                         
+                        if not isinstance(result, Message) or not result.contains(msg_object):                                                        
+                            broadcast(msg_object, user)
             elif msg.type == WSMsgType.ERROR:
                 user.log('ws connection closed with exception %s' % ws.exception())
     except:        
         user.log(traceback.format_exc())
+
+    if User.reflections:
+        User.reflections.remove(user)
     return ws       
 
 def start(appname = '', user_type = User, http_handlers = []):
@@ -90,9 +90,8 @@ def start(appname = '', user_type = User, http_handlers = []):
         run_tests()
 
     http_handlers.insert(0, web.get('/ws', websocket_handler))        
-    for h in [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
-        web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]:
-        http_handlers.append(h)
+    http_handlers += [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
+        web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]
 
     print(f'Start {appname} server on {port} port..')    
     app = web.Application()
