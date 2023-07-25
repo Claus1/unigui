@@ -93,7 +93,7 @@ def start(appname = '', user_type = User, http_handlers = []):
     http_handlers += [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
         web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]
 
-    print(f'Start {appname} server on {port} port..')    
+    print(f'Start {appname} web server..')    
     app = web.Application()
     app.add_routes(http_handlers)    
     web.run_app(app,  port=port)

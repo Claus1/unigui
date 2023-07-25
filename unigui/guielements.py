@@ -13,7 +13,10 @@ class Gui:
             setattr(self, key, value) 
 
     def mutate(self, obj):
-        self.__dict__ = obj.__dict__    
+        self.__dict__ = obj.__dict__ 
+
+    def __getstate__(self):
+        return {key: value for key,value in self.__dict__.items() if '__' not in key}    
 
     def accept(self, value):
         if hasattr(self, 'changed'):
@@ -135,74 +138,6 @@ class Tree(Gui):
             self.options = {}        
         if not hasattr(self,'value'):
             self.value = None        
-
-def accept_cell_value(table, val):    
-    value, position = val
-    if not isinstance(value, bool):
-        try:
-            value = float(value)        
-        except ValueError:
-            pass
-        table.rows[position[0]][position[1]] = value    
-
-def delete_table_row(table, value):
-    if table.rows:        
-        keyed = len(table.headers) < len(table.rows[0])
-        table.value = value   
-        if isinstance(value, list):        
-            if keyed:
-                table.rows = [row for row in table.rows if row[-1] not in value]
-            else:
-                value.sort(reverse=True)
-                for v in value:            
-                    del table.rows[v]
-            table.value = []
-        else:
-            if keyed:            
-                table.rows = [row for row in table.rows if row[-1] != value]
-            else:
-                del table.rows[value]  
-            table.value = None    
-
-def append_table_row(table, value):
-    ''' append has to return new row or error string, val is search string in the table'''
-    new_id_row, search = value #new_id_row == rows count
-    new_row = [''] * len(table.headers)
-    if search:
-        new_row[0] = search
-    table.rows.append(new_row)
-    return new_row
-
-class Table(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)             
-        if not hasattr(self,'headers'):
-            self.headers = []
-        if not hasattr(self,'type'):
-            self.type = 'table'
-        if not hasattr(self,'value'):
-            self.value = None
-        if not hasattr(self,'rows'):
-            self.rows = []
-        if not hasattr(self,'value'):
-            self.value = None
-        if not hasattr(self,'dense'):
-            self.dense = True
-
-        if getattr(self,'edit', True):
-            edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
-            if not edit_setting:                             
-                self.delete = delete_table_row             
-                self.append = append_table_row             
-                self.modify = accept_cell_value             
-        
-    def selected_list(self):                            
-        return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
-
-    def clean(self):
-        self.rows = []
-        self.value = [] if isinstance(self.value,(tuple, list)) else None
-        return self
         
 class Block(Gui):
     def __init__(self, *args, **kwargs):        

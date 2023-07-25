@@ -123,33 +123,43 @@ button = Button('_Add test', button_clicked,
 
 def check_dialog(self):
     errors = []
-    ch_names = set()                
-    for child in flatten(self.value):                        
-        if not isinstance(child, Gui):
+    child_names = set()   
+    tt = type(self)   
+    if not hasattr(self, 'name') or not self.name:            
+        errors.append(f"The block with {[str(type(gui)).split('.')[-1] for gui in flatten(self.value)]} does not contain name!")
+        self.name = 'Unknown'          
+    if not isinstance(self.name, str):
+        errors.append(f"The block with name {self.name} is not a string!")
+    for child in flatten(self.value):           
+        if not isinstance(child, Gui) or not child:
             errors.append(f'The block {self.name} contains invalid element {child} instead of Gui+ object!') 
         elif isinstance(child, Block):
             errors.append(f'The block {self.name} contains block {child.name}. Blocks cannot contain blocks!')                                                                                                       
-        elif child.name in ch_names:                        
+        elif child.name in child_names:                        
             errors.append(f'The block {self.name} contains a duplicated element name "{child.name}"!')
-        ch_names.add(child.name)                
+        else:
+            child_names.add(child.name)                
     return errors
 
 def check_screen(module):
     self = module.screen
     errors =  []        
-    bl_names = set()        
+    block_names = set()        
     if not hasattr(self, 'name') or not self.name:            
         errors.append(f"Screen file {module.__file__} does not contain name!")
         self.name = 'Unknown'
+    if not isinstance(self.name, str):
+        errors.append(f"The name in screen file {module.__file__} {self.name} is not a string!")
     if not isinstance(self.blocks, list):
         errors.append("Screen file {self.__module__.__file__} does not contain name!")
     else:
         for bl in flatten(self.blocks):            
             if not isinstance(bl, Block):
                 errors.append(f'The screen contains invalid element {bl} instead of Block object!')                                                    
-            elif bl.name in bl_names:
-                errors.append(f'The screen contains a duplicated block name {bl.name}!')                
-            bl_names.add(bl.name)
+            elif bl.name in block_names:
+                errors.append(f'The screen contains a duplicated block name {bl.name}!')    
+            else:            
+                block_names.add(bl.name)
             errors += check_dialog(bl)
     if errors:
         errors.insert(0, f"\nErrors in screen {self.name}, file name {module.__file__}:")
@@ -162,22 +172,21 @@ def run_tests():
     for module in user.screens:
         errors += check_screen(module)
     if errors:
-        errors.insert(0, f'Unigui detected errors in screens:')
-        print('\n'.join(errors))
-    
+        errors.insert(0, f'\n!!----Unigui detected errors in screens:')
+        print('\n'.join(errors), '\n')
+        
     files = config.autotest
     ok = True
     process = False
-    for file in os.listdir(testdir):
-        if not os.path.isdir(file) and (files == '*' or file in files):
-            process = True
-            if not test(file,user):
-                ok = False
+    if os.path.exists(testdir):
+        for file in os.listdir(testdir):
+            if not os.path.isdir(file) and (files == '*' or file in files):
+                process = True
+                if not test(file,user):
+                    ok = False
     if process and ok:
         print('-----Autotests successfully passed.-----')
-
-    if not os.path.exists(testdir):
-        os.makedirs(testdir)                                
+    
     User.toolbar.append(button)
     
         
