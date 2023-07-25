@@ -38,18 +38,21 @@ def append_table_row(table, value):
     return new_row
 
 class Table(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)             
-        if not hasattr(self,'headers'):
-            self.headers = []
-        if not hasattr(self,'type'):
-            self.type = 'table'
-        if not hasattr(self,'value'):
-            self.value = None
-        if not hasattr(self,'rows'):
-            self.rows = []        
-        if not hasattr(self,'dense'):
-            self.dense = True
+    def __init__(self, *args, panda = None, **kwargs):
+        if panda is not None:
+            self.mutate(PandaTable(*args, panda=panda, **kwargs))
+        else:
+            super().__init__(*args, **kwargs)           
+            if not hasattr(self,'headers'):
+                self.headers = []
+            if not hasattr(self,'type'):
+                self.type = 'table'
+            if not hasattr(self,'value'):
+                self.value = None
+            if not hasattr(self,'rows'):
+                self.rows = []        
+            if not hasattr(self,'dense'):
+                self.dense = True
 
         if getattr(self,'edit', True):
             edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
@@ -99,10 +102,12 @@ class PandaTable(Table):
         self.rows = panda.values.tolist()
         self.__panda__ = panda
         
-        self.delete = delete_panda_row        
-        self.append = append_panda_row        
-        self.modify = accept_panda_cell
-    
+        if getattr(self,'edit', True):
+            edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
+            if not edit_setting:                             
+                self.delete = delete_panda_row        
+                self.append = append_panda_row        
+                self.modify = accept_panda_cell    
     @property
     def panda(self):
         return getattr(self,'__panda__',None) 
