@@ -14,10 +14,7 @@ class Gui:
 
     def mutate(self, obj):
         self.__dict__ = obj.__dict__ 
-
-    def __getstate__(self):
-        return {key: value for key,value in self.__dict__.items() if '__' not in key}    
-
+    
     def accept(self, value):
         if hasattr(self, 'changed'):
             self.changed(self, value)
