@@ -103,7 +103,7 @@ if config.hot_reload:
                 name = arr[-1]
                 dir = arr[-2]  
                 if name.endswith('.py') and dir == 'screens':
-                    delfile = f'{dir}/{name}'
+                    delfile = f'{dir}{divpath}{name}'
                     for i, s in enumerate(user.screens):
                         if s.__file__ == delfile:
                             user.screens.remove(s)

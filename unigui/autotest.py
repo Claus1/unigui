@@ -100,7 +100,7 @@ def button_clicked(_,__):
     return Dialog('Create autotest..', ask_create_test, test_name, rewrite)
 
 def create_test(fname):
-    fname = f'{testdir}/{fname}'    
+    fname = f'{testdir}{divpath}{fname}'    
     if os.path.exists(fname) and not rewrite.value:
         return Warning(f'Test file {fname} already exists!')              
     

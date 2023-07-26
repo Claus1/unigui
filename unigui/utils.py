@@ -4,10 +4,10 @@ blocks_dir = 'blocks'
 screens_dir =  'screens'        
 UpdateScreen = True
 
-libpath = os.path.dirname(os.path.realpath(__file__))
-webpath = libpath + '/web' 
-app_dir = os.getcwd()
 divpath = '\\' if platform.system() == 'Windows' else '/'
+libpath = os.path.dirname(os.path.realpath(__file__))
+webpath = f'{libpath}{divpath}web' 
+app_dir = os.getcwd()
 
 try:
     import config
@@ -49,7 +49,7 @@ def flatten(*arr):
             yield a
     
 def cache_url(url):
-    "cache url file in upload_dir snd returns local file"""
+    """cache url file in upload_dir and returns the local file name"""
     fname = url2filename(url)   
     fname = upload_path(fname)
     response = requests.get(url)

@@ -4,7 +4,6 @@ from pathlib import Path
 from .reloader import empty_app 
 from .autotest import recorder, jsonString, run_tests
 from config import port, upload_dir
-from .utils import app_dir
 import traceback
 
 async def post_handler(request):
