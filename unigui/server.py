@@ -90,7 +90,7 @@ def start(appname = '', user_type = User, http_handlers = []):
         run_tests()
 
     http_handlers.insert(0, web.get('/ws', websocket_handler))        
-    http_handlers += [web.static(f'/{config.upload_dir}', f"/{app_dir}/{upload_dir}"), 
+    http_handlers += [web.static(f'/{config.upload_dir}', upload_dir), 
         web.get('/{tail:.*}', static_serve), web.post('/', post_handler)]
 
     print(f'Start {appname} web server..')    
