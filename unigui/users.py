@@ -150,7 +150,7 @@ class User:
         else:
             if isinstance(raw, Message):
                 raw.fill_paths4(self)                
-            elif isinstance(raw,Gui):
+            elif isinstance(raw,Gui) and raw is not self.screen:
                 raw = Message(raw, user = self)                 
             elif isinstance(raw, (list, tuple)) and all(isinstance(e,Gui) for e in raw):
                 raw = Message(*raw, user = self)

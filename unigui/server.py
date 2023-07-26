@@ -46,12 +46,13 @@ async def websocket_handler(request):
     user, ok = make_user()
 
     async def send(res):
-        res = jsonString(user.prepare_result(res))
+        if type(res) != str:
+            res = jsonString(user.prepare_result(res))
         await ws.send_str(res)   
 
     user.send = send     
     user.session = request.remote    
-    await ws.send_str(jsonString(user.screen if ok else empty_app)) 
+    await send(user.screen if ok else empty_app) 
     try:
         async for msg in ws:
             if msg.type == WSMsgType.TEXT:
@@ -60,9 +61,8 @@ async def websocket_handler(request):
                 else:
                     input = json.loads(msg.data)            
                     result = user.result4message(input)
-                    if result:            
-                        result = user.prepare_result(result)
-                        await ws.send_str(jsonString(result))
+                    if result:                                    
+                        await send(result)
                     if recorder.record_file:
                         recorder.accept(input, result)
                     if config.mirror and not screen_switch_message(input):                        
@@ -70,7 +70,7 @@ async def websocket_handler(request):
                             broadcast(result, user)                            
                         msg_object = user.find_element(input)                         
                         if not isinstance(result, Message) or not result.contains(msg_object):                                                        
-                            broadcast(msg_object, user)
+                            broadcast(jsonString(user.prepare_result(msg_object)), user)
             elif msg.type == WSMsgType.ERROR:
                 user.log('ws connection closed with exception %s' % ws.exception())
     except:        

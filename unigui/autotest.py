@@ -94,15 +94,13 @@ def test(filename, user):
 test_name = Edit('Name test file', '', focus = True)
 rewrite = Switch('Overwrite existing', False, type = 'check')
 
-def button_clicked(x,y):
+def button_clicked(_,__):
     test_name.value = ''
     test_name.complete = smart_complete(os.listdir(testdir))
     return Dialog('Create autotest..', ask_create_test, test_name, rewrite)
 
 def create_test(fname):
-    fname = f'{testdir}/{fname}'
-    if not os.path.exists(testdir):
-        os.makedirs(testdir)
+    fname = f'{testdir}/{fname}'    
     if os.path.exists(fname) and not rewrite.value:
         return Warning(f'Test file {fname} already exists!')              
     
@@ -111,7 +109,7 @@ def create_test(fname):
     button.changed = recorder.stop_recording
     recorder.start(fname)
     
-    return Info('Recording is running.. ',button)     
+    return Info('Recording is running.. press the same button to stop',button)     
 
 def ask_create_test(_, bname):
     if bname == 'Ok':            
@@ -166,6 +164,8 @@ def check_screen(module):
     return errors
     
 def run_tests():
+    if not os.path.exists(testdir):
+        os.makedirs(testdir)
     user = User.UserType()
     user.load()
     errors = []
