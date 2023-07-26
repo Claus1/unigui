@@ -188,7 +188,7 @@ def run_tests():
                     ok = False
     if process and ok:
         print('-----Autotests successfully passed.-----')
-    
+    User.last_user = None
     User.toolbar.append(button)
     
         

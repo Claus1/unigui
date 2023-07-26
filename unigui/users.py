@@ -31,7 +31,7 @@ class User:
             'order' : 0
         }             
         name = file[:-3]        
-        path = f'{screens_dir}/{file}'                
+        path = f'{screens_dir}{divpath}{file}'                
         spec = importlib.util.spec_from_file_location(name,path)
         module = importlib.util.module_from_spec(spec)        
                 
