@@ -174,7 +174,7 @@ def run_tests():
     if errors:
         errors.insert(0, f'\n!!----Unigui detected errors in screens:')
         print('\n'.join(errors), '\n')
-    else:
+    elif user.screens:
         print(f'\n----Screens definitions are correct. ')
         
     files = config.autotest
