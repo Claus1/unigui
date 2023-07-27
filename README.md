@@ -193,13 +193,6 @@ UploadButton('Load', handler_when_loading_finish, icon='photo_library')
 ```
 handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_file_filename is a file name in upload server folder. This folder name is defined in config.py .
 
-### Camera Button ###
-Special button provides to make a photo on the user mobile device. 
-```
-CameraButton('Make a photo', handler_when_shooting_finish, icon='camera_alt')
-```
-handler_when_loading_finish(button_, name_of_loaded_file) where name_of_loaded_file is the made photo name in the server folder. This folder name is defined in config.py .
-
 ### Edit and Text field. ###
 ```
 Edit('Some field', '') #for string value
@@ -403,4 +396,3 @@ More info about User class methods you can find in user.py in the souce dir.
 
 Examples are in tests folder.
 
-Unigui protocol messages from/to server you can see in a browser console (F12).
