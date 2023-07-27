@@ -87,8 +87,9 @@ def test(filename, user):
                 err = diff.get('_message')
                 if not err:
                     for value in diff.values():
-                        err = value['_message']
+                        err = value['_message']                        
                         print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
+                error = True
     return not error
 
 test_name = Edit('Name test file', '', focus = True)
