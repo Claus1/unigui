@@ -110,7 +110,7 @@ def create_test(fname):
     button.changed = recorder.stop_recording
     recorder.start(fname)
     
-    return Info('Recording is running.. press the same button to stop',button)     
+    return Info('Test is recording.. press the same button to stop',button)     
 
 def ask_create_test(_, bname):
     if bname == 'Ok':            

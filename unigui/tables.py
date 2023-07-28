@@ -37,6 +37,8 @@ def append_table_row(table, value):
     table.rows.append(new_row)
     return new_row
 
+table_actions = ['modify', 'delete', 'append']
+
 class Table(Gui):
     def __init__(self, *args, panda = None, **kwargs):
         if panda is not None:
@@ -54,12 +56,10 @@ class Table(Gui):
             if not hasattr(self,'dense'):
                 self.dense = True
 
-        if getattr(self,'edit', True):
-            edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
-            if not edit_setting:                             
-                self.delete = delete_table_row             
-                self.append = append_table_row             
-                self.modify = accept_cell_value             
+        if getattr(self,'edit', True) and not any(hasattr(self, action) for action in table_actions):                              
+            self.delete = delete_table_row             
+            self.append = append_table_row             
+            self.modify = accept_cell_value             
         
     def selected_list(self):                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
@@ -102,12 +102,10 @@ class PandaTable(Table):
         self.rows = panda.values.tolist()
         self.__panda__ = panda
         
-        if getattr(self,'edit', True):
-            edit_setting = hasattr(self,'modify') or hasattr(self,'delete') or hasattr(self,'append')
-            if not edit_setting:                             
-                self.delete = delete_panda_row        
-                self.append = append_panda_row        
-                self.modify = accept_panda_cell    
+        if getattr(self,'edit', True) and not any(hasattr(self, action) for action in table_actions):                              
+            self.delete = delete_panda_row        
+            self.append = append_panda_row        
+            self.modify = accept_panda_cell    
     @property
     def panda(self):
         return getattr(self,'__panda__',None) 
