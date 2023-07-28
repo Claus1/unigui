@@ -51,7 +51,7 @@ class Recorder:
             self.ignored_1message = True    
 
     def stop_recording(self, _, x):    
-        button.mode = None
+        button.spinner = None
         button.changed = button_clicked
         button.tooltip = 'Create autotest'
         with open(self.record_file, mode='w') as file:    
@@ -105,7 +105,7 @@ def create_test(fname):
     if os.path.exists(fname) and not rewrite.value:
         return Warning(f'Test file {fname} already exists!')              
     
-    button.mode = 'red'   
+    button.spinner = True   
     button.tooltip = 'Stop test recording'
     button.changed = recorder.stop_recording
     recorder.start(fname)
@@ -117,8 +117,8 @@ def ask_create_test(_, bname):
         return create_test(test_name.value) if test_name.value else\
             Warning('Test file name is not defined!')
 
-button = Button('_Add test', button_clicked, 
-        icon='data_saver_on', tooltip='Create autotest')
+button = Button('_Add test', button_clicked, right = True,
+        icon='format_list_bulleted_add', tooltip='Create autotest')
 
 def check_dialog(self):
     errors = []
@@ -171,6 +171,7 @@ def run_tests():
         os.makedirs(testdir)
     user = User.UserType()
     user.load()
+    user.session = 'autotest'
     errors = []
     for module in user.screens:
         errors += check_screen(module)
