@@ -123,7 +123,7 @@ button = Button('_Add test', button_clicked,
 def check_dialog(self):
     errors = []
     child_names = set()   
-    tt = type(self)   
+    
     if not hasattr(self, 'name') or not self.name:            
         errors.append(f"The block with {[str(type(gui)).split('.')[-1] for gui in flatten(self.value)]} does not contain name!")
         self.name = 'Unknown'          
@@ -136,6 +136,8 @@ def check_dialog(self):
             errors.append(f'The block {self.name} contains block {child.name}. Blocks cannot contain blocks!')                                                                                                       
         elif child.name in child_names:                        
             errors.append(f'The block {self.name} contains a duplicated element name "{child.name}"!')
+        elif child.type == 'linechart' and not hasattr(child, 'view'):
+            errors.append(f'The block {self.name} contains a chart type "{child.name}", but not "view" option!')
         else:
             child_names.add(child.name)                
     return errors

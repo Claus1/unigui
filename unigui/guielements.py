@@ -23,7 +23,7 @@ class Gui:
 
 Line = Gui("Line", type = 'line')
 
-def smart_complete(lst, min_input_length = 0, max_output_length = 10):
+def smart_complete(lst, min_input_length = 0, max_output_length = 20):
     di = {it: it.lower() for it in lst}
     def complete(gui, ustr):
         if len(ustr) < min_input_length:
@@ -47,19 +47,21 @@ class Edit(Gui):
 class Text(Gui):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.value = ''
-        self.edit = False
+        self.value = self.name
+        self.type = 'text'        
 
 class Button(Gui):
     def __init__(self, *args, **kwargs):
         self.name = args[0]
-        if len(args) > 1:
-            self.changed = args[1]        
         self.add(kwargs)
+        if not hasattr(self, 'type'):
+            self.type = 'button'
+        if len(args) > 1 and not hasattr(self, 'changed'):
+            self.changed = args[1]        
             
-
-def CameraButton(name, *args):    
-    return Button(name, *args, type = 'camera')
+def CameraButton(name, *args, **kwargs):    
+    kwargs['type'] = 'camera'
+    return Button(name, *args, **kwargs)
         
 def UploadImageButton(name, handler,**kwargs):    
     kwargs['type'] = 'image_uploader'
@@ -113,11 +115,11 @@ class Graph(Gui):
 
 class Switch(Gui):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)        
         if not hasattr(self,'value'):
             self.value = False
-
-list_types = ['toggles','list','dropdown']
+        if not hasattr(self,'type'):
+            self.type = 'switch'
 
 class Select(Gui):
     def __init__(self, *args, **kwargs):
@@ -126,6 +128,8 @@ class Select(Gui):
             self.options = []
         if not hasattr(self,'value'):
             self.value = None
+        if not hasattr(self, 'type'):
+            self.type = 'select' if len(self.options) > 3 else 'radio'        
 
 class Tree(Gui):
     def __init__(self, *args, **kwargs):

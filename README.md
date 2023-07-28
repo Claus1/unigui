@@ -198,11 +198,11 @@ handler_when_loading_finish(button_, the_loaded_file_filename) where the_loaded_
 Edit('Some field', '') #for string value
 Edit('Number field', 0.9, type = 'number') #changed handler will get a number
 ```
-If set edit = false it will be readonly field or text label.
+If set edit = false it will be readonly field.
 ```
 Edit('Some field', '', edit = false) 
-#is equal to
-Text('Some field')
+#text
+Text('Some text')
 ```
 complete handler is optional function which accepts the current edit value and returns a string list for autocomplete.
 
