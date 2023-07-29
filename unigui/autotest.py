@@ -54,12 +54,16 @@ class Recorder:
         button.spinner = None
         button.changed = button_clicked
         button.tooltip = 'Create autotest'
-        with open(self.record_file, mode='w') as file:    
-            content = ',\n'.join(self.record_buffer)
-            file.write(f"[\n{content}]")
+        full = len(self.record_buffer) > 1
+        if full:             
+            with open(self.record_file, mode='w') as file:    
+                content = ',\n'.join(self.record_buffer)
+                file.write(f"[\n{content}]")
         test_name = self.record_file
         self.record_file = None
-        return Info(f'Test {test_name} is created.', button)
+        
+        return Info(f'Test {test_name} is created.', button) if full else\
+            Warning('Nothing to save!',button)
 
     def start(self,fname):
         self.record_file = fname
