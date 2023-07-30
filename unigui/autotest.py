@@ -140,7 +140,7 @@ def check_dialog(self):
             errors.append(f'The block {self.name} contains block {child.name}. Blocks cannot contain blocks!')                                                                                                       
         elif child.name in child_names:                        
             errors.append(f'The block {self.name} contains a duplicated element name "{child.name}"!')
-        elif child.type == 'linechart' and not hasattr(child, 'view'):
+        elif child.type == 'chart' and not hasattr(child, 'view'):
             errors.append(f'The block {self.name} contains a chart type "{child.name}", but not "view" option!')
         else:
             child_names.add(child.name)                
