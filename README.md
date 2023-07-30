@@ -29,7 +29,7 @@ table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'],row
     ['opt_sync1_3_0.mp4', '30 seconds',  '@Refer to signal1', True],
     ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]    
 ])
-#widgets are groped in blocks (complex widgets with logic)
+#widgets are groped in a block (complex widget)
 block = Block('X Block',
     [           
         Button('Clean table', icon = 'swipe'),

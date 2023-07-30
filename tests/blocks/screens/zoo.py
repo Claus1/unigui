@@ -1,7 +1,7 @@
 from data import table
 from unigui import *
 name = 'Zoo'
-#order = 1
+order = 1
 
 zoo_table = Table('Zoo Table', panda = table)
 
