@@ -62,7 +62,7 @@ graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_se
   ])
     
 bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node', add_node),    
-    [graph, Video("v1", src = "https://v.redd.it/tno0yjw281o81/DASH_1080.mp4?source=fallback", height = 400 )], 
+    [graph, Video(upload_path('sad cat.mp4'))], 
 )
 
 blocks= [[block,bottom_block],config_area]

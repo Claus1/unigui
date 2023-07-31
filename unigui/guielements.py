@@ -66,9 +66,7 @@ def CameraButton(name, *args, **kwargs):
 def UploadImageButton(name, handler,**kwargs):    
     kwargs['type'] = 'image_uploader'
     if 'width' not in kwargs:
-        kwargs['width'] = 250.0              
-    if 'height' not in kwargs:
-        kwargs['height'] = 300.0         
+        kwargs['width'] = 250.0                  
     return Button(name, handler, **kwargs)
 
 UploadButton = UploadImageButton
@@ -80,8 +78,8 @@ class Image(Gui):
         self.type='image'
         if not hasattr(self,'width'):
             self.width = 500.0              
-        if not hasattr(self,'image'):
-            self.image = self.value if hasattr(self, 'value') else None
+        if not hasattr(self,'url'):
+            self.url = self.name
 
 class Video(Gui):
     '''has to contain src parameter'''
@@ -90,10 +88,10 @@ class Video(Gui):
         self.type='video'
         if not hasattr(self,'width'):
             self.width = 500.0              
-        if not hasattr(self,'src'):
-            raise "No video src reference!"
+        if not hasattr(self,'url'):
+            self.url = self.name
         if not hasattr(self,'ratio'):
-            self.ratio = "9/9"
+            self.ratio = None
 
 graph_default_value = {'nodes' : [], 'edges' : []}
 
@@ -105,9 +103,7 @@ class Graph(Gui):
         if not hasattr(self,'value'):
             self.value = graph_default_value
         if not hasattr(self,'minwidth'):
-            self.minwidth = 600.0              
-        if not hasattr(self,'minheight'):
-            self.minheight = 600.0              
+            self.minwidth = 600.0                      
         if not hasattr(self, 'nodes'):
             self.nodes = []
         if not hasattr(self, 'edges'):

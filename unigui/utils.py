@@ -30,7 +30,9 @@ def toJson(obj, indent, pretty):
 def filename2url(fn):   
     if fn[0] == '/' or fn[1] == ':': #if full path
         fn = fn[len(app_dir):]   
-    return fn.replace(' ','%20')
+    if fn[0] == divpath:
+        fn = fn[1:]
+    return fn 
 
 def url2filepath(url):
     return url[url.find('/') + 1:].replace('%20',' ')   
