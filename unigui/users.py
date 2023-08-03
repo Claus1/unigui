@@ -28,7 +28,8 @@ class User:
             'blocks' : [],
             'header' : config.appname,                        
             'toolbar' : [], 
-            'order' : 0
+            'order' : 0,
+            'reload': config.hot_reload 
         }             
         name = file[:-3]        
         path = f'{screens_dir}{divpath}{file}'                

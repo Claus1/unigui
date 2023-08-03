@@ -7,15 +7,16 @@ def callback(_, button_name):
     return Info(button_name)
 
 toolbar = [Button('_Save', lambda x,y : Dialog("Who are you?", callback), icon = 'save')]
-table = Edit('Vergo', 'sa')
+table = Edit('Duration', '22 min')
 
-b = Block('Blf479', ed, [table], 
-    Edit("Fura", i), Button('XXx'), Select('Select','No', options= ['Yesss', 'No']) )
+b = Block('Process', Switch('Active', True), Switch('Busy line', True, type = 'check')) 
+    #Edit("Fura", i), Button('XXx'), Select('Select','No', options= ['Yesss', 'No']) )
 
-blocks = [b]
+b1 = Block('Audios+', [Button('Button1'), Button('Button2')],   table) 
 
-def prepare():
-    table.value = 'rrr'
+blocks = [b, b1]
+
+
 
 
 
