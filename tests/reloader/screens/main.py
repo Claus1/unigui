@@ -14,7 +14,15 @@ b = Block('Process', Switch('Active', True), Switch('Busy line', True, type = 'c
 
 b1 = Block('Audios+', [Button('Button1'), Button('Button2')],   table) 
 
-blocks = [b, b1]
+fish = ['Eel', 'Salmon', 'Tuna']
+
+actors = ['Chris Evans', 'Robert Downey Jr.', 'Jennifer Lawrence', 'Channing Tatum', 
+'George Clooney', 'Johnny Depp', 'Margot Robbie', 'Jared Jonson']
+b2 = Block('Selection', Select('Fish',None,options =fish, type = 'radio'), 
+    Select('Animal','cat', options = ['dog', 'cat','snake', 'beer'], type = 'select'),
+    Select('Actors', 'Johnny Depp', options = actors, type = 'list'))
+
+blocks = [b, b1, b2]
 
 
 

@@ -72,7 +72,7 @@ def tree_changed(_, item):
     _.value = item 
     return Info(f"{item} selected in the tree.")
 
-tree = Tree('Inheritance','Animals', tree_changed, options = ld)
+tree = Tree('_Inheritance','Animals', tree_changed, options = ld)
 
 txt = Text('Text about cats')
 

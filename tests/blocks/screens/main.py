@@ -18,7 +18,7 @@ def clean_table(_, value):
     table.rows = []
     return table
 
-clean_button = Button('Clean table', clean_table, icon='swipe')
+clean_button= Button('Clean table', clean_table, icon='swipe')
 
 selector = Select('Select', 'All', options=['All','Based','Group'])
 
