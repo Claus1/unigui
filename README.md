@@ -1,4 +1,4 @@
-# unigui #
+# unigui 2 #
 Universal GUI Framework and Protocol (Python)
 
 ### Purpose ###
@@ -13,7 +13,8 @@ pip install unigui
 The exchange protocol for the solution is JSON as the most universally accessible, readable, and popular format for Web. The server sends JSON data to the front-end unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that. Unigui web version is included in this library. Unigui for Go is accessible in https://github.com/Claus1/unigui-go
+Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that. Unigui web version is included in this library.  Supports Python 3.6 and up.
+
 
 ### High level - Screen ###
 The program directory has to contain a screens folder which contains all screens which Unigui has to show.
@@ -370,13 +371,7 @@ user.progress(" 1% is done..")
 ```
 Close window user.progress(None) or automatically when the handler returns something.
 
-### Other subtle benefits of a Unigui protocol and technology. ###
-1. Possible to work with any set of unigui resources as with a single system, within the same GUI user space, carries out any available operations, including crossing, on the fly.
-2. Reproduces and saves sequences of the user interaction with the system without programming. It can be used for complex testing, supporting of security protocols and more.
-3. Possible to mirror a session to other users, works simultaneously in one session for many users.
-
-
-### Milti-user programming? You don't need it! ###
+### Milti-user programming.###
 Unigui automatically creates and serves an environment for every user.
 The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui use the system User class and you do not need to point it. 
 ```
