@@ -373,7 +373,7 @@ Close window user.progress(None) or automatically when the handler returns somet
 
 ### Milti-user programming.###
 Unigui automatically creates and serves an environment for every user.
-The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui use the system User class and you do not need to point it. 
+The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui uses the system User class and you do not need to point it. 
 ```
 class Hello_user(unigui.User):
     def __init__(self):
