@@ -183,7 +183,7 @@ def run_tests():
         errors.insert(0, f'\n!!----Unigui detected errors in screens:')
         print('\n'.join(errors), '\n')
     elif user.screens:
-        print(f'\n----Screens definitions are correct. ')
+        print(f'\n----The screen definitions are correct.-----\n')
         
     files = config.autotest
     ok = True
@@ -195,7 +195,7 @@ def run_tests():
                 if not test(file,user):
                     ok = False
     if process and ok:
-        print('-----Autotests successfully passed.-----')
+        print('\n-----Autotests successfully passed.-----\n')
     User.last_user = None
     User.toolbar.append(button)
     
