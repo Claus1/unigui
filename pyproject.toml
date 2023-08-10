@@ -1,0 +1,26 @@
+[project]
+name = "unigui"
+version = "2.0.1"
+description = "Unigui - Universal GUI Framework and protocol"
+authors = [
+    {name = "Georgii Dernovyi", email = "g.dernovoy@gmail.com"},
+]
+dependencies = [
+    "aiohttp",
+    "jsoncomparison",
+    "jsonpickle",
+    "pandas",
+    "requests",
+    "watchdog",
+    "websockets",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/Claus1/unigui"
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
