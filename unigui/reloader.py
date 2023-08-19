@@ -16,7 +16,7 @@ if config.hot_reload:
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
     from .users import User
-    from .utils import divpath
+    from .utils import divpath, Redesign
     import re
     
     busy = False      
@@ -56,7 +56,7 @@ if config.hot_reload:
 
             user.update_menu()
             user.set_clean() 
-            user.sync_send(True)
+            user.sync_send(Redesign)
 
             free()  
             return module  
@@ -72,7 +72,8 @@ if config.hot_reload:
                 if name.endswith('.py'):
                     user = User.last_user
                     
-                    if dir not in ['screens','blocks']: #analyze if dependency exist
+                    if user.screen_module and dir not in ['screens','blocks']: 
+                        #analyze if dependency exist
                         file = open(user.screen_module.__file__, "r") 
                         arr[-1] = arr[-1][:-3]
                         module_name = '.'.join(arr) 
@@ -105,7 +106,7 @@ if config.hot_reload:
                 if name.endswith('.py') and dir == 'screens':
                     delfile = f'{dir}{divpath}{name}'
                     for i, s in enumerate(user.screens):
-                        if s.__file__ == delfile:
+                        if s.__file__ == event.src_path:
                             user.screens.remove(s)
                             if user.screen_module is s:
                                 if user.screens:                                                                        
@@ -113,13 +114,13 @@ if config.hot_reload:
                                     module = reload(fname)
                                     user.set_screen(module.name)
                                     user.update_menu()                                
-                                    user.sync_send(True)      
+                                    user.sync_send(Redesign)      
                                 else:                                                      
                                     user.sync_send(empty_app)                                                        
                             else:
                                 reload(user.screen_module.__file__.split(divpath)[-1])
                                 user.update_menu()
-                                user.sync_send(True)                                                        
+                                user.sync_send(Redesign)                                                        
                             break
     
     event_handler = ScreenEventHandler()

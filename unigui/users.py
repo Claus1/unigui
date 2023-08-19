@@ -10,7 +10,8 @@ class User:
     def __init__(self):          
         self.screens = []        
         self.active_dialog = None
-        self.screen_module = None    
+        self.screen_module = None 
+        self.session = None   
         self.__handlers__ = {}                    
         User.last_user = self     
 
@@ -84,6 +85,10 @@ class User:
             s.screen.menu = menu
 
     @property
+    def testing(self):        
+        return  self.session == 'autotest'
+    
+    @property
     def screen(self):        
         return  self.screen_module.screen 
 
@@ -147,7 +152,11 @@ class User:
 
     def prepare_result(self, raw):
         if raw == UpdateScreen:
-            raw = self.screen                        
+            raw = self.screen      
+            raw.reload = False                  
+        elif raw == Redesign:
+            raw = self.screen      
+            raw.reload = True                  
         else:
             if isinstance(raw, Message):
                 raw.fill_paths4(self)                
