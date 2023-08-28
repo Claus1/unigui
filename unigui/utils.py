@@ -13,16 +13,17 @@ app_dir = os.getcwd()
 try:
     import config
 except:
-    with open('config.py', 'w') as f:        
-        f.write("""port = 8000 
+    f = open('config.py', 'w')  
+    f.write("""port = 8000 
 upload_dir = 'web'
 pretty_print = True
 hot_reload   = True
 logfile  = 'log'
 autotest = '*'
 """)
-        import config
-        print("Config with default parameters is created!")
+    f.close()
+    import config
+    print("Config with default parameters is created!")
 
 def toJson(obj, indent, pretty):
     js = jsonpickle.encode(obj,unpicklable=False)

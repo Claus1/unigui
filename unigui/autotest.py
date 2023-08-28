@@ -124,7 +124,7 @@ def ask_create_test(_, bname):
 button = Button('_Add test', button_clicked, right = True,
         icon='format_list_bulleted_add', tooltip='Create autotest')
 
-def check_dialog(self):
+def check_block(self):
     errors = []
     child_names = set()   
     
@@ -165,7 +165,7 @@ def check_screen(module):
                 errors.append(f'The screen contains a duplicated block name {bl.name}!')    
             else:            
                 block_names.add(bl.name)
-            errors += check_dialog(bl)
+            errors += check_block(bl)
     if errors:
         errors.insert(0, f"\nErrors in screen {self.name}, file name {module.__file__}:")
     return errors

@@ -17,6 +17,7 @@ if config.hot_reload:
     from watchdog.events import PatternMatchingEventHandler
     from .users import User
     from .utils import divpath, Redesign
+    from .autotest import check_screen
     import re
     
     busy = False      
@@ -37,6 +38,8 @@ if config.hot_reload:
             request_file = None            
             try:
                 module = user.load_screen(sname)
+                errors = check_screen(module)                
+                print(errors if errors else 'Reloaded.') #!!
             except:
                 busy = False
                 traceback.print_exc()        
