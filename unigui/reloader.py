@@ -18,7 +18,10 @@ if config.hot_reload:
     from .users import User
     from .utils import divpath, Redesign
     from .autotest import check_screen
-    import re
+    import re, collections
+
+    #for removing message duplicates        
+    file_content = collections.defaultdict(str)
     
     busy = False      
     cwd = os.getcwd()  
@@ -33,9 +36,16 @@ if config.hot_reload:
     def reload(sname):
         user = User.last_user
         if user:
+            file = open(f'screens{divpath}{sname}', "r") 
+            content = file.read()
+            if file_content[sname] == content:
+                return
+            file_content[sname] = content
+            
             global busy, request_file
             busy = True
             request_file = None            
+
             try:
                 module = user.load_screen(sname)
                 errors = check_screen(module)                

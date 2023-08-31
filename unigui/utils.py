@@ -20,6 +20,7 @@ pretty_print = True
 hot_reload   = True
 logfile  = 'log'
 autotest = '*'
+appname = 'Unigui app'
 """)
     f.close()
     import config
