@@ -37,16 +37,16 @@ def smart_complete(lst, min_input_length = 0, max_output_length = 20):
     return complete
 
 class Edit(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+    def __init__(self, name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)        
         if 'type' not in kwargs:
             self.type =  'autoedit' if 'complete' in kwargs else 'edit'
         if not hasattr(self,'value'):
             self.value = '' if self.type != 'number' else 0
 
 class Text(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         self.value = self.name
         self.type = 'text'        
 
@@ -73,8 +73,8 @@ UploadButton = UploadImageButton
 
 class Image(Gui):
     '''has to contain file parameter as name'''
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         self.type='image'
         if not hasattr(self,'width'):
             self.width = 500.0              
@@ -83,8 +83,8 @@ class Image(Gui):
 
 class Video(Gui):
     '''has to contain src parameter'''
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         self.type = 'video'
         if not hasattr(self,'width'):
             self.width = 500.0              
@@ -97,8 +97,8 @@ graph_default_value = {'nodes' : [], 'edges' : []}
 
 class Graph(Gui):
     '''has to contain nodes, edges, see Readme'''
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         self.type='graph'
         if not hasattr(self,'value'):
             self.value = graph_default_value
@@ -110,16 +110,16 @@ class Graph(Gui):
             self.edges = []
 
 class Switch(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)        
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)        
         if not hasattr(self,'value'):
             self.value = False
         if not hasattr(self,'type'):
             self.type = 'switch'
 
 class Select(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         if not hasattr(self,'options'):             
             self.options = []
         if not hasattr(self,'value'):
@@ -128,8 +128,8 @@ class Select(Gui):
             self.type = 'select' if len(self.options) > 3 else 'radio'        
 
 class Tree(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)         
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)         
         self.type = 'tree' 
         if not hasattr(self,'options'):
             self.options = {}        
@@ -152,8 +152,8 @@ class Dialog:
         self.content = Block(name,[], *content, dialog = True, icon = icon) 
 
 class TextArea(Gui):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self,name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
         self.type = 'textarea' 
                      
 class Screen(Gui):
