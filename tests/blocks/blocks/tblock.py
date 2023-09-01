@@ -1,37 +1,37 @@
 from unigui import *
 import random, copy, time
 
-def append(_,val):
+def append(_, val: tuple) -> list:
     ''' append has to return new row or error string'''
     id, search = val
     new = [search, '', '']
     _.rows.append(new)
     return new
 
-def updated(_, value):
+def updated(_, value: str) -> object:
     _.value = value  
     return Info(f'{_.name} is updated to {value}!')        
 
-def complete(_, value):
+def complete(_, value: str) -> list:
     value = value[0]
     if value and isinstance(value, str) and len(value) > 2 and value[0].isalpha():
         return ['aaa', 'bbbb', 'cccccc']
     return []
 
-def changed(_, value):
+def changed(_, value: str) -> object:
     _.value = value  
     return Warning(f'{_.name} changed to {value}!')
 
-def table_modify(_, value):
+def table_modify(_, value: tuple) -> object:
     value, pos = value    
     return Error(f'{_.name} {pos} is not modified to value {value}!')
 
-def table_update(_, value):    
+def table_update(_, value: tuple) -> object:    
     accept_cell_value(_, value)
     value, pos = value        
     return Info(f'{_.name} {pos} is updated to value {value}!')
 
-def dialog_callback(_,value):
+def dialog_callback(_, value: str) -> object:
     perstr = lambda per : 'Process executing {}%'.format(per)
     if value == 'Ok':
         user.progress(perstr(0))
@@ -41,7 +41,7 @@ def dialog_callback(_,value):
             time.sleep(0.04)
         return user.progress(None)
 
-def call_dialog(*_):
+def call_dialog(*_) -> Dialog:
     return Dialog('Start a long process?', dialog_callback)
 
 table = Table('Audios', 0, changed, type = 'chart', headers = ['Audio', 'Duration,sec', 'Stars'], multimode = True,
@@ -68,7 +68,7 @@ ld = {
     'Very small Tarsier': 'Small Tarsier'
 }
 
-def tree_changed(_, item): 
+def tree_changed(_, item: str) -> object: 
     _.value = item 
     return Info(f"{item} selected in the tree.")
 
@@ -88,7 +88,7 @@ eblock = Block('New block',
             complete = smart_complete(list_complete), update = updated)
 )
 
-def add_tree_elem(_, val):
+def add_tree_elem(_: Button) -> object:
     txt = simple_enter.value
     if not txt:
         return Info('Enter text first to the field!')

@@ -26,14 +26,14 @@ if config.hot_reload:
     busy = False      
     cwd = os.getcwd()  
 
-    def free():
+    def free() -> None:
         global busy
         if request_file:
             reload(request_file)
         else:
             busy = False
 
-    def reload(sname):
+    def reload(sname: str) -> object:
         user = User.last_user
         if user:
             file = open(f'screens{divpath}{sname}', "r") 
@@ -79,7 +79,7 @@ if config.hot_reload:
             return module  
 
     class ScreenEventHandler(PatternMatchingEventHandler):    
-        def on_modified(self, event):
+        def on_modified(self, event: object) -> None:
             if not event.is_directory and User.last_user:                            
                 short_path = event.src_path[len(cwd) + 1:]
                 arr = short_path.split(divpath) 
@@ -114,7 +114,7 @@ if config.hot_reload:
                                 if not fresh_module or current != fresh_module.__file__:
                                     reload(current.split(divpath)[-1]) 
                                                     
-        def on_deleted(self, event):            
+        def on_deleted(self, event: object) -> None:            
             if not event.is_directory and User.last_user:
                 user = User.last_user            
                 arr = event.src_path.split(divpath) 

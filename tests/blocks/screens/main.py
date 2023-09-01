@@ -3,7 +3,7 @@ from blocks.tblock import config_area, cloned_table_typed
 
 name = "Main"
 
-def append_row(table, value):
+def append_row(table: Table) -> list:
     row = [''] * 4
     row[-1] = False
     table.rows.append(row)
@@ -14,7 +14,7 @@ table = Table('Videos', 0, headers = ['Video', 'Duration',  'Links', 'Mine'], ro
     ['opt_sync1_3_0.mp4', '37 seconds',  '@Refer to signal8', False]
 ], append = append_row, delete = delete_table_row)
 
-def clean_table(_, value):
+def clean_table(_: Button) -> Table:
     table.rows = []
     return table
 
@@ -23,12 +23,12 @@ clean_button= Button('Clean table', clean_table, icon='swipe')
 selector = Select('Select', 'All', options=['All','Based','Group'])
 
 @handle(selector,'changed')
-def selchanged(_, val):
+def selchanged(_, val: str) -> object:
     if val == 'Based':
         return Error('Select can not be Based!',_)
     _.accept(val)    
 
-def replace_image(_, iname):
+def replace_image(_, iname: str) -> None:
     print(iname)    
 
 block = Block('X Block',
@@ -37,7 +37,7 @@ block = Block('X Block',
         selector
     ], [table, cloned_table_typed], icon = 'api')
 
-def add_node(_, v):
+def add_node(_: Button) -> Graph:
     for i in range(1000):
         name = f'node{i}'
         if not [n for n in  graph.nodes if n['id'] == name]:
@@ -45,7 +45,7 @@ def add_node(_, v):
             graph.edges.append({'id': f'edge{i}', 'source': "node1", 'target': f'node{i}' })
             return graph
 
-def graph_selection(_, val):
+def graph_selection(_, val: dict) -> Info:
     _.value = val    
     return Info(f'Nodes {val["nodes"]}, Edges {val["edges"]}') 
     
@@ -67,7 +67,7 @@ bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node
 
 blocks= [[block,bottom_block],config_area]
 
-def log(x,y):    
+def log() -> Info:    
     return Info('Saved!')
 
 toolbar = [Button('_Save', log, icon = 'save', tooltip = 'Save info'),

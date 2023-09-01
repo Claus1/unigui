@@ -26,34 +26,34 @@ appname = 'Unigui app'
     import config
     print("Config with default parameters is created!")
 
-def toJson(obj, indent, pretty):
+def toJson(obj, indent, pretty) -> str:
     js = jsonpickle.encode(obj,unpicklable=False)
     return json.dumps(json.loads(js), indent=indent, sort_keys=pretty) if pretty else js
 
-def filename2url(fn):   
+def filename2url(fn: str) -> str:   
     if fn[0] == '/' or fn[1] == ':': #if full path
         fn = fn[len(app_dir):]   
     if fn[0] == divpath:
         fn = fn[1:]
     return fn 
 
-def url2filepath(url):
+def url2filepath(url: str) -> str:
     return url[url.find('/') + 1:].replace('%20',' ')   
 
-def url2filename(url):
+def url2filename(url: str) -> str:
     return url[url.rfind('/') + 1:].replace('%20',' ')   
 
-def upload_path(fpath):
+def upload_path(fpath: str) -> str:
     return f'{config.upload_dir}{divpath}{fpath}'
 
-def flatten(*arr):
+def flatten(*arr) -> list:
     for a in arr:
         if isinstance(a, list):
             yield from flatten(*a)
         else:
             yield a
     
-def cache_url(url):
+def cache_url(url: str) -> str:
     """cache url file in upload_dir and returns the local file name"""
     fname = url2filename(url)   
     fname = upload_path(fname)
@@ -66,37 +66,37 @@ def cache_url(url):
     return fname
 
 class Message:
-    def __init__(self, *gui_objects, user = None):        
+    def __init__(self, *gui_objects, user = None) -> None:        
         self.updates = [{'data': gui} for gui in gui_objects] if gui_objects else []
         if user:
             self.fill_paths4(user)
 
-    def fill_paths4(self, user):
+    def fill_paths4(self, user) -> None:
         if hasattr(self, 'updates'):
             for update in self.updates:
                 update['path'] = user.find_path(update['data'])
 
-    def contains(self, guiobj):
+    def contains(self, guiobj: object) -> bool:
         for update in self.updates:
             if guiobj is update['data']:
                 return True
 
-def TextMessage(type, text, *data, user = None):
+def TextMessage(type, text, *data, user = None) -> Message:
     message = Message(*data, user=user)
     message.type = type
     message.value = text    
     return message    
 
-def Warning(text, *data):
+def Warning(text, *data) -> Message:
     return TextMessage('warning', text, *data)
 
-def Error(text, *data):
+def Error(text, *data) -> Message:
     return TextMessage('error', text, *data)
     
-def Info(text, *data):
+def Info(text, *data) -> Message:
     return TextMessage('info', text, *data)
 
-def Answer(data, param, id):
+def Answer(data, param, id) -> dict:
     return {'type' : 'answer', 'value': data,'param': param, 'id' : id}
 
 

@@ -1,6 +1,6 @@
 from .guielements import Gui
 
-def accept_cell_value(table, val):    
+def accept_cell_value(table, val: tuple) -> None:    
     value, position = val
     if not isinstance(value, bool):
         try:
@@ -9,7 +9,7 @@ def accept_cell_value(table, val):
             pass
         table.rows[position[0]][position[1]] = value    
 
-def delete_table_row(table, value):
+def delete_table_row(table, value: int) -> None:
     if table.rows:        
         keyed = len(table.headers) < len(table.rows[0])
         table.value = value   
@@ -28,7 +28,7 @@ def delete_table_row(table, value):
                 del table.rows[value]  
             table.value = None    
 
-def append_table_row(table, value):
+def append_table_row(table, value: tuple) -> list:
     ''' append has to return new row or error string, val is search string in the table'''
     new_id_row, search = value #new_id_row == rows count
     new_row = [''] * len(table.headers)
@@ -40,7 +40,7 @@ def append_table_row(table, value):
 table_actions = ['modify', 'delete', 'append']
 
 class Table(Gui):
-    def __init__(self, *args, panda = None, **kwargs):
+    def __init__(self, *args, panda = None, **kwargs) -> None:
         if panda is not None:
             self.mutate(PandaTable(*args, panda=panda, **kwargs))
         else:
@@ -61,15 +61,15 @@ class Table(Gui):
             self.append = append_table_row             
             self.modify = accept_cell_value             
         
-    def selected_list(self):                            
+    def selected_list(self) -> list:                            
         return [self.value] if self.value != None else [] if type(self.value) == int else self.value   
 
-    def clean(self):
+    def clean(self) -> object:
         self.rows = []
         self.value = [] if isinstance(self.value,(tuple, list)) else None
         return self
 
-def delete_panda_row(table, row_num):    
+def delete_panda_row(table, row_num) -> None:
     df = table.__panda__
     if row_num < 0 or row_num >= len(df):
         raise ValueError("Row number is out of range")
@@ -78,13 +78,13 @@ def delete_panda_row(table, row_num):
     pt.reset_index(inplace=True) 
     delete_table_row(table, row_num)    
 
-def accept_panda_cell(table, value_pos):
+def accept_panda_cell(table, value_pos: tuple) -> None:
     value, position = value_pos
     row_num, col_num = position
     table.__panda__.iloc[row_num,col_num] = value
     accept_cell_value(table, value_pos)
 
-def append_panda_row(table, row_num):    
+def append_panda_row(table, row_num) -> list:    
     df = table.__panda__
     new_row = append_table_row(table, row_num)
     df.loc[len(df), df.columns] = new_row
@@ -92,7 +92,7 @@ def append_panda_row(table, row_num):
 
 class PandaTable(Table):
     """ panda = opened panda table"""
-    def __init__(self, *args, panda = None, fix_headers = True, **kwargs):
+    def __init__(self, *args, panda = None, fix_headers = True, **kwargs) -> None:
         super().__init__(*args, **kwargs)                
         if panda is None:
             raise Exception('PandaTable has to get panda = pandaTable as an argument.')
@@ -107,6 +107,6 @@ class PandaTable(Table):
             self.append = append_panda_row        
             self.modify = accept_panda_cell    
     @property
-    def panda(self):
+    def panda(self) -> object:
         return getattr(self,'__panda__',None) 
     

@@ -9,7 +9,7 @@ sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
 
 import unigui
 
-async def handle_get(request):
+async def handle_get(request: object) -> object:
     print(request.query_string)
 
 http_handlers = [web.get('/get', handle_get)]

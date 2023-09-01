@@ -34,15 +34,15 @@ logging.basicConfig(level = logging.WARNING, format = format, handlers = handler
 
 comparator = Compare().check
 
-def jsonString(obj):
+def jsonString(obj: object) -> str:
     pretty = config.pretty_print
     return toJson(obj, 2 if pretty else 0, pretty)
 
 class Recorder:
-    def __init__(self):
+    def __init__(self) -> None:
         self.start(None)
         
-    def accept(self, msg, response):        
+    def accept(self, msg, response: object) -> None:    
         if self.ignored_1message:            
             self.record_buffer.append(f"{jsonString(msg)},\
                 \n{'null' if response is None else jsonString(response)}\n")
@@ -50,7 +50,7 @@ class Recorder:
             self.record_buffer.append(jsonString(['root', User.last_user.screen_module.name]))
             self.ignored_1message = True    
 
-    def stop_recording(self, _, x):    
+    def stop_recording(self, _: object) -> object:    
         button.spinner = None
         button.changed = button_clicked
         button.tooltip = 'Create autotest'
@@ -65,17 +65,17 @@ class Recorder:
         return Info(f'Test {test_name} is created.', button) if full else\
             Warning('Nothing to save!',button)
 
-    def start(self,fname):
+    def start(self, fname: str) -> None:
         self.record_file = fname
         self.ignored_1message = False
         self.record_buffer = []
 
 recorder = Recorder()
 
-def obj2pyjson(obj):
+def obj2pyjson(obj: object) -> object:
     return json.loads(jsonpickle.encode(obj,unpicklable=False))
 
-def test(filename, user):
+def test(filename, user: User.UserType) -> bool:
     filepath = f'{testdir}{divpath}{filename}'
     file = open(filepath, "r") 
     data = json.loads(file.read())
@@ -99,12 +99,12 @@ def test(filename, user):
 test_name = Edit('Name test file', '', focus = True)
 rewrite = Switch('Overwrite existing', False, type = 'check')
 
-def button_clicked(_,__):
+def button_clicked(_, __: object) -> object:
     test_name.value = ''
     test_name.complete = smart_complete(os.listdir(testdir))
     return Dialog('Create autotest..', ask_create_test, test_name, rewrite)
 
-def create_test(fname):
+def create_test(fname: str) -> object:
     fname = f'{testdir}{divpath}{fname}'    
     if os.path.exists(fname) and not rewrite.value:
         return Warning(f'Test file {fname} already exists!')              
@@ -116,7 +116,7 @@ def create_test(fname):
     
     return Info('Test is recording.. press the same button to stop',button)     
 
-def ask_create_test(_, bname):
+def ask_create_test(_, bname: str) -> object:
     if bname == 'Ok':            
         return create_test(test_name.value) if test_name.value else\
             Warning('Test file name is not defined!')
@@ -124,7 +124,7 @@ def ask_create_test(_, bname):
 button = Button('_Add test', button_clicked, right = True,
     icon='format_list_bulleted_add', tooltip='Create autotest')
 
-def check_block(self):
+def check_block(self) -> list:
     errors = []
     child_names = set()   
     
@@ -146,7 +146,7 @@ def check_block(self):
             child_names.add(child.name)                
     return errors
 
-def check_screen(module):
+def check_screen(module: object) -> list:
     self = module.screen
     errors =  []        
     block_names = set()        
@@ -170,7 +170,7 @@ def check_screen(module):
         errors.insert(0, f"\nErrors in screen {self.name}, file name {module.__file__}:")
     return errors
     
-def run_tests():
+def run_tests() -> None:
     if not os.path.exists(testdir):
         os.makedirs(testdir)
     user = User.UserType()
