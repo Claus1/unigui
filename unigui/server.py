@@ -6,7 +6,7 @@ from .autotest import recorder, jsonString, run_tests
 from config import port, upload_dir
 import traceback
 
-async def post_handler(request):
+async def post_handler(request: object) -> object:
     reader = await request.multipart()
     field = await reader.next()   
     filename = upload_path(field.filename)      
@@ -21,7 +21,7 @@ async def post_handler(request):
 
     return web.Response(text=filename)
 
-async def static_serve(request):    
+async def static_serve(request: object) -> object:
     file_path = request.path    
     file_path  = Path(f"{webpath}{file_path}" )
     if request.path == '/':
@@ -30,21 +30,21 @@ async def static_serve(request):
     answer = web.HTTPNotFound() if not file_path.exists() else web.FileResponse(file_path)          
     return answer
 
-def broadcast(message, message_user):
+def broadcast(message, message_user) -> None:
     screen = message_user.screen_module
     for user in User.reflections:
         if user is not message_user and screen is user.screen_module:
             user.sync_send(message)
 
-def screen_switch_message(message):
+def screen_switch_message(message: list) -> bool:
     return len(message) == 2 and message[0] == 'root'
 
-async def websocket_handler(request):
+async def websocket_handler(request: object) -> object:
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     user, ok = make_user()
 
-    async def send(res):
+    async def send(res: object) -> None:
         if type(res) != str:
             res = jsonString(user.prepare_result(res))
         await ws.send_str(res)   
@@ -79,7 +79,7 @@ async def websocket_handler(request):
         User.reflections.remove(user)
     return ws       
 
-def start(appname = '', user_type = User, http_handlers = []):
+def start(appname = '', user_type = User, http_handlers = []) -> None:
     if appname:
         config.appname = appname
 

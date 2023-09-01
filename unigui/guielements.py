@@ -1,5 +1,5 @@
 class Gui:
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs) -> None:
         self.name = name
         la = len(args)
         if la:
@@ -8,14 +8,14 @@ class Gui:
             self.changed = args[1]                    
         self.add(kwargs) 
         
-    def add(self, kwargs):              
+    def add(self, kwargs) -> None:              
         for key, value in kwargs.items():
             setattr(self, key, value) 
 
-    def mutate(self, obj):
+    def mutate(self, obj: object) -> None:
         self.__dict__ = obj.__dict__ 
     
-    def accept(self, value):
+    def accept(self, value: object) -> None:
         if hasattr(self, 'changed'):
             self.changed(self, value)
         else:
@@ -23,7 +23,7 @@ class Gui:
 
 Line = Gui("Line", type = 'line')
 
-def smart_complete(lst, min_input_length = 0, max_output_length = 20):
+def smart_complete(lst, min_input_length = 0, max_output_length = 20) -> callable:
     di = {it: it.lower() for it in lst}
     def complete(gui, ustr):
         if len(ustr) < min_input_length:
@@ -37,7 +37,7 @@ def smart_complete(lst, min_input_length = 0, max_output_length = 20):
     return complete
 
 class Edit(Gui):
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)        
         if 'type' not in kwargs:
             self.type =  'autoedit' if 'complete' in kwargs else 'edit'
@@ -45,13 +45,13 @@ class Edit(Gui):
             self.value = '' if self.type != 'number' else 0
 
 class Text(Gui):
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         self.value = self.name
         self.type = 'text'        
 
 class Button(Gui):
-    def __init__(self, name, handler = None, **kwargs):
+    def __init__(self, name, handler = None, **kwargs) -> None:
         self.name = name
         self.add(kwargs)
         if not hasattr(self, 'type'):
@@ -59,11 +59,11 @@ class Button(Gui):
         if handler:
             self.changed = handler
             
-def CameraButton(name, handler = None, **kwargs):    
+def CameraButton(name, handler = None, **kwargs) -> Button:    
     kwargs['type'] = 'camera'
     return Button(name, handler, **kwargs)
         
-def UploadImageButton(name, handler = None,**kwargs):    
+def UploadImageButton(name, handler = None,**kwargs) -> Button:    
     kwargs['type'] = 'image_uploader'
     if 'width' not in kwargs:
         kwargs['width'] = 250.0                  
@@ -73,7 +73,7 @@ UploadButton = UploadImageButton
 
 class Image(Gui):
     '''has to contain file parameter as name'''
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         self.type='image'
         if not hasattr(self,'width'):
@@ -83,7 +83,7 @@ class Image(Gui):
 
 class Video(Gui):
     '''has to contain src parameter'''
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         self.type = 'video'
         if not hasattr(self,'width'):
@@ -97,7 +97,7 @@ graph_default_value = {'nodes' : [], 'edges' : []}
 
 class Graph(Gui):
     '''has to contain nodes, edges, see Readme'''
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         self.type='graph'
         if not hasattr(self,'value'):
@@ -110,7 +110,7 @@ class Graph(Gui):
             self.edges = []
 
 class Switch(Gui):
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)        
         if not hasattr(self,'value'):
             self.value = False
@@ -118,7 +118,7 @@ class Switch(Gui):
             self.type = 'switch'
 
 class Select(Gui):
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         if not hasattr(self,'options'):             
             self.options = []
@@ -128,7 +128,7 @@ class Select(Gui):
             self.type = 'select' if len(self.options) > 3 else 'radio'        
 
 class Tree(Gui):
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)         
         self.type = 'tree' 
         if not hasattr(self,'options'):
@@ -137,14 +137,19 @@ class Tree(Gui):
             self.value = None        
         
 class Block(Gui):
-    def __init__(self, name, *args, **kwargs):        
+    def __init__(self, name, *args, **kwargs) -> None:        
         self.name = name        
         self.type = 'block'
         self.value = list(args)        
         self.add(kwargs)        
 
 class Dialog:  
-    def __init__(self, name, callback, *content, buttons=['Ok','Cancel'],icon='not_listed_location'):
+    def __init__(self, 
+                 name, 
+                 callback, 
+                 *content, 
+                 buttons=['Ok','Cancel'],
+                 icon='not_listed_location') -> None:
         self.name = name
         self.callback = callback  
         self.type = 'dialog'         
@@ -152,12 +157,12 @@ class Dialog:
         self.content = Block(name,[], *content, dialog = True, icon = icon) 
 
 class TextArea(Gui):
-    def __init__(self,name, *args, **kwargs):
+    def __init__(self,name, *args, **kwargs) -> None:
         super().__init__(name, *args, **kwargs)
         self.type = 'textarea' 
                      
 class Screen(Gui):
-    def __init__(self, name, **kwargs):
+    def __init__(self, name, **kwargs) -> None:
         self.name = name
         self.add(kwargs)   
         self.type = 'screen'

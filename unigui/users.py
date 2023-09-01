@@ -15,14 +15,14 @@ class User:
         self.__handlers__ = {}                    
         User.last_user = self     
 
-    def sync_send(self, obj):
+    def sync_send(self, obj: object) -> object:
         asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
 
-    def progress(self, str, *updates):
+    def progress(self, str, *updates) -> object:
         """open or update progress window if str != null else close it  """             
         return self.sync_send(TextMessage('progress', str, *updates, user = self))
                    
-    def load_screen(self, file):
+    def load_screen(self, file: str) -> object:
         screen_vars = {
             'icon' : None,
             'prepare' : None,            
@@ -53,7 +53,7 @@ class User:
         module.screen = screen        
         return module
 
-    def set_clean(self):
+    def set_clean(self) -> None:
         #remove user modules from sys 
         if os.path.exists(blocks_dir):
             for file in os.listdir(blocks_dir):
@@ -61,8 +61,9 @@ class User:
                     name = f'{blocks_dir}.{file[0:-3]}'
                     if name in sys.modules:
                         sys.modules[name].user = self
-                        del sys.modules[name]                          
-    def load(self):              
+                        del sys.modules[name]       
+
+    def load(self) -> bool:              
         if os.path.exists(screens_dir):
             for file in os.listdir(screens_dir):
                 if file.endswith(".py") and file != '__init__.py':
@@ -79,23 +80,23 @@ class User:
             self.set_clean()       
             return True                 
 
-    def update_menu(self):
+    def update_menu(self) -> None:
         menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
         for s in self.screens:
             s.screen.menu = menu
 
     @property
-    def testing(self):        
+    def testing(self) -> bool:
         return  self.session == 'autotest'
     
     @property
-    def screen(self):        
+    def screen(self) -> object: 
         return  self.screen_module.screen 
 
-    def set_screen(self,name):
+    def set_screen(self, name: str) -> object:
         return self.process(['root', name])
 
-    def result4message(self, data):
+    def result4message(self, data: list) -> object:
         result = None
         dialog = self.active_dialog
         if dialog:            
@@ -116,11 +117,11 @@ class User:
         return result
 
     @property
-    def blocks(self):
+    def blocks(self) -> list:
         return [self.active_dialog.content] if self.active_dialog and \
             self.active_dialog.content else self.screen.blocks
 
-    def find_element(self, path):               
+    def find_element(self, path: list) -> object:               
         for bl in flatten(self.blocks):
             if bl.name == path[0]:
                 for c in bl.value:
@@ -135,7 +136,7 @@ class User:
                 if e.name == path[1]:                
                     return e
 
-    def find_path(self, elem):        
+    def find_path(self, elem: object) -> list:        
         for bl in flatten(self.blocks):        
             if bl == elem:
                 return [bl.name]
@@ -150,7 +151,7 @@ class User:
             if e == elem:                
                 return ['toolbar', e.name]
 
-    def prepare_result(self, raw):
+    def prepare_result(self, raw: object) -> object:
         if raw == UpdateScreen:
             raw = self.screen      
             raw.reload = False                  
@@ -166,7 +167,7 @@ class User:
                 raw = Message(*raw, user = self)
         return raw
 
-    def process(self,arr):
+    def process(self, arr) -> object:
         self.last_input = arr        
         if arr[0] == 'root':
             for s in self.screens:
@@ -180,7 +181,7 @@ class User:
             elem = self.find_element(arr)                        
             return self.process_element(elem, arr)        
         
-    def process_element(self, elem, arr):        
+    def process_element(self, elem, arr: list) -> object:        
         id = arr.pop() if len(arr) == 5 else 0
         action = arr[-2]        
         val = arr[-1]
@@ -203,7 +204,7 @@ class User:
         self.log(f'{elem} does not contain method for {action} event type!')                     
         return Error('Internal server error.')
 
-    def reflect(self):        
+    def reflect(self) -> object:        
         user = User.UserType()
         user.screens = self.screens
         if self.screens:
@@ -211,7 +212,7 @@ class User:
         user.__handlers__ =  self.__handlers__        
         return user
 
-    def log(self, str, type = 'error'):        
+    def log(self, str, type = 'error') -> None: 
         scr = self.screen.name if self.screens else 'omitted'
         str = f"session: {self.session}, screen: {scr}, message: {self.last_input} \n  {str}"
         if type == 'error':
@@ -219,7 +220,7 @@ class User:
         else:
             logging.warning(str)    
 
-def make_user():
+def make_user() -> tuple:
     if config.mirror and User.last_user:
         user = User.last_user.reflect()
         ok = user.screens
@@ -233,14 +234,14 @@ def make_user():
 #loop and thread is for progress window and sync interactions
 loop = asyncio.new_event_loop()
 
-def f(loop):
+def f(loop: object) -> None:
     asyncio.set_event_loop(loop)
     loop.run_forever() 
 
 async_thread = Thread(target=f, args=(loop,))
 async_thread.start()
 
-def handle(elem, event):
+def handle(elem, event: str) -> object:
     def h(fn):
         User.last_user.__handlers__[elem, event] = fn
     return h
