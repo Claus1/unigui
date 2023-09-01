@@ -122,7 +122,7 @@ def ask_create_test(_, bname):
             Warning('Test file name is not defined!')
 
 button = Button('_Add test', button_clicked, right = True,
-        icon='format_list_bulleted_add', tooltip='Create autotest')
+    icon='format_list_bulleted_add', tooltip='Create autotest')
 
 def check_block(self):
     errors = []
@@ -138,7 +138,7 @@ def check_block(self):
             errors.append(f'The block {self.name} contains invalid element {child} instead of Gui+ object!') 
         elif isinstance(child, Block):
             errors.append(f'The block {self.name} contains block {child.name}. Blocks cannot contain blocks!')                                                                                                       
-        elif child.name in child_names:                        
+        elif child.name in child_names and child.type != 'line':                        
             errors.append(f'The block {self.name} contains a duplicated element name "{child.name}"!')
         elif child.type == 'chart' and not hasattr(child, 'view'):
             errors.append(f'The block {self.name} contains a chart type "{child.name}", but not "view" option!')

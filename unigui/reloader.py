@@ -48,11 +48,15 @@ if config.hot_reload:
 
             try:
                 module = user.load_screen(sname)
-                errors = check_screen(module)                
-                print(errors if errors else 'Reloaded.') #!!
+                errors = check_screen(module)                                
+                if errors:
+                    print('\n'.join(errors))
+                    busy = False
+                    return 
+                print('Reloaded.') 
             except:
-                busy = False
                 traceback.print_exc()        
+                busy = False                
                 return
 
             for i, s in enumerate(user.screens):

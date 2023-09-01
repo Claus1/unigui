@@ -1,11 +1,11 @@
 class Gui:
-    def __init__(self, *args, **kwargs):
-        self.name = args[0]
+    def __init__(self, name, *args, **kwargs):
+        self.name = name
         la = len(args)
+        if la:
+            self.value = args[0]
         if la > 1:
-            self.value = args[1]
-        if la > 2:
-            self.changed = args[2]                    
+            self.changed = args[1]                    
         self.add(kwargs) 
         
     def add(self, kwargs):              
@@ -51,19 +51,19 @@ class Text(Gui):
         self.type = 'text'        
 
 class Button(Gui):
-    def __init__(self, *args, **kwargs):
-        self.name = args[0]
+    def __init__(self, name, handler = None, **kwargs):
+        self.name = name
         self.add(kwargs)
         if not hasattr(self, 'type'):
             self.type = 'button'
-        if len(args) > 1 and not hasattr(self, 'changed'):
-            self.changed = args[1]        
+        if handler:
+            self.changed = handler
             
-def CameraButton(name, *args, **kwargs):    
+def CameraButton(name, handler = None, **kwargs):    
     kwargs['type'] = 'camera'
-    return Button(name, *args, **kwargs)
+    return Button(name, handler, **kwargs)
         
-def UploadImageButton(name, handler,**kwargs):    
+def UploadImageButton(name, handler = None,**kwargs):    
     kwargs['type'] = 'image_uploader'
     if 'width' not in kwargs:
         kwargs['width'] = 250.0                  
@@ -85,7 +85,7 @@ class Video(Gui):
     '''has to contain src parameter'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.type='video'
+        self.type = 'video'
         if not hasattr(self,'width'):
             self.width = 500.0              
         if not hasattr(self,'url'):
@@ -137,14 +137,14 @@ class Tree(Gui):
             self.value = None        
         
 class Block(Gui):
-    def __init__(self, *args, **kwargs):        
-        self.name = args[0]        
+    def __init__(self, name, *args, **kwargs):        
+        self.name = name        
         self.type = 'block'
-        self.value = list(args[1:])        
+        self.value = list(args)        
         self.add(kwargs)        
 
 class Dialog:  
-    def __init__(self,name,callback,*content,buttons=['Ok','Cancel'],icon='not_listed_location'):
+    def __init__(self, name, callback, *content, buttons=['Ok','Cancel'],icon='not_listed_location'):
         self.name = name
         self.callback = callback  
         self.type = 'dialog'         
@@ -157,7 +157,7 @@ class TextArea(Gui):
         self.type = 'textarea' 
                      
 class Screen(Gui):
-    def __init__(self, *args, **kwargs):
-        self.name = args[0] if args else ''               
+    def __init__(self, name, **kwargs):
+        self.name = name
         self.add(kwargs)   
         self.type = 'screen'
