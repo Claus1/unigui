@@ -43,11 +43,12 @@ async def websocket_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)
     user, ok = make_user()
+    user.transport = ws._writer.transport  if divpath != '/' else None          
 
     async def send(res):
         if type(res) != str:
-            res = jsonString(user.prepare_result(res))
-        await ws.send_str(res)   
+            res = jsonString(user.prepare_result(res))        
+        await ws.send_str(res)        
 
     user.send = send     
     user.session = request.remote    

@@ -13,10 +13,16 @@ class User:
         self.screen_module = None 
         self.session = None   
         self.__handlers__ = {}                    
-        User.last_user = self     
+        User.last_user = self   
 
-    def sync_send(self, obj):
-        asyncio.run_coroutine_threadsafe(self.send(obj), self.extra_loop)            
+    async def send_windows(self, obj):  
+        await self.send(obj)        
+        self.transport._write_fut = None
+        self.transport._loop._ready.pop()
+
+    def sync_send(self, obj):                    
+        asyncio.run_coroutine_threadsafe(self.send_windows(obj) 
+            if self.transport else self.send(obj), self.extra_loop)
 
     def progress(self, str, *updates):
         """open or update progress window if str != null else close it  """             
