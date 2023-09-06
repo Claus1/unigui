@@ -89,7 +89,9 @@ def test(filename, user):
             diff = comparator(obj2pyjson(response), message)
             if diff != NO_DIFF:
                 err = diff.get('_message')
-                if not err:
+                if err:
+                    print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
+                else:
                     for value in diff.values():
                         err = value['_message']                        
                         print(f"\nTest {filename} is failed on message {user_message}!\n {err}\n")
