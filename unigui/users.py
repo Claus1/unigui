@@ -183,8 +183,9 @@ class User:
                     return True            
             self.log(f'Unknown screen name: {s.name}')
         else:
-            elem = self.find_element(arr)                        
-            return self.process_element(elem, arr)        
+            elem = self.find_element(arr)                                    
+            return self.process_element(elem, arr) if elem else \
+                Error(f'Element {arr[0]}>>{arr[1]} does not exists!')       
         
     def process_element(self, elem, arr):        
         id = arr.pop() if len(arr) == 5 else 0
