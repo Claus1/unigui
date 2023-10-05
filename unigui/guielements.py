@@ -143,6 +143,35 @@ class Block(Gui):
         self.value = list(args)        
         self.add(kwargs)        
 
+class ParamBlock(Block):
+    def __init__(self, name, row = 3, **params):
+        super().__init__(name, [])
+        self.name2elem = {}
+        cnt = 0        
+
+        for param, val in params.items():                    
+            pretty_name = param.replace('_',' ')
+            pretty_name = pretty_name[0].upper() + pretty_name[1:]
+            t = type(val)
+            if t == str:
+                el = Edit(pretty_name, val)
+            elif t == bool:
+                el = Switch(pretty_name, val)
+            elif t == list or t == tuple:
+                el = Select(pretty_name, val[0], options = val, type = 'list')
+            else:
+                el = Edit(pretty_name, val, number = True)
+            self.name2elem[param] = el
+            
+            if cnt % row == 0:
+                block = []
+                self.value.append(block)
+            cnt += 1
+            block.append(el)
+    @property
+    def params(self):
+        return {name: el.value for name, el in self.name2elem.items()}
+
 class Dialog:  
     def __init__(self, name, callback, *content, buttons=['Ok','Cancel'],icon='not_listed_location'):
         self.name = name
