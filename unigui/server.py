@@ -22,14 +22,22 @@ async def post_handler(request):
     return web.Response(text=filename)
 
 async def static_serve(request):    
-    file_path = request.path    
-    file_path  = Path(f"{webpath}{file_path}" )
+    rpath = request.path    
+    file_path  = Path(f"{webpath}{rpath}" )
     if request.path == '/':
-        file_path /= 'index.html' 
-    
-    answer = web.HTTPNotFound() if not file_path.exists() else web.FileResponse(file_path)          
-    return answer
+        file_path /= 'index.html'
 
+    if not file_path.exists():
+        file_path = None
+        dirs = getattr(config, public_dirs, []) 
+        for dir in dirs:              
+            if rpath.startswith(dir):                
+                if os.path.exists(rpath):
+                    file_path  = Path(rpath)
+                break
+            
+    return web.FileResponse(file_path) if file_path else web.HTTPNotFound()
+     
 def broadcast(message, message_user):
     screen = message_user.screen_module
     for user in User.reflections:

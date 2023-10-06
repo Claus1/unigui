@@ -158,9 +158,9 @@ class ParamBlock(Block):
             elif t == bool:
                 el = Switch(pretty_name, val)
             elif t == list or t == tuple:
-                el = Select(pretty_name, val[0], options = val, type = 'list')
+                el = Select(pretty_name, val[0], options = val, type = 'select')
             else:
-                el = Edit(pretty_name, val, number = True)
+                el = Edit(pretty_name, val, type = 'number')
             self.name2elem[param] = el
             
             if cnt % row == 0:

@@ -4,6 +4,7 @@ blocks_dir = 'blocks'
 screens_dir =  'screens'        
 UpdateScreen = True
 Redesign = 2
+public_dirs = 'public_dirs'
 
 divpath = '\\' if platform.system() == 'Windows' else '/'
 libpath = os.path.dirname(os.path.realpath(__file__))
