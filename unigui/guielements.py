@@ -50,6 +50,32 @@ class Text(Gui):
         self.value = self.name
         self.type = 'text'        
 
+class Range(Gui):
+    def __init__(self, name, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)        
+        self.type = 'range'                
+
+class ImageScaler(Range):
+    def __init__(self, *args, **kwargs):
+        name = args[0] if args else 'Image scale'
+        super().__init__(name, *args, **kwargs)        
+        if not hasattr(self, 'value'):
+            self.value = 1.0
+        if 'options' not in kwargs:
+            self.options = [0.25, 3.0, 0.25]
+        self.changed = self.scaler
+        
+    def scaler(self, _, val):
+        prev = self.value
+        images = self.images() 
+        if images:
+            prev /= val
+            for image in images:
+                image.width /= prev
+                image.height /= prev
+            self.value = val
+            return images
+
 class Button(Gui):
     def __init__(self, name, handler = None, **kwargs):
         self.name = name
@@ -141,7 +167,10 @@ class Block(Gui):
         self.name = name        
         self.type = 'block'
         self.value = list(args)        
-        self.add(kwargs)        
+        self.add(kwargs)  
+          
+    def scroll_list(self):            
+        return self.value[1] if len(self.value) > 1 and isinstance(self.value[1], (list, tuple)) else []
 
 class ParamBlock(Block):
     def __init__(self, name, row = 3, **params):
@@ -173,12 +202,12 @@ class ParamBlock(Block):
         return {name: el.value for name, el in self.name2elem.items()}
 
 class Dialog:  
-    def __init__(self, name, callback, *content, buttons=['Ok','Cancel'],icon='not_listed_location'):
-        self.name = name
+    def __init__(self, question, callback, *content, buttons=['Ok','Cancel'],icon='not_listed_location'):
+        self.name = question
         self.callback = callback  
         self.type = 'dialog'         
         self.buttons = buttons        
-        self.content = Block(name,[], *content, dialog = True, icon = icon) 
+        self.content = Block(question,[], *content, dialog = True, icon = icon) 
 
 class TextArea(Gui):
     def __init__(self,name, *args, **kwargs):
