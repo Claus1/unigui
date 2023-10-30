@@ -55,9 +55,9 @@ class Range(Gui):
         super().__init__(name, *args, **kwargs)        
         self.type = 'range'                
 
-class ImageScaler(Range):
+class ContentScaler(Range):
     def __init__(self, *args, **kwargs):
-        name = args[0] if args else 'Image scale'
+        name = args[0] if args else 'Scale content'
         super().__init__(name, *args, **kwargs)        
         if not hasattr(self, 'value'):
             self.value = 1.0
@@ -67,14 +67,14 @@ class ImageScaler(Range):
         
     def scaler(self, _, val):
         prev = self.value
-        images = self.images() 
-        if images:
+        elements = self.elements() 
+        self.value = val
+        if elements:
             prev /= val
-            for image in images:
-                image.width /= prev
-                image.height /= prev
-            self.value = val
-            return images
+            for element in elements:
+                element.width /= prev
+                element.height /= prev            
+            return elements
 
 class Button(Gui):
     def __init__(self, name, handler = None, **kwargs):
@@ -168,9 +168,27 @@ class Block(Gui):
         self.type = 'block'
         self.value = list(args)        
         self.add(kwargs)  
-          
+        if hasattr(self,'scaler'):
+            scaler = ContentScaler(elements = lambda: self.scroll_list)
+            self.scaler = scaler
+            if not self.value:
+                self.value = [[scaler]]
+            elif isinstance(self.value[0], list):
+                self.value[0].append(scaler)
+            else:
+                self.value[0] = [self.value, scaler]
+    @property
     def scroll_list(self):            
         return self.value[1] if len(self.value) > 1 and isinstance(self.value[1], (list, tuple)) else []
+    
+    @scroll_list.setter
+    def scroll_list(self, lst):
+        self.value = [self.value[0] if self.value else [], lst]
+        if hasattr(self,'scaler'):
+            sval = self.scaler.value
+            if sval != 1:
+                self.scaler.value = 1
+                self.scaler.changed(self.scaler, sval)
 
 class ParamBlock(Block):
     def __init__(self, name, row = 3, **params):
