@@ -81,7 +81,7 @@ simple_enter = Edit('Simple Enter update', 'cherokke', update = updated)
 list_complete = ['value 21', 'Value 21', 'sum 289', 'absolute 3']
 
 eblock = Block('New block',                        
-        [Button('Dialog for a process', call_dialog), Range('Scaling', 0, lambda _,val: Info(val))],
+        [Button('Dialog for a process', call_dialog), Range('Scaling', 0, lambda _,val: Info(val), options=[0,1,0.1])],
         txt,
         Edit('Number only', 2.5, type = 'number'),
         Edit('Complete enter update field', 'Enter something', changed, 

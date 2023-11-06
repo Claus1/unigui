@@ -54,6 +54,8 @@ class Range(Gui):
     def __init__(self, name, *args, **kwargs):
         super().__init__(name, *args, **kwargs)        
         self.type = 'range'                
+        if 'options' not in kwargs:
+            self.options = [self.value - 10, self.value + 10, 1]
 
 class ContentScaler(Range):
     def __init__(self, *args, **kwargs):
