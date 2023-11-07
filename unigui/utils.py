@@ -74,8 +74,18 @@ class Message:
 
     def fill_paths4(self, user):
         if hasattr(self, 'updates'):
+            invalid = []
             for update in self.updates:
-                update['path'] = user.find_path(update['data'])
+                data = update["data"]
+                path = user.find_path(data)
+                if path:
+                    update['path'] = path
+                else:
+                    invalid.append(update)                    
+                    user.log(f'Invalid trying update element {data.name}, type {data.type}.\n\
+                    Such element not on the screen!')
+            for inv in invalid:
+                self.updates.remove(inv)
 
     def contains(self, guiobj):
         for update in self.updates:

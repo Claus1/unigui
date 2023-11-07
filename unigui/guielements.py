@@ -52,17 +52,17 @@ class Text(Gui):
 
 class Range(Gui):
     def __init__(self, name, *args, **kwargs):
-        super().__init__(name, *args, **kwargs)        
+        super().__init__(name, *args, **kwargs)    
+        if not hasattr(self, 'value'):
+            self.value = 1.0    
         self.type = 'range'                
         if 'options' not in kwargs:
             self.options = [self.value - 10, self.value + 10, 1]
 
 class ContentScaler(Range):
     def __init__(self, *args, **kwargs):
-        name = args[0] if args else 'Scale content'
-        super().__init__(name, *args, **kwargs)        
-        if not hasattr(self, 'value'):
-            self.value = 1.0
+        name = args[0] if args else 'Scale content'        
+        super().__init__(name, *args, **kwargs)                
         if 'options' not in kwargs:
             self.options = [0.25, 3.0, 0.25]
         self.changed = self.scaler
