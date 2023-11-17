@@ -49,16 +49,16 @@ def graph_selection(_, val):
     _.value = val    
     return Info(f'Nodes {val["nodes"]}, Edges {val["edges"]}') 
     
-graph = Graph('test graph', {'nodes' : ["node1"], 'edges' : ['edge3']}, graph_selection, 
+graph = Graph('test graph', {'nodes' : [0], 'edges' : [2]}, graph_selection, 
     width = 400, height = 400, method = 'breadthfirst',  nodes = [
-     { 'id' : 'node1', 'label': "Node 1" },
-     { 'id' : 'node2', 'label': "Node 2" },
-     { 'id' : 'node3', 'label': "Node 3" },
-     { 'id' : 'node4', 'label': "Node 4" }
+     { 'label': "Node 1" },
+     { 'label': "Node 2" },
+     { 'label': "Node 3" },
+     { 'label': "Node 4" }
   ], edges = [
-     { 'id' : 'edge1', 'source': "node1", 'target': "node2", 'label' : 'extending' },
-     { 'id' :'edge2' , 'source': "node2", 'target': "node3" , 'label' : 'extending'},
-     { 'id' : 'edge3', 'source': "node3", 'target': "node4" , },
+     { 'source': 0, 'target': 1, 'label' : 'extending' },
+     { 'source': 1, 'target': 2 , 'label' : 'extending'},
+     { 'source': 2, 'target': 3  },
   ])
     
 bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node', add_node),    
