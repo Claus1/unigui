@@ -334,17 +334,17 @@ def graph_selection(_, val):
 ```
 With pressed 'Shift' multi select works for nodes and edges.
 
-Has optional draw 'method' with options 'random', 'circle', 'breadthfirst', by default 'random'.
+id nodes and edges are optinal, if node ids are ommited then edge 'source' and 'target' have to point node index in nodes array.
 
 ### Dialog ###
 ```
-Dialog(name, text, callback, buttons, content = None)
+Dialog(text, dialog_callback, buttons = ['Ok', 'Cancel'], *content)
 ```
-where buttons is a list of the dialog buttons like ['Yes','No', 'Cancel'].
+where buttons is a list of the dialog button names,
 Dialog callback has the signature as other with a pushed button name value
 ```
-def dicallback(current_dialog, bname):
-    if bname == 'Yes':
+def dialog_callback(current_dialog, pushed_button_name):
+    if pushed_button_name == 'Yes':
         do_this()
     elif ..
 ```
@@ -371,7 +371,7 @@ user.progress(" 1% is done..")
 ```
 Close window user.progress(None) or automatically when the handler returns something.
 
-### Milti-user programming.###
+### Milti-user programming. ###
 Unigui automatically creates and serves an environment for every user.
 The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui uses the system User class and you do not need to point it. 
 ```
