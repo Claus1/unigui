@@ -111,7 +111,7 @@ edit = Edit('Range of involving', 0.6, changed_range, type = 'number')
 The width and height of blocks is calculated automatically depending on their children. It is possible to set the block width, or make it scrollable , for example for images list. Possible to add MD icon to the header, if required. width, scroll, height, icon are optional.
 ```
 #Block(name, *children, **options)
-block = Block(‘Pictures’,add_button, *images, width = 500, scroll = True,icon = 'api')
+block = Block(‘Pictures’,add_button, images, width = 500, scroll = True,icon = 'api')
 ```
  
 The first Block child is a widget(s) which are drawn in the block header just after its name.
@@ -223,8 +223,8 @@ Optional autogrow property uses for serving multiline fileds.
 
 ### Radio button ###
 ```
-Switch('Radio button', value = True[,changed = .., type = ...])
-
+Switch(name, value, changed, type = ...)
+value is boolean, changed is an optional handler.
 Optional type can be 'check' for a status button or 'switch' for a switcher . 
 ```
 
@@ -241,9 +241,8 @@ width,changed,height,header are optional, changed is called if the user select o
 When the user click the image, a check mark is appearing on the image, showning select status of the image.
 It is usefull for image list, gallery, e.t.c
 ```
-Image(image_url, header = 'description', changed = selecting_changed, width = .., height = ..)
+Image(image_name, selecting_changed, header = 'description',url = ...,  width = .., height = ..)
 ```
-
 
 ### Video. ###
 width and height are optional.
