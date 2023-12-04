@@ -29,6 +29,9 @@ async def static_serve(request):
 
     if not file_path.exists():
         file_path = None
+        #unmask win path
+        if rpath.startswith('/') and rpath[2] == ':':
+            rpath = rpath[1:]
         dirs = getattr(config, public_dirs, []) 
         for dir in dirs:              
             if rpath.startswith(dir):                
