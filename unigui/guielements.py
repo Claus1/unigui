@@ -1,6 +1,3 @@
-import platform
-win = platform.system() == 'Windows'
-
 class Gui:
     def __init__(self, name, *args, **kwargs):
         self.name = name
@@ -112,7 +109,7 @@ class Image(Gui):
         if not hasattr(self,'url'):
             self.url = self.name
         #mask full win path from Chrome detector
-        if win and self.url[1] == ':': 
+        if self.url[1] == ':': 
             self.url = f'/{self.url}'
 
 class Video(Gui):
