@@ -59,7 +59,7 @@ unigui.start('Test app')
 Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
 
-![image](https://github.com/Claus1/unigui/assets/1247062/aca4db13-df32-4c16-8fff-e6a1a74bf640)
+![image](https://github.com/Claus1/unigui/assets/1247062/d73a5f2b-eaae-46d3-907b-14fb7d60475b)
 
 ### Handling events ###
 All handlers are functions which have a signature
