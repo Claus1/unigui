@@ -390,3 +390,5 @@ More info about User class methods you can find in user.py in the souce dir.
 
 Examples are in tests folder.
 
+Demo project with unigui https://github.com/Claus1/cvtools
+
