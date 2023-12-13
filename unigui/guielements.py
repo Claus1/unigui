@@ -39,9 +39,15 @@ def smart_complete(lst, min_input_length = 0, max_output_length = 20):
 class Edit(Gui):
     def __init__(self, name, *args, **kwargs):
         super().__init__(name, *args, **kwargs)        
-        if 'type' not in kwargs:
+        has_value = hasattr(self,'value')
+        if 'type' not in kwargs:            
+            if has_value:
+                type_value = type(self.value)
+                if type_value == int or type_value == float:
+                    self.type = 'number'
+                    return
             self.type =  'autoedit' if 'complete' in kwargs else 'edit'
-        if not hasattr(self,'value'):
+        if not has_value:
             self.value = '' if self.type != 'number' else 0
 
 class Text(Gui):
