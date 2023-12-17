@@ -85,7 +85,7 @@ eblock = Block('New block',
         txt,
         Edit('Number only', 2.5),
         Edit('Edit string', 'xyz'),
-        Edit('Complete enter update field', 'Enter something', changed, 
+        Edit('Complete enter update field', '', changed, 
             complete = smart_complete(list_complete), update = updated)
 )
 
