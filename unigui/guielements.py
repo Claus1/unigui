@@ -29,8 +29,8 @@ def smart_complete(lst, min_input_length = 0, max_output_length = 20):
         if len(ustr) < min_input_length:
             return []
         ustr = ustr.lower()
-        arr = [(itlow.find(ustr), it) for it, itlow in di.items() if itlow.find(ustr) != -1]
-        arr.sort(key=lambda e: e[0])
+        arr = [(itlow.find(ustr), it, itlow) for it, itlow in di.items() if itlow.find(ustr) != -1]
+        arr.sort(key=lambda e: (e[0], e[2]))
         if len(arr) > max_output_length:
             arr = arr[: max_output_length]
         return [e[1] for e in arr]
