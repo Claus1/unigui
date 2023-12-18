@@ -48,6 +48,9 @@ table = Table('Audios', 0, changed, type = 'chart', headers = ['Audio', 'Duratio
     rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1,50)] for i in range(100)],
     append = append, complete = complete, update = table_update, view = 'i-1,2')
 
+tarea = TextArea('Area', "Alpha Centauri A, also known as Rigil Kentaurus, is the principal member, or primary, of the binary system. It is a solar-like main-sequence star with a similar yellowish colour, whose stellar classification is spectral type G2-V; it is about 10% more massive than the Sun, with a radius about 22% larger.",
+            update = updated)
+
 cloned_table_typed = copy.copy(table)
 cloned_table_typed.type = 'table'
 

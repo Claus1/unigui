@@ -1,5 +1,5 @@
 from unigui import *
-from blocks.tblock import config_area, cloned_table_typed
+from blocks.tblock import config_area, tarea
 
 name = "Main"
 
@@ -35,7 +35,7 @@ block = Block('X Block',
     [           
         clean_button,
         selector
-    ], [table, cloned_table_typed], icon = 'api')
+    ], [table, tarea], icon = 'api')
 
 def add_node(_, v):
     for i in range(1000):
