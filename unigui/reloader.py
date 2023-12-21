@@ -16,7 +16,7 @@ if config.hot_reload:
     from watchdog.observers import Observer
     from watchdog.events import PatternMatchingEventHandler
     from .users import User
-    from .utils import divpath, Redesign
+    from .utils import divpath, Redesign, app_dir
     from .autotest import check_screen
     import re, collections
 
@@ -100,6 +100,8 @@ if config.hot_reload:
                             if module_name in sys.modules:
                                 del sys.modules[module_name]                            
                             short_path = user.screen_module.__file__
+                            if short_path.startswith(app_dir):
+                                short_path = short_path[len(app_dir) + 1:]
                             dir, name = short_path.split(divpath)                            
 
                     if dir in ['screens','blocks']:                             

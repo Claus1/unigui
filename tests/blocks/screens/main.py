@@ -50,7 +50,7 @@ def graph_selection(_, val):
     return Info(f'Nodes {val["nodes"]}, Edges {val["edges"]}') 
     
 graph = Graph('test graph', {'nodes' : [0], 'edges' : [2]}, graph_selection, 
-    width = 400, height = 400, method = 'breadthfirst',  nodes = [
+    width = 400, height = 400,  nodes = [
      { 'label': "Node 1" },
      { 'label': "Node 2" },
      { 'label': "Node 3" },
