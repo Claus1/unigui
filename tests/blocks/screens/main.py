@@ -35,7 +35,7 @@ block = Block('X Block',
     [           
         clean_button,
         selector
-    ], [table, tarea], icon = 'api')
+    ], [tarea, table], icon = 'api')
 
 def add_node(_, v):
     for i in range(1000):

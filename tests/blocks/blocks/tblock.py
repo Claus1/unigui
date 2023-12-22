@@ -79,7 +79,7 @@ tree = Tree('_Inheritance','Animals', tree_changed, options = ld)
 
 txt = Text('Text about cats')
 
-simple_enter = Edit('Simple Enter update', 'cherokke', update = updated)
+simple_enter = Edit('_Simple Enter update', 'cherokke', update = updated)
 
 list_complete = ['value 21', 'Value 21', 'sum 289', 'absolute 3']
 
