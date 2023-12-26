@@ -43,4 +43,4 @@ rows =  [[f'sync{i}.mp3', round(random.random() * 15000) / 100, random.randint(1
 view = 'i-1,2'  
 
 
-panda_table = pd.read_csv('/home/george/Projects/unigui/tests/blocks/class.csv')
+panda_table = pd.read_csv('../blocks/class.csv')
