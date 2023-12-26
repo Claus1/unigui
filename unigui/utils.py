@@ -17,11 +17,10 @@ except:
     f = open('config.py', 'w')  
     f.write("""port = 8000 
 upload_dir = 'web'
-pretty_print = True
 hot_reload   = True
 logfile  = 'log'
 autotest = '*'
-appname = 'Unigui app'
+appname = 'Unigui'
 """)
     f.close()
     import config
