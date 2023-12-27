@@ -63,7 +63,7 @@ graph = Graph('test graph', {'nodes' : [0], 'edges' : [2]}, graph_selection,
 remote_image ="https://bestfriends.org/sites/default/files/styles/hero_mobile/public/hero-dash/Asana3808_Dashboard_Standard.jpg?h=ebad9ecf&itok=cWevo33k"
 
 bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node', add_node),    
-    [graph, Image(remote_image, width = 450, height = 400)], 
+    [graph, Video(upload_path('sad cat.mp4'), width = 500, height = 350)], 
 )
 
 blocks= [[block,bottom_block],config_area]
