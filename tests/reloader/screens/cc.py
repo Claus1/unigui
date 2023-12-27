@@ -18,7 +18,7 @@ block2 = Block('Table block',[], table)
 ptable = Table('P table', panda = panda_table)
 
 
-block3 = Block('panda', [], ptable)
+block3 = Block('panda', [Button('Send', lambda _, __: True), Button('Redesign', lambda _, __: Redesign)], ptable)
 
 
 blocks = [[block3,[ block2, Block('Big',[], tree, image)]]]

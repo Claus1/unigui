@@ -124,7 +124,7 @@ class Video(Gui):
         super().__init__(name, *args, **kwargs)
         self.type = 'video'
         if not hasattr(self,'width'):
-            self.width = 500.0              
+            self.width = 300.0              
         if not hasattr(self,'url'):
             self.url = self.name
         if not hasattr(self,'ratio'):

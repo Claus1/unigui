@@ -60,9 +60,10 @@ graph = Graph('test graph', {'nodes' : [0], 'edges' : [2]}, graph_selection,
      { 'source': 1, 'target': 2 , 'label' : 'extending'},
      { 'source': 2, 'target': 3  },
   ])
-    
+remote_image ="https://bestfriends.org/sites/default/files/styles/hero_mobile/public/hero-dash/Asana3808_Dashboard_Standard.jpg?h=ebad9ecf&itok=cWevo33k"
+
 bottom_block = Block('Graph, press Shift for multi (de)select', Button('Add node', add_node),    
-    [graph, Video(upload_path('sad cat.mp4'))], 
+    [graph, Image(remote_image, width = 450, height = 400)], 
 )
 
 blocks= [[block,bottom_block],config_area]
