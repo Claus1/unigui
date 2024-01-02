@@ -26,7 +26,7 @@ class User:
 
     def progress(self, str, *updates):
         """open or update progress window if str != null else close it  """             
-        return self.sync_send(TextMessage('progress', str, *updates, user = self))
+        return self.sync_send(TypeMessage('progress', str, *updates, user = self))
                    
     def load_screen(self, file):
         screen_vars = {
@@ -127,18 +127,20 @@ class User:
             self.active_dialog.content else self.screen.blocks
 
     def find_element(self, path):               
+        blname = path[0]
+        elname = path[1]
         for bl in flatten(self.blocks):
-            if bl.name == path[0]:
+            if bl.name == blname:
                 for c in bl.value:
                     if isinstance(c, list):
                         for sub in c:
-                            if sub.name == path[1]:
+                            if sub.name == elname:
                                 return sub
-                    elif c.name == path[1]:
+                    elif c.name == elname:
                         return c
-        if path[0] == 'toolbar':
+        if blname == 'toolbar':
             for e in self.screen.toolbar:
-                if e.name == path[1]:                
+                if e.name == elname:                
                     return e
 
     def find_path(self, elem):        
@@ -166,9 +168,9 @@ class User:
         else:
             if isinstance(raw, Message):
                 raw.fill_paths4(self)                
-            elif isinstance(raw,Gui) and raw is not self.screen:
+            elif isinstance(raw,Gui):
                 raw = Message(raw, user = self)                 
-            elif isinstance(raw, (list, tuple)) and all(isinstance(e,Gui) for e in raw):
+            elif isinstance(raw, (list, tuple)):
                 raw = Message(*raw, user = self)
         return raw
 
@@ -187,10 +189,10 @@ class User:
             return self.process_element(elem, arr) if elem else \
                 Error(f'Element {arr[0]}>>{arr[1]} does not exists!')       
         
-    def process_element(self, elem, arr):        
-        id = arr.pop() if len(arr) == 5 else 0
+    def process_element(self, elem, arr):                
         action = arr[-2]        
         val = arr[-1]
+        query = action in ['complete', 'append']
         
         handler = self.__handlers__.get((elem, action), None)
         if handler:
@@ -199,16 +201,15 @@ class User:
         
         handler = getattr(elem, action, False)                                
         if handler:                
-            res = handler(elem, val)  
-            if id:                        
-                res = Answer(res, None, id)                
-            return res
-        elif action == 'changed':
-            if hasattr(elem,'value'): #exlude Buttons and others without 'value'
-                elem.value = val                                        
-            return   
-        self.log(f'{elem} does not contain method for {action} event type!')                     
-        return Error('Internal server error.')
+            result = handler(elem, val)  
+            if query:                        
+                result = Answer(action, arr[:2], result)                
+            return result
+        elif action == 'changed':            
+            elem.value = val                                        
+        else:
+            self.log(f'{elem} does not contain method for {action} event type!')                     
+            return Error('Internal server error.')
 
     def reflect(self):        
         user = User.UserType()

@@ -243,8 +243,10 @@ class TextArea(Gui):
         super().__init__(name, *args, **kwargs)
         self.type = 'textarea' 
                      
-class Screen(Gui):
+class Screen:
     def __init__(self, name, **kwargs):
         self.name = name
-        self.add(kwargs)   
         self.type = 'screen'
+        for key, value in kwargs.items():
+            setattr(self, key, value) 
+        

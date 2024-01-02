@@ -67,7 +67,8 @@ def cache_url(url):
 
 class Message:
     def __init__(self, *gui_objects, user = None):        
-        self.updates = [{'data': gui} for gui in gui_objects] if gui_objects else []
+        if gui_objects:
+            self.updates = [{'data': gui} for gui in gui_objects]
         if user:
             self.fill_paths4(user)
 
@@ -81,32 +82,35 @@ class Message:
                     update['path'] = path
                 else:
                     invalid.append(update)                    
-                    user.log(f'Invalid trying update element {data.name}, type {data.type}.\n\
+                    user.log(f'Invalid element update {data.name}, type {data.type}.\n\
                     Such element not on the screen!')
             for inv in invalid:
                 self.updates.remove(inv)
 
     def contains(self, guiobj):
-        for update in self.updates:
-            if guiobj is update['data']:
-                return True
+        if hasattr(self, 'updates'):
+            for update in self.updates:
+                if guiobj is update['data']:
+                    return True
 
-def TextMessage(type, text, *data, user = None):
+def TypeMessage(type, value, *data, user = None):
     message = Message(*data, user=user)
     message.type = type
-    message.value = text    
+    message.value = value    
     return message    
 
 def Warning(text, *data):
-    return TextMessage('warning', text, *data)
+    return TypeMessage('warning', text, *data)
 
 def Error(text, *data):
-    return TextMessage('error', text, *data)
+    return TypeMessage('error', text, *data)
     
 def Info(text, *data):
-    return TextMessage('info', text, *data)
+    return TypeMessage('info', text, *data)
 
-def Answer(data, param, id):
-    return {'type' : 'answer', 'value': data,'param': param, 'id' : id}
+def Answer(type, path, result):
+    ms = TypeMessage(type, result)
+    ms.path = path
+    return ms
 
 
