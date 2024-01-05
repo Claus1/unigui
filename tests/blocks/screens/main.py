@@ -2,6 +2,7 @@ from unigui import *
 from blocks.tblock import config_area, tarea
 
 name = "Main"
+order = 1
 
 def append_row(table, value):
     row = [''] * 4

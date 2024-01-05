@@ -202,8 +202,8 @@ class Block(Gui):
                 self.scaler.changed(self.scaler, sval)
 
 class ParamBlock(Block):
-    def __init__(self, name, row = 3, **params):
-        super().__init__(name, [])
+    def __init__(self, name, *args, row = 3, **params):
+        super().__init__(name, *args)
         self.name2elem = {}
         cnt = 0        
 
