@@ -203,6 +203,8 @@ class Block(Gui):
 
 class ParamBlock(Block):
     def __init__(self, name, *args, row = 3, **params):
+        if not args:
+            args = [[]]
         super().__init__(name, *args)
         self.name2elem = {}
         cnt = 0        
