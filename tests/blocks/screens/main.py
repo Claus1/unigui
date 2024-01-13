@@ -38,13 +38,14 @@ block = Block('X Block',
         selector
     ], [tarea, table], icon = 'api')
 
+import random
+
 def add_node(_, v):
-    for i in range(1000):
-        name = f'node{i}'
-        if not [n for n in  graph.nodes if n['id'] == name]:
-            graph.nodes.append({'id' : name, 'label' : name})
-            graph.edges.append({'id': f'edge{i}', 'source': "node1", 'target': f'node{i}' })
-            return graph
+    i = len(graph.nodes)
+    name = f'node{i}'    
+    graph.edges.append({'source': random.randrange(i), 'target': i })
+    graph.nodes.append({'label' : name})
+    return graph
 
 def graph_selection(_, val):
     _.value = val    

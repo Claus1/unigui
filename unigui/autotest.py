@@ -1,6 +1,7 @@
 import config, os, logging
 from .utils import *
 from .guielements import * 
+from .blocks import *
 from .users import User
 from jsoncomparison import Compare, NO_DIFF
 

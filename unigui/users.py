@@ -1,6 +1,7 @@
 import importlib
 from .utils import *
 from .guielements import *
+from .blocks import Dialog, Screen
 import sys
 import asyncio
 from threading import Thread

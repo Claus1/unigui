@@ -1,6 +1,6 @@
 [project]
 name = "unigui"
-version = "2.3.6"
+version = "2.3.7"
 description = "Unigui - Universal GUI Framework and protocol"
 authors = [
     {name = "Georgii Dernovyi", email = "g.dernovoy@gmail.com"},
