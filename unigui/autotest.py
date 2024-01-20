@@ -1,7 +1,7 @@
 import config, os, logging
 from .utils import *
 from .guielements import * 
-from .blocks import *
+from .blocks import Block, Dialog
 from .users import User
 from jsoncomparison import Compare, NO_DIFF
 
@@ -160,7 +160,7 @@ def check_screen(module):
     if not isinstance(self.name, str):
         errors.append(f"The name in screen file {module.__file__} {self.name} is not a string!")
     if not isinstance(self.blocks, list):
-        errors.append("Screen file {self.__module__.__file__} does not contain name!")
+        errors.append(f"Screen file {module.__file__} does not contain 'blocks' list!")
     else:
         for bl in flatten(self.blocks):            
             if not isinstance(bl, Block):

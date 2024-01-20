@@ -47,7 +47,7 @@ class User:
         module.user = self                               
         
         spec.loader.exec_module(module)            
-        screen = Screen(module.name)
+        screen = Screen(getattr(module, 'name', ''))
         #set system vars
         for var in screen_vars:                                            
             setattr(screen, var, getattr(module,var,screen_vars[var]))         
@@ -87,7 +87,7 @@ class User:
             return True                 
 
     def update_menu(self):
-        menu = [[s.name,getattr(s,'icon', None)] for s in self.screens]        
+        menu = [[getattr(s, 'name', ''),getattr(s,'icon', None)] for s in self.screens]        
         for s in self.screens:
             s.screen.menu = menu
 
@@ -210,7 +210,7 @@ class User:
             elem.value = val                                        
         else:
             self.log(f'{elem} does not contain method for {action} event type!')                     
-            return Error('Internal server error.')
+            return Error(f'Invalid {action} event type for {arr[0]}>>{arr[1]} element is received!')
 
     def reflect(self):        
         user = User.UserType()
