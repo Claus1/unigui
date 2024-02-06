@@ -1,5 +1,5 @@
 # unisi#
-UNified System Interface 
+UNified System Interface and GUI
 
 ### Purpose ###
 Provide a programming technology that provides single unified interface for servers and does not require front-end programming for interacting, for any language, for displaying on any device, in any resolution, without any tuning. 
