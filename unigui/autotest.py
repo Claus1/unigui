@@ -12,7 +12,7 @@ if not hasattr(config, testdir):
 if not hasattr(config, 'port'):
     config.port = 8000
 if not hasattr(config, 'pretty_print'):
-    config.pretty_print = config.autotest
+    config.pretty_print = False
 if not hasattr(config, 'upload_dir'):
     config.upload_dir = 'web'
 if not hasattr(config, 'logfile'):
@@ -157,7 +157,7 @@ def check_screen(module):
     if not hasattr(self, 'name') or not self.name:            
         errors.append(f"Screen file {module.__file__} does not contain name!")
         self.name = 'Unknown'
-    if not isinstance(self.name, str):
+    elif not isinstance(self.name, str):
         errors.append(f"The name in screen file {module.__file__} {self.name} is not a string!")
     if not isinstance(self.blocks, list):
         errors.append(f"Screen file {module.__file__} does not contain 'blocks' list!")
