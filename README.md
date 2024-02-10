@@ -1,8 +1,9 @@
-# unisi#
+# UNISI #
 UNified System Interface and GUI
 
 ### Purpose ###
-Provide a programming technology that provides single unified interface for servers and does not require front-end programming for interacting, for any language, for displaying on any device, in any resolution, without any tuning. 
+UNISI technology provides a unified system interface and advanced program functionality, eliminating the need for front-end and most back-end programming. It automates common tasks, as well as unique ones, significantly reducing the necessity for manual programming and effort.
+
 
 ### Installing ###
 ```
@@ -10,10 +11,10 @@ pip install unigui
 ```
 
 ### How it works inside ###
-The exchange protocol for the solution is JSON as the most universally accessible, readable, and popular format for Web. The server sends JSON data to the front-end unisi which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unisi screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unisi instantly and automatically displays actual server state. 
+ The server sends protocol data to the front-end UNISI which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unisi screen the server receives a JSON message flow which fully describes what the user did. The message format is {screen, block, element, event, value}, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unisi instantly and automatically displays actual server state. 
 
 ### Programming ###
-Unisi is the language and platform independent technology. This repo explains how to work with Unisi using Python and the tiny but optimal framework for that. Unisi web version is included in this library.  Supports Python 3.8 and up.
+This repo explains how to work with Unisi using Python and the tiny but optimal framework for that. Unisi web version is included in this library.  Supports Python 3.8 and up.
 
 
 ### High level - Screen ###

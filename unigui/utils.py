@@ -20,7 +20,7 @@ upload_dir = 'web'
 hot_reload   = True
 logfile  = 'log'
 autotest = '*'
-appname = 'Unigui'
+appname = 'unisi'
 """)
     f.close()
     import config
