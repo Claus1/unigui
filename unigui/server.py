@@ -47,8 +47,13 @@ def broadcast(message, message_user):
         if user is not message_user and screen is user.screen_module:
             user.sync_send(message)
 
-def screen_switch_message(message):
-    return len(message) == 2 and message[0] == 'root'
+class ReceivedMessage:
+    def __init__(self, data):
+        self.screen = data.get('screen')
+        self.block = data.get('block')
+        self.element = data.get('element')
+        self.event = data.get('event')
+        self.value = data.get('value')  
 
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
@@ -70,16 +75,16 @@ async def websocket_handler(request):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    input = json.loads(msg.data)            
-                    result = user.result4message(input)
+                    message = ReceivedMessage(json.loads(msg.data))            
+                    result = user.result4message(message)
                     if result:                                    
                         await send(result)
                     if recorder.record_file:
-                        recorder.accept(input, result)
-                    if config.mirror and not screen_switch_message(input):                        
+                        recorder.accept(message, result)
+                    if config.mirror and not is_screen_switch(message):                        
                         if result:
                             broadcast(result, user)                            
-                        msg_object = user.find_element(input)                         
+                        msg_object = user.find_element(message)                         
                         if not isinstance(result, Message) or not result.contains(msg_object):                                                        
                             broadcast(jsonString(user.prepare_result(msg_object)), user)
             elif msg.type == WSMsgType.ERROR:

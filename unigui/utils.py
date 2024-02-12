@@ -26,6 +26,14 @@ appname = 'unisi'
     import config
     print("Config with default parameters is created!")
 
+def is_screen_switch(message):
+    return message.block == 'root' and message.element is None
+
+class AutoData:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value) 
+
 def toJson(obj, indent, pretty):
     js = jsonpickle.encode(obj,unpicklable=False)
     return json.dumps(json.loads(js), indent=indent, sort_keys=pretty) if pretty else js

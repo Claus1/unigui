@@ -5,7 +5,7 @@ from .blocks import Dialog, Screen
 import sys
 import asyncio
 from threading import Thread
-import logging
+import logging  
 
 class User:      
     def __init__(self):          
@@ -13,7 +13,8 @@ class User:
         self.active_dialog = None
         self.screen_module = None 
         self.session = None   
-        self.__handlers__ = {}                    
+        self.__handlers__ = {}      
+        self.last_message = None              
         User.last_user = self   
 
     async def send_windows(self, obj):  
@@ -100,24 +101,23 @@ class User:
         return  self.screen_module.screen 
 
     def set_screen(self,name):
-        return self.process(['root', name])
+        return self.process(AutoData(block = 'root', element = None, value = name))
 
-    def result4message(self, data):
+    def result4message(self, message):
         result = None
         dialog = self.active_dialog
         if dialog:            
-            if len(data) == 2: #button pressed
-                self.active_dialog = None
-                #data[1] is returned value                                
-                result = dialog.callback(dialog, data[1]) 
+            if message.element is None: #button pressed
+                self.active_dialog = None                
+                result = dialog.callback(dialog, message.value) 
             else:
-                el = self.find_element(data)
+                el = self.find_element(message)
                 if el:
-                    result = self.process_element(el, data)                
-        elif len(data) == 2 and not data[1]: #dialog closed            
-            return    
+                    result = self.process_element(el, message)                
+        #elif len(data) == 2 and not data[1]: #dialog closed            
+        #    return    
         else:
-            result = self.process(data)           
+            result = self.process(message)           
         if result and isinstance(result, Dialog):
             self.active_dialog = result
         return result
@@ -127,9 +127,9 @@ class User:
         return [self.active_dialog.content] if self.active_dialog and \
             self.active_dialog.content else self.screen.blocks
 
-    def find_element(self, path):               
-        blname = path[0]
-        elname = path[1]
+    def find_element(self, message):               
+        blname = message.block
+        elname = message.element
         for bl in flatten(self.blocks):
             if bl.name == blname:
                 for c in bl.value:
@@ -175,42 +175,51 @@ class User:
                 raw = Message(*raw, user = self)
         return raw
 
-    def process(self,arr):
-        self.last_input = arr        
-        if arr[0] == 'root':
+    def process(self, message):
+        self.last_message = message     
+        screen_change_message = message.screen and self.screen.name != message.screen   
+        if is_screen_switch(message) or screen_change_message:
             for s in self.screens:
-                if s.name == arr[1]:
-                    self.screen_module = s
+                if s.name == message.value:
+                    self.screen_module = s                    
+                    if screen_change_message:
+                        break
                     if getattr(s.screen,'prepare', False):
                         s.screen.prepare()
-                    return True            
-            self.log(f'Unknown screen name: {s.name}')
-        else:
-            elem = self.find_element(arr)                                    
-            return self.process_element(elem, arr) if elem else \
-                Error(f'Element {arr[0]}>>{arr[1]} does not exists!')       
+                    return True 
+            else:        
+                error = f'Unknown screen name: {message.value}'   
+                self.log(error)
+                return Error(error)
         
-    def process_element(self, elem, arr):                
-        action = arr[-2]        
-        val = arr[-1]
-        query = action in ['complete', 'append']
+        elem = self.find_element(message)          
+        if elem:                          
+            return self.process_element(elem, message)  
         
-        handler = self.__handlers__.get((elem, action), None)
+        error = f'Element {message.block}>>{message.element} does not exists!'
+        self.log(error)
+        return Error(error)
+        
+    def process_element(self, elem, message):                
+        event = message.event        
+        query = event in ['complete', 'append']
+        
+        handler = self.__handlers__.get((elem, event), None)
         if handler:
-            result = handler(elem, val)                
+            result = handler(elem, message.value)                
             return result
         
-        handler = getattr(elem, action, False)                                
+        handler = getattr(elem, event, False)                                
         if handler:                
-            result = handler(elem, val)  
+            result = handler(elem, message.value)  
             if query:                        
-                result = Answer(action, arr[:2], result)                
+                result = Answer(event, [message.block, message.element], result)                
             return result
-        elif action == 'changed':            
-            elem.value = val                                        
+        elif event == 'changed':            
+            elem.value = message.value                                        
         else:
-            self.log(f'{elem} does not contain method for {action} event type!')                     
-            return Error(f'Invalid {action} event type for {arr[0]}>>{arr[1]} element is received!')
+            self.log(f'{elem} does not contain method for {event} event type!')                     
+            return Error(f'Invalid {event} event type for {message.block}>>{message.element} is received!')
 
     def reflect(self):        
         user = User.UserType()
@@ -222,7 +231,7 @@ class User:
 
     def log(self, str, type = 'error'):        
         scr = self.screen.name if self.screens else 'omitted'
-        str = f"session: {self.session}, screen: {scr}, message: {self.last_input} \n  {str}"
+        str = f"session: {self.session}, screen: {scr}, message: {self.last_message} \n  {str}"
         if type == 'error':
             logging.error(str)
         else:
