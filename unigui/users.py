@@ -113,9 +113,7 @@ class User:
             else:
                 el = self.find_element(message)
                 if el:
-                    result = self.process_element(el, message)                
-        #elif len(data) == 2 and not data[1]: #dialog closed            
-        #    return    
+                    result = self.process_element(el, message)                        
         else:
             result = self.process(message)           
         if result and isinstance(result, Dialog):
