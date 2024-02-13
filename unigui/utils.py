@@ -116,9 +116,9 @@ def Error(text, *data):
 def Info(text, *data):
     return TypeMessage('info', text, *data)
 
-def Answer(type, path, result):
+def Answer(type, message, result):
     ms = TypeMessage(type, result)
-    ms.path = path
+    ms.message = message
     return ms
 
 

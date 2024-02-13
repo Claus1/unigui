@@ -211,7 +211,7 @@ class User:
         if handler:                
             result = handler(elem, message.value)  
             if query:                        
-                result = Answer(event, [message.block, message.element], result)                
+                result = Answer(event, message, result)                
             return result
         elif event == 'changed':            
             elem.value = message.value                                        

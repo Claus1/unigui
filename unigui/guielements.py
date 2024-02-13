@@ -70,7 +70,7 @@ class Button(Gui):
         self.name = name
         self.add(kwargs)
         if not hasattr(self, 'type'):
-            self.type = 'button'
+            self.type = 'command'
         if handler:
             self.changed = handler
             
