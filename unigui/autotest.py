@@ -48,7 +48,8 @@ class Recorder:
             self.record_buffer.append(f"{jsonString(msg)},\
                 \n{'null' if response is None else jsonString(response)}\n")
         else: #start for setting screen
-            self.record_buffer.append(jsonString(['root', User.last_user.screen_module.name]))
+            self.record_buffer.append(jsonString(ArgObject(block = 'root', 
+                element = None, value = User.last_user.screen_module.name)))
             self.ignored_1message = True    
 
     def stop_recording(self, _, x):    
@@ -82,8 +83,8 @@ def test(filename, user):
     data = json.loads(file.read())
     error = False
     for message in data:
-        if isinstance(message, list):
-            result = user.result4message(message)
+        if message is not None and message.get('block'):
+            result = user.result4message(ReceivedMessage(message))
             response = user.prepare_result(result)
             user_message = message
         else:

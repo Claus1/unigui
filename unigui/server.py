@@ -47,14 +47,6 @@ def broadcast(message, message_user):
         if user is not message_user and screen is user.screen_module:
             user.sync_send(message)
 
-class ReceivedMessage:
-    def __init__(self, data):
-        self.screen = data.get('screen')
-        self.block = data.get('block')
-        self.element = data.get('element')
-        self.event = data.get('event')
-        self.value = data.get('value')  
-
 async def websocket_handler(request):
     ws = web.WebSocketResponse()
     await ws.prepare(request)

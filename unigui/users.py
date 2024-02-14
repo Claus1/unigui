@@ -27,8 +27,9 @@ class User:
             if self.transport else self.send(obj), self.extra_loop)
 
     def progress(self, str, *updates):
-        """open or update progress window if str != null else close it  """             
-        return self.sync_send(TypeMessage('progress', str, *updates, user = self))
+        """open or update progress window if str != null else close it  """  
+        if not self.testing:           
+            self.sync_send(TypeMessage('progress', str, *updates, user = self))
                    
     def load_screen(self, file):
         screen_vars = {

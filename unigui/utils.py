@@ -34,6 +34,14 @@ class ArgObject:
         for key, value in kwargs.items():
             setattr(self, key, value) 
 
+class ReceivedMessage:
+    def __init__(self, data):
+        self.screen = data.get('screen')
+        self.block = data.get('block')
+        self.element = data.get('element')
+        self.event = data.get('event')
+        self.value = data.get('value')  
+
 def toJson(obj, indent, pretty):
     js = jsonpickle.encode(obj,unpicklable=False)
     return json.dumps(json.loads(js), indent=indent, sort_keys=pretty) if pretty else js
