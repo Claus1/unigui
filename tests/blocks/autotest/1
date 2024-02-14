@@ -1,34 +1,22 @@
 [
 {"block": "root", "element": null, "value": "Main"},
-{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Genet"},                
-{"type": "info", "value": "Genet selected in the tree."}
-,
-{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Silky Anteater"},                
-{"type": "info", "value": "Silky Anteater selected in the tree."}
-,
-{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Greater Glider"},                
-{"type": "info", "value": "Greater Glider selected in the tree."}
-,
 {"screen": null, "block": "X Block", "element": "Videos", "event": "changed", "value": 1},                
 null
 ,
-{"screen": null, "block": "New block", "element": "Edit string", "event": "changed", "value": "xy"},                
-null
-,
-{"screen": null, "block": "New block", "element": "Edit string", "event": "changed", "value": "xyd"},                
-null
-,
-{"screen": null, "block": "New block", "element": "Complete enter update field", "event": "complete", "value": ""},                
-{"type": "complete", "value": ["absolute 3", "sum 289", "value 21", "Value 21"], "message": {"screen": null, "block": "New block", "element": "Complete enter update field", "event": "complete", "value": ""}}
-,
-{"screen": null, "block": "New block", "element": "Complete enter update field", "event": "changed", "value": "sum 289"},                
-{"type": "warning", "value": "Complete enter update field changed to sum 289!"}
+{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Tarsier"},                
+{"type": "info", "value": "Tarsier selected in the tree."}
 ,
 {"screen": null, "block": "Graph, press Shift for multi (de)select", "element": "test graph", "event": "changed", "value": {"nodes": [1], "edges": []}},                
 {"type": "info", "value": "Nodes [1], Edges []"}
 ,
-{"screen": null, "block": "Graph, press Shift for multi (de)select", "element": "test graph", "event": "changed", "value": {"nodes": [1, 2], "edges": []}},                
-{"type": "info", "value": "Nodes [1, 2], Edges []"}
+{"screen": null, "block": "Graph, press Shift for multi (de)select", "element": "test graph", "event": "changed", "value": {"nodes": [], "edges": [0]}},                
+{"type": "info", "value": "Nodes [], Edges [0]"}
+,
+{"screen": null, "block": "Graph, press Shift for multi (de)select", "element": "test graph", "event": "changed", "value": {"nodes": [0], "edges": []}},                
+{"type": "info", "value": "Nodes [0], Edges []"}
+,
+{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Very small Tarsier"},                
+{"type": "info", "value": "Very small Tarsier selected in the tree."}
 ,
 {"screen": null, "block": "New block", "element": "Dialog for a process", "event": "changed", "value": null},                
 {"name": "Start a long process?", "callback": null, "type": "dialog", "buttons": ["Ok", "Cancel"], "content": {"name": "Start a long process?", "type": "block", "value": [[]], "dialog": true, "icon": "not_listed_location"}}
@@ -36,6 +24,9 @@ null
 {"screen": null, "block": "Start a long process?", "element": null, "event": "changed", "value": "Ok"},                
 null
 ,
-{"screen": null, "block": "Tree block", "element": "_Inheritance", "event": "changed", "value": "Genet"},                
-{"type": "info", "value": "Genet selected in the tree."}
+{"screen": null, "block": "New block", "element": "Complete enter update field", "event": "complete", "value": ""},                
+{"type": "complete", "value": ["absolute 3", "sum 289", "value 21", "Value 21"], "message": {"screen": null, "block": "New block", "element": "Complete enter update field", "event": "complete", "value": ""}}
+,
+{"screen": null, "block": "New block", "element": "Complete enter update field", "event": "changed", "value": "absolute 3"},                
+{"type": "warning", "value": "Complete enter update field changed to absolute 3!"}
 ]
