@@ -82,7 +82,7 @@ def cache_url(url):
     return fname
 
 class Message:
-    def __init__(self, type = 'update', *gui_objects, user = None):        
+    def __init__(self, *gui_objects, user = None, type = 'update'):        
         self.type = type
         if gui_objects:
             self.updates = [{'data': gui} for gui in gui_objects]
@@ -111,7 +111,7 @@ class Message:
                     return True
 
 def TypeMessage(type, value, *data, user = None):
-    message = Message(type, *data, user=user)    
+    message = Message(*data, user=user, type = type)    
     message.value = value    
     return message    
 
