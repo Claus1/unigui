@@ -1,6 +1,6 @@
 [project]
 name = "unigui"
-version = "2.4.0"
+version = "2.4.1"
 description = "Unigui - Universal GUI Framework and protocol"
 authors = [
     {name = "Georgii Dernovyi", email = "g.dernovoy@gmail.com"},
@@ -13,7 +13,7 @@ dependencies = [
     "requests",
     "watchdog",
     "websockets",
-    "ssl"
+    "websocket-client"
 ]
 requires-python = ">=3.8"
 readme = "README.md"
