@@ -1,7 +1,7 @@
 import importlib
 from .utils import *
 from .guielements import *
-from .blocks import Dialog, Screen
+from .containers import Dialog, Screen
 import sys
 import asyncio
 from threading import Thread
@@ -101,7 +101,7 @@ class User:
         return  self.screen_module.screen 
 
     def set_screen(self,name):
-        return self.process(AutoData(block = 'root', element = None, value = name))
+        return self.process(ArgObject(block = 'root', element = None, value = name))
 
     def result4message(self, message):
         result = None

@@ -29,7 +29,7 @@ appname = 'unisi'
 def is_screen_switch(message):
     return message.block == 'root' and message.element is None
 
-class AutoData:
+class ArgObject:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value) 

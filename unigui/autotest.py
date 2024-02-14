@@ -1,7 +1,7 @@
 import config, os, logging
 from .utils import *
 from .guielements import * 
-from .blocks import Block, Dialog
+from .containers import Block, Dialog
 from .users import User
 from jsoncomparison import Compare, NO_DIFF
 
