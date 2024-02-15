@@ -10,7 +10,7 @@ class Event(Enum):
     message = 4
     unknown = 8
     dialog = 16
-    screen = 32
+    screen = 33
     update_message = 6
     complete = 64
     append = 128    
@@ -66,9 +66,9 @@ class Proxy:
             return Event.invalid
         return self.request(ArgObject(block = self.block_of(element), element = element['name'], 
             event = event, value = value))
-
+    
     def request(self, message):
-        """send message and get responce, return the responce type"""
+        """send message or message list, get responce, return the responce type"""
         if message:
             self.conn.send(toJson(message))
         responce = self.conn.recv()

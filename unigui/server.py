@@ -68,17 +68,27 @@ async def websocket_handler(request):
                 if msg.data == 'close':
                     await ws.close()
                 else:
-                    message = ReceivedMessage(json.loads(msg.data))            
-                    result = user.result4message(message)                    
+                    raw_message = json.loads(msg.data)
+                    if isinstance(raw_message, list):
+                        for raw_submessage in raw_message:
+                            message = ReceivedMessage(raw_submessage)                    
+                            result = user.result4message(message)
+                        else:                        
+                            message = None
+                            result = Error('Empty command batch!')
+                    else:                    
+                        message = ReceivedMessage(raw_message)            
+                        result = user.result4message(message)                    
                     await send(result)
-                    if recorder.record_file:
-                        recorder.accept(message, result)
-                    if config.mirror and not is_screen_switch(message):                        
-                        if result:
-                            broadcast(result, user)                            
-                        msg_object = user.find_element(message)                         
-                        if not isinstance(result, Message) or not result.contains(msg_object):                                                        
-                            broadcast(jsonString(user.prepare_result(msg_object)), user)
+                    if message:
+                        if recorder.record_file:
+                            recorder.accept(message, result)
+                        if config.mirror and not is_screen_switch(message):                        
+                            if result:
+                                broadcast(result, user)                            
+                            msg_object = user.find_element(message)                         
+                            if not isinstance(result, Message) or not result.contains(msg_object):                                                        
+                                broadcast(jsonString(user.prepare_result(msg_object)), user)
             elif msg.type == WSMsgType.ERROR:
                 user.log('ws connection closed with exception %s' % ws.exception())
     except:        
