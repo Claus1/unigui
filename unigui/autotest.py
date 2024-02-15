@@ -3,6 +3,7 @@ from .utils import *
 from .guielements import * 
 from .containers import Block, Dialog
 from .users import User
+from .common import *
 from jsoncomparison import Compare, NO_DIFF
 
 #setting config variables

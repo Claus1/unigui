@@ -78,13 +78,11 @@ def CameraButton(name, handler = None, **kwargs):
     kwargs['type'] = 'camera'
     return Button(name, handler, **kwargs)
         
-def UploadImageButton(name, handler = None,**kwargs):    
+def UploadButton(name, handler = None,**kwargs):    
     kwargs['type'] = 'image_uploader'
     if 'width' not in kwargs:
         kwargs['width'] = 250.0                  
     return Button(name, handler, **kwargs)
-
-UploadButton = UploadImageButton
 
 class Image(Gui):
     '''has to contain file parameter as name'''

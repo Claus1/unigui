@@ -1,6 +1,6 @@
 from websocket import create_connection
 from enum import Enum
-from .utils import *
+from .common import *
 
 class Event(Enum):
     none = 0
@@ -29,7 +29,7 @@ class Proxy:
     def screen_menu(self):
         return [name_icon[0] for name_icon in self.screen['menu']] if self.screen else []
     
-    def ask(self, message):
+    def request(self, message):
         """send message and get responce, return the responce type"""
         self.conn.send(toJson(message))
         responce = self.conn.recv()
@@ -39,7 +39,7 @@ class Proxy:
         screen = self.screens.get(name)
         if not screen:
             if name in self.screen_menu:
-                mtype = self.ask(ArgObject(block = 'root', element = None,value = name))
+                mtype = self.request(ArgObject(block = 'root', element = None,value = name))
                 return mtype == Event.screen 
             else:
                 return False

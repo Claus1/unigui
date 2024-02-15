@@ -3,6 +3,7 @@ from .users import *
 from pathlib import Path
 from .reloader import empty_app 
 from .autotest import recorder, jsonString, run_tests
+from .common import  *
 from config import port, upload_dir
 import traceback
 
@@ -87,8 +88,8 @@ async def websocket_handler(request):
         User.reflections.remove(user)
     return ws       
 
-def start(appname = '', user_type = User, http_handlers = []):
-    if appname:
+def start(appname = None, user_type = User, http_handlers = []):    
+    if appname is not None:
         config.appname = appname
 
     User.UserType = user_type    

@@ -1,4 +1,4 @@
-import os, jsonpickle, json, platform, requests
+import os, platform, requests
 
 blocks_dir = 'blocks'        
 screens_dir =  'screens'        
@@ -29,23 +29,6 @@ appname = 'unisi'
 def is_screen_switch(message):
     return message.block == 'root' and message.element is None
 
-class ArgObject:
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value) 
-
-class ReceivedMessage:
-    def __init__(self, data):
-        self.screen = data.get('screen')
-        self.block = data.get('block')
-        self.element = data.get('element')
-        self.event = data.get('event')
-        self.value = data.get('value')  
-
-def toJson(obj, indent = 0, pretty = False):
-    js = jsonpickle.encode(obj,unpicklable=False)
-    return json.dumps(json.loads(js), indent=indent, sort_keys=pretty) if pretty else js
-
 def filename2url(fn):   
     if fn[0] == '/' or fn[1] == ':': #if full path
         fn = fn[len(app_dir):]   
@@ -61,13 +44,6 @@ def url2filename(url):
 
 def upload_path(fpath):
     return f'{config.upload_dir}{divpath}{fpath}'
-
-def flatten(*arr):
-    for a in arr:
-        if isinstance(a, list):
-            yield from flatten(*a)
-        else:
-            yield a
     
 def cache_url(url):
     """cache url file in upload_dir and returns the local file name"""
