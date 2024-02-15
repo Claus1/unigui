@@ -6,6 +6,6 @@ print(wd[:wd.find('/unigui')] + '/unigui')
 sys.path.insert(0,wd[:wd.find('/unigui')] + '/unigui')
 
 from unisi import *
-proxy = Proxy('ws://localhost:8000/ws')
+proxy = Proxy('localhost:8000')
 vv = proxy.set_screen('Zoo')
 proxy.close()
