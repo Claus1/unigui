@@ -8,18 +8,21 @@ class Event(Enum):
     update = 1
     invalid = 2
     message = 4
-    unknown = 8
-    dialog = 16
-    screen = 33
     update_message = 6
-    complete = 64
-    append = 128    
+    progress = 12
+    update_progress = 13
+    unknown = 16
+    unknown_update = 17
+    dialog = 32
+    screen = 65
+    complete = 128
+    append = 256    
 
 ws_header = 'ws://'
 wss_header = 'wss://'
 ws_path = 'ws'
 
-message_types = ['error','warning','info','progress']
+message_types = ['error','warning','info']
 
 class Proxy:
     def __init__(self, addr_port, timeout = 3, ssl = False):
@@ -31,6 +34,7 @@ class Proxy:
        self.screen = None       
        self.screens = {}
        self.dialog = None
+       self.event = None
        self.request(None)
 
     def close(self):
@@ -61,11 +65,19 @@ class Proxy:
                 if el == element:
                     return block
     
-    def action(self, element, value, event = 'changed'):
+    def message(self, element, value, event = 'changed'):
         if event != 'changed' and event not in element:
-            return Event.invalid
-        return self.request(ArgObject(block = self.block_of(element), element = element['name'], 
-            event = event, value = value))
+            return None
+        return ArgObject(block = self.block_of(element), element = element['name'], 
+            event = event, value = value)
+    
+    def interact(self, message, progress_callback = None):
+        """progress_callback is def (proxy:Proxy)"""        
+        while self.request(message) & Event.progress:
+            if progress_callback:
+                progress_callback(self)
+            message = None
+        return self.event
     
     def request(self, message):
         """send message or message list, get responce, return the responce type"""
@@ -73,7 +85,7 @@ class Proxy:
             self.conn.send(toJson(message))
         responce = self.conn.recv()
         message = json.loads(responce) 
-        return self.process(message) if message else Event.none
+        return self.process(message) 
     
     def set_screen(self, name):
         screen = self.screens.get(name)
@@ -86,32 +98,41 @@ class Proxy:
         return True 
        
     def process(self, message):        
-        self.message = message        
-        mtype = message.get('type')        
-        self.mtype = mtype
-        if mtype == 'screen':
-            self.screen = message
-            self.screens[self.screen['name']] = message
-            name2block = {block['name']: block for block in flatten(message['blocks'])}            
-            name2block['toolbar'] = {'name': 'toolbar', 'value': message['toolbar']}
-            message['name2block'] = name2block
-            return Event.screen
-        elif mtype == 'dialog':
-            self.dialog = message
-            return Event.dialog
-        elif mtype == 'complete':
-            return Event.complete
-        elif mtype == 'append':
-            return Event.append
-        elif mtype == 'update':
-            self.update(message)
-            return Event.update
-        else:
-            updates = message.get('updates')
-            if not updates:
-                return Event.message
-            self.update(message)         
-            return Event.update_message if type in message_types else Event.unknown
+        self.message = message   
+        if not message:
+            self.event = Event.none 
+            self.mtype = None
+        else:    
+            mtype = message.get('type')        
+            self.mtype = mtype
+            if mtype == 'screen':
+                self.screen = message
+                self.screens[self.screen['name']] = message
+                name2block = {block['name']: block for block in flatten(message['blocks'])}            
+                name2block['toolbar'] = {'name': 'toolbar', 'value': message['toolbar']}
+                message['name2block'] = name2block
+                self.event = Event.screen
+            elif mtype == 'dialog':
+                self.dialog = message
+                self.event = Event.dialog
+            elif mtype == 'complete':
+                return Event.complete
+            elif mtype == 'append':
+                self.event = Event.append
+            elif mtype == 'update':
+                self.update(message)
+                self.event = Event.update
+            else:
+                updates = message.get('updates')
+                if updates:
+                    self.update(message)                                        
+                if type in message_types:
+                    self.event = Event.update_message if updates else Event.message 
+                if type == 'progress':
+                    self.event = Event.update_progress if updates else Event.progress
+                else:
+                    self.event = Event.unknown_update if updates else Event.unknown
+        return self.event
         
     def update(self, message):
         """update screen from the message"""
