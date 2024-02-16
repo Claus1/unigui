@@ -111,7 +111,7 @@ class User:
         if dialog:            
             if message.element is None: #button pressed
                 self.active_dialog = None                
-                result = dialog.callback(dialog, message.value) 
+                result = dialog.changed(dialog, message.value) 
             else:
                 el = self.find_element(message)
                 if el:
@@ -124,26 +124,27 @@ class User:
 
     @property
     def blocks(self):
-        return [self.active_dialog.content] if self.active_dialog and \
-            self.active_dialog.content else self.screen.blocks
+        return [self.active_dialog] if self.active_dialog and \
+            self.active_dialog.value else self.screen.blocks
 
     def find_element(self, message):               
         blname = message.block
         elname = message.element
-        for bl in flatten(self.blocks):
-            if bl.name == blname:
-                for c in bl.value:
-                    if isinstance(c, list):
-                        for sub in c:
-                            if sub.name == elname:
-                                return sub
-                    elif c.name == elname:
-                        return c
         if blname == 'toolbar':
             for e in self.screen.toolbar:
                 if e.name == elname:                
                     return e
-
+        else:
+            for bl in flatten(self.blocks):
+                if bl.name == blname:
+                    for c in bl.value:
+                        if isinstance(c, list):
+                            for sub in c:
+                                if sub.name == elname:
+                                    return sub
+                        elif c.name == elname:
+                            return c
+        
     def find_path(self, elem):        
         for bl in flatten(self.blocks):        
             if bl == elem:

@@ -20,11 +20,11 @@ class ContentScaler(Range):
             return elements
         
 class Block(Gui):
-    def __init__(self, name, *args, **kwargs):        
+    def __init__(self, name, *elems, **options):        
         self.name = name        
         self.type = 'block'
-        self.value = list(args)        
-        self.add(kwargs)  
+        self.value = list(elems)        
+        self.add(options)  
         if hasattr(self,'scaler'):
             scaler = ContentScaler(elements = lambda: self.scroll_list)
             self.scaler = scaler
@@ -79,13 +79,14 @@ class ParamBlock(Block):
         return {name: el.value for name, el in self.name2elem.items()}
 
 class Dialog:  
-    def __init__(self, question, callback, *content, commands=['Ok','Cancel'],
-            icon='not_listed_location'):
-        self.name = question
-        self.callback = callback  
+    def __init__(self, question, callback, *content, commands = ['Ok','Cancel'],
+            icon = 'not_listed_location'):        
         self.type = 'dialog'         
+        self.name = question
+        self.changed = callback          
         self.commands = commands
-        self.content = Block(question,[], *content, dialog = True, icon = icon) 
+        self.icon = icon
+        self.value = [[], *content] if content else []        
 
 class Screen:
     def __init__(self, name, **kwargs):

@@ -338,7 +338,7 @@ id nodes and edges are optinal, if node ids are ommited then edge 'source' and '
 
 ### Dialog ###
 ```
-Dialog(text, dialog_callback, buttons = ['Ok', 'Cancel'], *content)
+Dialog(text, dialog_callback, commands = ['Ok', 'Cancel'], *content)
 ```
 where buttons is a list of the dialog button names,
 Dialog callback has the signature as other with a pushed button name value
