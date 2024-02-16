@@ -79,12 +79,12 @@ class ParamBlock(Block):
         return {name: el.value for name, el in self.name2elem.items()}
 
 class Dialog:  
-    def __init__(self, question, callback, *content, buttons=['Ok','Cancel'],
+    def __init__(self, question, callback, *content, commands=['Ok','Cancel'],
             icon='not_listed_location'):
         self.name = question
         self.callback = callback  
         self.type = 'dialog'         
-        self.buttons = buttons        
+        self.commands = commands
         self.content = Block(question,[], *content, dialog = True, icon = icon) 
 
 class Screen:

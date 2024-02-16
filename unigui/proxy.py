@@ -25,6 +25,7 @@ ws_path = 'ws'
 message_types = ['error','warning','info']
 
 class Proxy:
+    """UNISI proxy"""
     def __init__(self, addr_port, timeout = 3, ssl = False):
        if not addr_port.startswith(ws_header) and not addr_port.startswith(wss_header):
            addr_port = f'{wss_header if ssl else ws_header}{addr_port}'
@@ -96,6 +97,16 @@ class Proxy:
             else:
                 return False
         return True 
+    
+    @property
+    def dialog_commands(self):
+        return self.dialog['commands'] if self.dialog else []
+    
+    def dialog_responce(self, command: str | None):
+        if not self.dialog:
+            self.event = Event.invalid
+            return  self.event
+        return self.interact(ArgObject(block = self.dialog['name'], value = command))
        
     def process(self, message):        
         self.message = message   
