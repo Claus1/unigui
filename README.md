@@ -1,9 +1,10 @@
-# UNISI #
-UNified System Interface and GUI
+# unigui 2 #
+Universal GUI Framework and Protocol (Python)
+
+# This project became a part of UNISI project https://github.com/unisi-tech/unisi and supported there! #
 
 ### Purpose ###
-UNISI technology provides a unified system interface and advanced program functionality, eliminating the need for front-end and most back-end programming. It automates common tasks, as well as unique ones, significantly reducing the necessity for manual programming and effort.
-
+Provide a programming technology that does not require front-end programming, for a server written in any language, for displaying on any device, in any resolution, without any tuning. 
 
 ### Installing ###
 ```
@@ -11,14 +12,14 @@ pip install unigui
 ```
 
 ### How it works inside ###
- The server sends protocol data to the front-end UNISI which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unisi screen the server receives a JSON message flow which fully describes what the user did. The message format is {screen, block, element, event, value}, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unisi instantly and automatically displays actual server state. 
+The exchange protocol for the solution is JSON as the most universally accessible, readable, and popular format for Web. The server sends JSON data to the front-end unigui which has built-in tools (autodesigner) and automatically builds a standart Google Material Design GUI for the user data. No markup, drawing instructions and the other dull job are required. From the constructed Unigui screen the server receives a JSON message flow which fully describes what the user did. The message format is ["Block", "Elem", "type of action", value], where "Block"and "Elem"are the names of the block and its element, "value" is the JSON value of the action/event that has happened. The server can either accept the change or roll it back by sending an info window about an inconsistency. The server can open a dialog box, send popup Warning, Error,.. or an entirely new screen. Unigui instantly and automatically displays actual server state. 
 
 ### Programming ###
-This repo explains how to work with Unisi using Python and the tiny but optimal framework for that. Unisi web version is included in this library.  Supports Python 3.8 and up.
+Unigui is the language and platform independent technology. This repo explains how to work with Unigui using Python and the tiny but optimal framework for that. Unigui web version is included in this library.  Supports Python 3.6 and up.
 
 
 ### High level - Screen ###
-The program directory has to contain a screens folder which contains all screens which Unisi has to show.
+The program directory has to contain a screens folder which contains all screens which Unigui has to show.
 
 Screen example tests/screens/main.py
 ```
@@ -54,10 +55,10 @@ block = Block('X Block',
 ### Server start ###
 tests/template/run.py
 ```
-import unisi
-unisi.start('Test app') 
+import unigui
+unigui.start('Test app') 
 ```
-Unisi builds the interactive app for the code above.
+Unigui builds the interactive app for the code above.
 Connect a browser to localhast:8000 which are by default and will see:
 
 ![image](https://github.com/Claus1/unigui/assets/1247062/d73a5f2b-eaae-46d3-907b-14fb7d60475b)
@@ -91,7 +92,7 @@ clean_button = Button('Clean the table’, clean_table)
 | user.set_screen(screen_name) | switch to another screen |
 
 
-Unisi	synchronizes GUI state on frontend-end automatically after calling a handler.
+Unigui	synchronizes GUI state on frontend-end automatically after calling a handler.
 
 If a Gui object doesn't have 'changed' handler the object accepts incoming value automatically to the 'value' variable of gui object.
 
@@ -119,7 +120,7 @@ The first Block child is a widget(s) which are drawn in the block header just af
 Blocks can be shared between the user screens with its states. Such a block has to be located in the 'blocks' folder .
 Examples of such block tests/blocks/tblock.py:
 ```
-from unisi import *
+from unigui import *
 ..
 concept_block = Block('Concept block',
    [   #some gui elements       
@@ -127,7 +128,7 @@ concept_block = Block('Concept block',
        Edit('Working folder','run_folder')
    ], result_table)
 ```
-If some elements are enumerated inside an array, Unisi will display them on a line one after another, otherwise everyone will be displayed on a new own line(s).
+If some elements are enumerated inside an array, Unigui will display them on a line one after another, otherwise everyone will be displayed on a new own line(s).
  
 Using a shared block in some screen:
 ```
@@ -149,7 +150,7 @@ def do_not_select_mode_x(selector, value):
 ```
 
 #### Layout of blocks. #### 
-If the blocks are simply listed Unisi draws them from left to right or from top to bottom depending on the orientation setting. If a different layout is needed, it can be set according to the following rule: if the vertical area must contain more than one block, then the enumeration in the array will arrange the elements vertically one after another. If such an element enumeration is an array of blocks, then they will be drawn horizontally in the corresponding area.
+If the blocks are simply listed Unigui draws them from left to right or from top to bottom depending on the orientation setting. If a different layout is needed, it can be set according to the following rule: if the vertical area must contain more than one block, then the enumeration in the array will arrange the elements vertically one after another. If such an element enumeration is an array of blocks, then they will be drawn horizontally in the corresponding area.
 
 #### Example ####
 blocks = [ [b1,b2], [b3, [b4, b5]]]
@@ -158,8 +159,8 @@ blocks = [ [b1,b2], [b3, [b4, b5]]]
 ![image](https://github.com/Claus1/unigui/assets/1247062/75d0f64c-d457-43c6-a909-0c97f4b4ab0f)
 
 ### Basic gui elements ###
-Normally they have type property which says unisi what data it contains and optionally how to draw the element. 
-#### If the element name starts from _ , unisi will hide its name on the screen. ####
+Normally they have type property which says unigui what data it contains and optionally how to draw the element. 
+#### If the element name starts from _ , unigui will hide its name on the screen. ####
 if we need to paint an icon in an element, add 'icon': 'any MD icon name' to the element constructor.
 
 #### Most constructor parameters are optional for Gui elements except the first one which is the element name. ####
@@ -189,7 +190,7 @@ Button('_Check', push_callback, icon = 'check')
 ```
 
 ### Load to server Button ###
-Special button provides file loading from user device or computer to the Unisi server.
+Special button provides file loading from user device or computer to the Unigui server.
 ```
 UploadButton('Load', handler_when_loading_finish, icon='photo_library')
 ```
@@ -233,8 +234,8 @@ Optional type can be 'check' for a status button or 'switch' for a switcher .
 ```
 Select('Select something', "choice1", selection_is_changed, options = ["choice1","choice2", "choice3"]) 
 ```
-Optional type parameter can be 'toggles','list','dropdown'. Unisi automatically chooses between toogles and dropdown, if type is omitted,
-if type = 'list' then Unisi build it as vertical select list.
+Optional type parameter can be 'toggles','list','dropdown'. Unigui automatically chooses between toogles and dropdown, if type is omitted,
+if type = 'list' then Unigui build it as vertical select list.
 
 
 ### Image. ###
@@ -263,7 +264,7 @@ Tables is common structure for presenting 2D data and charts.
 Optional append, delete, update handlers are called for adding, deleting and updating rows.
 
 
-Assigning a handler for such action causes Unii to draw and activate an appropriate action icon button in the table header automatically.
+Assigning a handler for such action causes Unigui to draw and activate an appropriate action icon button in the table header automatically.
 ```
 table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner', 'Status'],  
   rows = [
@@ -272,7 +273,7 @@ table = Table('Videos', [0], row_changed, headers = ['Video', 'Duration', 'Owner
   ], 
   multimode = false, update = update)
 ```
-Unisi counts rows id as an index in a rows array. If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
+Unigui counts rows id as an index in a rows array. If table does not contain append, delete arguments, then it will be drawn without add and remove icons.  
 value = [0] means 0 row is selected in multiselect mode (in array). multimode is False so switch icon for single select mode will be not drawn and switching to single select mode is not allowed.
 
 | Table option parameter |	Description |
@@ -304,8 +305,8 @@ def table_updated(table_, tabval):
 ```
 
 ### Chart ###
-Chart is a table with additional Table constructor parameter 'view' which explaines unisi how to draw a chart. The format is '{x index}-{y index1},{y index2}[,..]'. '0-1,2,3' means that x axis values will be taken from 0 column, and y values from 1,2,3 columns of row data.
-'i-3,5' means that x axis values will be equal the row indexes in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unisi displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'chart' in addition to view parameter the table will be displayed as a chart on start. In the chart mode pushing the icon button on the top right switches back to table view mode.
+Chart is a table with additional Table constructor parameter 'view' which explaines unigui how to draw a chart. The format is '{x index}-{y index1},{y index2}[,..]'. '0-1,2,3' means that x axis values will be taken from 0 column, and y values from 1,2,3 columns of row data.
+'i-3,5' means that x axis values will be equal the row indexes in rows, and y values from 3,5 columns of rows data. If a table constructor got view = '..' parameter then unigui displays a chart icon at the table header, pushing it switches table mode to the chart mode. If a table constructor got type = 'chart' in addition to view parameter the table will be displayed as a chart on start. In the chart mode pushing the icon button on the top right switches back to table view mode.
 
 ### Graph ###
 Graph supports an interactive graph.
@@ -338,7 +339,7 @@ id nodes and edges are optinal, if node ids are ommited then edge 'source' and '
 
 ### Dialog ###
 ```
-Dialog(text, dialog_callback, commands = ['Ok', 'Cancel'], *content)
+Dialog(text, dialog_callback, buttons = ['Ok', 'Cancel'], *content)
 ```
 where buttons is a list of the dialog button names,
 Dialog callback has the signature as other with a pushed button name value
@@ -372,15 +373,15 @@ user.progress(" 1% is done..")
 Close window user.progress(None) or automatically when the handler returns something.
 
 ### Milti-user programming. ###
-Unisi automatically creates and serves an environment for every user.
-The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unisi uses the system User class and you do not need to point it. 
+Unigui automatically creates and serves an environment for every user.
+The management class is User contains all required methods for processing and handling the user activity. A programmer can redefine methods in the inherited class, point it as system user class and that is all. Such methods suit for history navigation, undo/redo and initial operations. The screen folder contains screens which are recreated for every user. The same about blocks. The code and modules outside that folders are common for all users as usual. By default Unigui uses the system User class and you do not need to point it. 
 ```
-class Hello_user(unisi.User):
+class Hello_user(unigui.User):
     def __init__(self):
         super().__init__()
         print('New Hello user connected and created!')
 
-unisi.start('Hello app', user_type = Hello_user)
+unigui.start('Hello app', user_type = Hello_user)
 ```
 In screens and blocks sources we can access the user by 'user' variable
 ```
@@ -391,5 +392,5 @@ More info about User class methods you can find in user.py in the souce dir.
 
 Examples are in tests folder.
 
-Demo project with unisi https://github.com/Claus1/cvtools
+
 
